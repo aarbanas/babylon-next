@@ -1,37 +1,14 @@
 'use client';
 import { NextPage } from 'next';
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import registerUser from '@/services/user/register';
-
-enum Role {
-  USER = 'USER',
-  ORGANISATION = 'ORGANISATION',
-}
-
-enum Type {
-  DOCTOR = 'DOCTOR',
-  NURSE = 'NURSE',
-  LIFEGUARD = 'LIFEGUARD',
-}
-
-type FormData = {
-  email: string;
-  role: Role;
-  password: string;
-  repeatPassword: string;
-  city: string;
-  firstname?: string;
-  lastname?: string;
-  phone?: string;
-  type?: Type;
-  name?: string;
-  street?: string;
-  oib?: string;
-};
+import { RegisterUserData, Role, Type } from '@/app/register/types';
 
 const Register: NextPage = () => {
-  const { watch, getValues, handleSubmit, register } = useForm<FormData>();
+  const { watch, getValues, handleSubmit, register } = useForm<
+    RegisterUserData & { repeatPassword: string }
+  >();
   const [role, setRole] = useState<Role>();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -51,8 +28,9 @@ const Register: NextPage = () => {
       setError('Lozinke se ne podudaraju');
 
     try {
-      // TODO Finnish implementation
-      await registerUser();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { repeatPassword, ...rest } = values;
+      await registerUser(rest);
     } catch (e) {
       setError('Pogrešni podaci');
     } finally {
@@ -70,7 +48,7 @@ const Register: NextPage = () => {
         <form className="mt-6" onSubmit={handleSubmit(submit)}>
           <div className="mb-2">
             <label className="block text-sm font-semibold text-gray-800">
-              Tip korisnika
+              Tip računa
             </label>
 
             <div className="relative">
@@ -82,10 +60,10 @@ const Register: NextPage = () => {
                 <option value="DEFAULT" disabled>
                   Odaberi tip
                 </option>
-                <option value="USER">
+                <option value={Role.USER}>
                   Korisnik (Liječnik, Tehničar, Spasioc)
                 </option>
-                <option value="ORGANISATION">
+                <option value={Role.ORGANISATION}>
                   Organizacija (Sportska udruga, klub)
                 </option>
               </select>

@@ -4,6 +4,11 @@ import Cookies from 'js-cookie';
 export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export const generateUrl = (path: string) => `${baseUrl}${path}`;
 
+export enum APIs {
+  USER = '/users',
+  CERTIFICATE = '/certificates',
+}
+
 const http = axios.create();
 
 export const get = async (path: string, signal?: AbortSignal) => {
