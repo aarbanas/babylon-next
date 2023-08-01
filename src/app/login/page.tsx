@@ -27,8 +27,7 @@ const Login: NextPage = () => {
 
     try {
       await login(username, password);
-      // TODO Redirect to correct page
-      router.push('/');
+      router.push('/profile');
     } catch (e) {
       setError('Pogrešni podaci');
     } finally {
