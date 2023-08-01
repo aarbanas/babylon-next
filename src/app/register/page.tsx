@@ -1,6 +1,7 @@
 'use client';
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import registerUser from '@/services/user/register';
 import { RegisterUserData, Role, Type } from '@/app/register/types';
@@ -12,6 +13,7 @@ const Register: NextPage = () => {
   const [role, setRole] = useState<Role>();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     const subscription = watch((value) => {
@@ -24,15 +26,18 @@ const Register: NextPage = () => {
   async function submit() {
     setSubmitting(true);
     const values = getValues();
-    if (values.password !== values.repeatPassword)
+    if (values.password !== values.repeatPassword) {
       setError('Lozinke se ne podudaraju');
+      return;
+    }
 
+    router.push('/login');
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { repeatPassword, ...rest } = values;
       await registerUser(rest);
     } catch (e) {
-      setError('Pogrešni podaci');
+      setError('Pogrešni podatci');
     } finally {
       setSubmitting(false);
     }
@@ -48,12 +53,12 @@ const Register: NextPage = () => {
         <form className="mt-6" onSubmit={handleSubmit(submit)}>
           <div className="mb-2">
             <label className="block text-sm font-semibold text-gray-800">
-              Tip računa
+              Tip računa*
             </label>
 
             <div className="relative">
               <select
-                {...register('role')}
+                {...register('role', { required: true })}
                 className="block appearance-none w-full bg-white border rounded-md border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:ring focus:ring-opacity-40 focus:border-teal-400 focus:ring-teal-300"
                 id="grid-state"
                 defaultValue={'DEFAULT'}>
@@ -68,23 +73,16 @@ const Register: NextPage = () => {
                 </option>
               </select>
 
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg
-                  className="fill-current h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700" />
             </div>
           </div>
 
           <div className="mb-2">
             <label className="block text-sm font-semibold text-gray-800">
-              Email
+              Email*
             </label>
             <input
-              {...register('email')}
+              {...register('email', { required: true })}
               type="email"
               className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
@@ -92,10 +90,10 @@ const Register: NextPage = () => {
 
           <div className="mb-2">
             <label className="block text-sm font-semibold text-gray-800">
-              Lozinka
+              Lozinka*
             </label>
             <input
-              {...register('password')}
+              {...register('password', { required: true })}
               type="password"
               className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
@@ -103,10 +101,10 @@ const Register: NextPage = () => {
 
           <div className="mb-2">
             <label className="block text-sm font-semibold text-gray-800">
-              Ponovi lozinku
+              Ponovi lozinku*
             </label>
             <input
-              {...register('repeatPassword')}
+              {...register('repeatPassword', { required: true })}
               type="password"
               className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
@@ -115,9 +113,10 @@ const Register: NextPage = () => {
           {role && (
             <div className="mb-2">
               <label className="block text-sm font-semibold text-gray-800">
-                Grad
+                Grad*
               </label>
               <input
+                {...register('city', { required: true })}
                 type="text"
                 className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
@@ -128,7 +127,7 @@ const Register: NextPage = () => {
             <div>
               <div className="mb-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Vrsta korisnika
+                  Vrsta korisnika*
                 </label>
 
                 <div className="relative">
@@ -145,22 +144,16 @@ const Register: NextPage = () => {
                     <option value={Type.LIFEGUARD}>Spasioc</option>
                   </select>
 
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg
-                      className="fill-current h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20">
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700" />
                 </div>
               </div>
 
               <div className="mb-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Ime
+                  Ime*
                 </label>
                 <input
+                  {...register('firstname')}
                   type="text"
                   className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
@@ -168,9 +161,10 @@ const Register: NextPage = () => {
 
               <div className="mb-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Prezime
+                  Prezime*
                 </label>
                 <input
+                  {...register('lastname')}
                   type="text"
                   className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
@@ -178,9 +172,10 @@ const Register: NextPage = () => {
 
               <div className="mb-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Telefon
+                  Telefon*
                 </label>
                 <input
+                  {...register('phone')}
                   type="text"
                   className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
@@ -192,9 +187,10 @@ const Register: NextPage = () => {
             <div>
               <div className="mb-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Naziv
+                  Naziv*
                 </label>
                 <input
+                  {...register('name')}
                   type="text"
                   className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
@@ -202,9 +198,10 @@ const Register: NextPage = () => {
 
               <div className="mb-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  Ulica i Broj
+                  Ulica i Broj*
                 </label>
                 <input
+                  {...register('street')}
                   type="text"
                   className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
@@ -212,9 +209,10 @@ const Register: NextPage = () => {
 
               <div className="mb-2">
                 <label className="block text-sm font-semibold text-gray-800">
-                  OIB
+                  OIB*
                 </label>
                 <input
+                  {...register('oib')}
                   type="text"
                   className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 />
