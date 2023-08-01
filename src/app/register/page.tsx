@@ -28,6 +28,7 @@ const Register: NextPage = () => {
     const values = getValues();
     if (values.password !== values.repeatPassword) {
       setError('Lozinke se ne podudaraju');
+      setSubmitting(false);
       return;
     }
 
