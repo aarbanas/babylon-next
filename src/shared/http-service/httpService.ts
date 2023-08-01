@@ -11,8 +11,8 @@ export enum APIs {
 
 const http = axios.create();
 
-export const get = async (path: string, signal?: AbortSignal) => {
-  const { data } = await http.get(generateUrl(path), { signal });
+export const get = async <T>(path: string, signal?: AbortSignal) => {
+  const { data } = await http.get<T>(generateUrl(path), { signal });
   return data;
 };
 
@@ -21,6 +21,14 @@ export const post = async <T>(
   postData: { [p: string | number]: unknown }
 ) => {
   const { data } = await http.post<T>(generateUrl(path), postData);
+  return data;
+};
+
+export const patch = async <T>(
+  path: string,
+  postData: { [p: string | number]: unknown }
+) => {
+  const { data } = await http.patch<T>(generateUrl(path), postData);
   return data;
 };
 
