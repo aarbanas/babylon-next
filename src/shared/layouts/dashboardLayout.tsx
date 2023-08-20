@@ -6,7 +6,7 @@ import { useCurrentUser } from '@/services/auth/currentUser';
 import findOne from '@/services/user/findOne';
 import { UserDto } from '@/services/user/dto/user.dto';
 
-const Layout: NextPage<PropsWithChildren> = ({
+const DashboardLayout: NextPage<PropsWithChildren> = ({
   children,
 }: PropsWithChildren) => {
   const sessionUser = useCurrentUser();
@@ -42,4 +42,4 @@ const Layout: NextPage<PropsWithChildren> = ({
   );
 };
 
-export default Layout;
+export default DashboardLayout;
