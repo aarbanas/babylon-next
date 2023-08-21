@@ -1,33 +1,57 @@
 'use client';
 import { NextPage } from 'next';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import Button from '@/shared/button/button';
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center h-full">
-        <span
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-center font-bold
-                     bg-gradient-to-tl from-slate-100 via-teal-500 to-zinc-100 bg-clip-text text-transparent">
-          Dobrodošli na stranice Babylon!
-        </span>
-        <div className="flex w-5/6 sm:w-2/4 mt-10 sm:mt-14 lg:mt-20">
-          <button
-            onClick={() => router.push('/login')}
-            className="flex-shrink-0 bg-teal-500 hover:bg-teal-700
-                             border-teal-500 hover:border-teal-700 text-lg sm:text-xl md:text-3xl
-                             lg:text-4xl border-4 text-white py-1 px-2 rounded">
-            Prijava
-          </button>
-          <button
-            onClick={() => router.push('/register')}
-            className="ml-auto flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500
-                             hover:border-teal-700 text-lg sm:text-xl md:text-3xl
-                             lg:text-4xl border-4 text-white py-1 px-2 rounded">
-            Registracija
-          </button>
+      <div className="flex flex-col md:flex-row justify-center items-center h-full  sm:p-0 md:p-6 lg:p-8">
+        <div className="flex w-1/2">
+          <Image
+            src="/home_page.png"
+            alt="Main image"
+            objectFit={'cover'}
+            layout={'responsive'}
+            width={100}
+            height={100}
+          />
+        </div>
+        <div className="flex flex-col w-1/2 justify-center items-center mt-6 md:mt-0">
+          <Image
+            className="hidden md:block"
+            src="/home_page_thumbnail.png"
+            alt="Thumbnail image"
+            sizes="100vw"
+            width={96}
+            height={96}
+            style={{
+              width: '96px',
+              height: 'auto',
+            }}
+          />
+          <div className="flex flex-col items-center">
+            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold font-sans">
+              Babylon
+            </span>
+            <span className="text-sm sm:text-lg md:text-xl lg:text-2xl font-sans mt-3">
+              Aplikacija za medicinske usluge na sportskim natjecanjima
+            </span>
+          </div>
+          <div className="flex flex-col md:flex-row mt-6 w-full items-center md:justify-around">
+            <Button color="primary" onClick={() => router.push('/login')}>
+              Prijava
+            </Button>
+            <Button
+              className="mt-4 md:mt-0"
+              color="primary"
+              onClick={() => router.push('/register')}>
+              Registracija
+            </Button>
+          </div>
         </div>
       </div>
     </>
