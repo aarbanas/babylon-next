@@ -1,16 +1,27 @@
 import React from 'react';
 
 interface Props {
+  color: 'primary' | 'secondary';
+  onClick?: () => void;
   children?: React.ReactNode;
   className?: string;
-  color: 'primary' | 'secondary';
-  onClick: () => void;
+  disabled?: boolean;
+  type?: 'submit' | 'reset' | 'button';
 }
 
-const Button: React.FC<Props> = ({ onClick, children, className, color }) => {
+const Button: React.FC<Props> = ({
+  onClick,
+  children,
+  className,
+  color,
+  disabled,
+  type,
+}) => {
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
+      type={type}
       className={`px-3 md:px-4 lg:px-6 text:lg md:text-xl ${className || ''}`}
       style={{
         width: '162px',
