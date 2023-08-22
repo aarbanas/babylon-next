@@ -7,6 +7,7 @@ interface Props {
   className?: string;
   disabled?: boolean;
   type?: 'submit' | 'reset' | 'button';
+  full?: boolean;
 }
 
 const Button: React.FC<Props> = ({
@@ -16,6 +17,7 @@ const Button: React.FC<Props> = ({
   color,
   disabled,
   type,
+  full,
 }) => {
   return (
     <button
@@ -24,7 +26,7 @@ const Button: React.FC<Props> = ({
       type={type}
       className={`px-3 md:px-4 lg:px-6 text:lg md:text-xl ${className || ''}`}
       style={{
-        width: '162px',
+        width: full ? '100%' : '162px',
         height: '48px',
         border: color === 'primary' ? '0' : '1px solid #de3333',
         borderRadius: '24px',
