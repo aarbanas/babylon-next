@@ -54,7 +54,7 @@ const Login: NextPage = () => {
           <form
             className="mt-6 w-full md:w-3/5"
             onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="text-3xl font-semibold">Prijavi se</h1>
+            <h1 className="text-3xl font-semibold">Prijava</h1>
 
             <div className="mt-6">
               <label className="block text-sm font-light text-gray-500">
@@ -63,7 +63,7 @@ const Login: NextPage = () => {
               <input
                 {...register('username', { required: true })}
                 type="email"
-                className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
             <div className="mb-2">
@@ -73,7 +73,7 @@ const Login: NextPage = () => {
               <input
                 {...register('password', { required: true })}
                 type="password"
-                className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
             <a href="#" className="text-xs underline hover:text-red-700">
@@ -85,7 +85,7 @@ const Login: NextPage = () => {
               </Button>
             </div>
 
-            <p className="mt-6 mb-6 text-xs font-light text-gray-700">
+            <p className="mt-6 mb-6 text-xs font-light text-center text-gray-700">
               {' '}
               Nemaš račun?{' '}
               <a
