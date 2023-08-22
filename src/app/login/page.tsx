@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import login from '@/services/auth/login';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import Button from '@/shared/button/button';
 
 type FormData = {
   username: string;
@@ -36,60 +38,67 @@ const Login: NextPage = () => {
   }
 
   return (
-    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md shadow-md sm:max-w-xl">
-        <h1 className="text-3xl font-semibold text-center text-teal-500 underline">
-          Prijavi se
-        </h1>
-        <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-2">
-            <label className="block text-sm font-semibold text-gray-800">
-              Email
-            </label>
-            <input
-              {...register('username')}
-              type="email"
-              className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-          </div>
-          <div className="mb-2">
-            <label className="block text-sm font-semibold text-gray-800">
-              Lozinka
-            </label>
-            <input
-              {...register('password')}
-              type="password"
-              className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-          </div>
-          <a
-            href="#"
-            className="text-xs text-teal-400 underline hover:text-teal-500">
-            Zaboravljena Lozinka?
-          </a>
-          <div className="mt-6">
-            <button
-              disabled={submitting}
-              type="submit"
-              className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-teal-500 rounded-md hover:bg-teal-600 focus:outline-none focus:bg-teal-600">
-              Prijava
-            </button>
-          </div>
-        </form>
+    <>
+      <div className="flex flex-col md:flex-row justify-center items-center h-full sm:p-0 md:p-6 lg:p-8">
+        <div className="flex w-2/5">
+          <Image
+            src="/login_page.png"
+            alt="Login image"
+            objectFit={'cover'}
+            layout={'responsive'}
+            width={100}
+            height={100}
+          />
+        </div>
+        <div className="flex flex-col w-3/5 items-center">
+          <form
+            className="mt-6 w-full md:w-3/5"
+            onSubmit={handleSubmit(onSubmit)}>
+            <h1 className="text-3xl font-semibold">Prijavi se</h1>
 
-        {error && <span className="text-rose-600">{error}</span>}
+            <div className="mt-6">
+              <label className="block text-sm font-light text-gray-500">
+                Email
+              </label>
+              <input
+                {...register('username', { required: true })}
+                type="email"
+                className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+            <div className="mb-2">
+              <label className="block text-sm font-light text-gray-500">
+                Lozinka
+              </label>
+              <input
+                {...register('password', { required: true })}
+                type="password"
+                className="block w-full px-4 py-2 mt-2 bg-white border rounded-md focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+            <a href="#" className="text-xs underline hover:text-red-700">
+              Zaboravljena Lozinka?
+            </a>
+            <div className="mt-6">
+              <Button color="primary" disabled={submitting} type="submit">
+                Prijava
+              </Button>
+            </div>
 
-        <p className="mt-8 text-xs font-light text-center text-gray-700">
-          {' '}
-          Nemaš račun?{' '}
-          <a
-            href="/register"
-            className="font-medium text-teal-500 hover:underline">
-            Registracija
-          </a>
-        </p>
+            <p className="mt-6 mb-6 text-xs font-light text-gray-700">
+              {' '}
+              Nemaš račun?{' '}
+              <a
+                href="/register"
+                className="font-medium text-primary-color hover:underline">
+                Registracija
+              </a>
+            </p>
+            {error && <span className="text-rose-600">{error}</span>}
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
