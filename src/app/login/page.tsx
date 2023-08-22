@@ -80,7 +80,7 @@ const Login: NextPage = () => {
               Zaboravljena Lozinka?
             </a>
             <div className="mt-6">
-              <Button color="primary" disabled={submitting} type="submit">
+              <Button color="primary" disabled={submitting} type="submit" full>
                 Prijava
               </Button>
             </div>
