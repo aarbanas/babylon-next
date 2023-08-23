@@ -7,6 +7,7 @@ import registerUser from '@/services/user/register';
 import { RegisterUserData, Role, Type } from '@/app/register/types';
 import Image from 'next/image';
 import Button from '@/shared/button/button';
+import Back from '@/shared/icons/Back';
 
 const Register: NextPage = () => {
   const { watch, getValues, handleSubmit, register } = useForm<
@@ -43,8 +44,8 @@ const Register: NextPage = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row justify-center items-center h-full sm:p-0 md:p-6 lg:p-8">
-        <div className="flex w-2/5">
+      <div className="flex flex-col md:flex-row items-center h-full sm:p-0 md:p-6 lg:p-8">
+        <div className="flex flex-col items-center w-2/5">
           <Image
             src="/login_page.png"
             alt="Login image"
@@ -53,8 +54,21 @@ const Register: NextPage = () => {
             width={100}
             height={100}
           />
+          <div
+            className="flex justify-start cursor-pointer"
+            onClick={() => router.push('/')}>
+            <div className="w-8 h-8">
+              <Back />
+            </div>
+            <span className="ml-2 flex items-center">Povratak</span>
+          </div>
         </div>
-        <div className="flex flex-col w-3/5 h-full items-center justify-center">
+
+        <div
+          className={
+            'flex flex-col w-3/5 h-full items-center flex-wrap ' +
+            (role ? '' : 'justify-center')
+          }>
           <form
             className="mt-6 w-full md:w-3/5"
             onSubmit={handleSubmit(submit)}>
