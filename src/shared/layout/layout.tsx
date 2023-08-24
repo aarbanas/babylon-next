@@ -7,8 +7,10 @@ const Layout: NextPage<PropsWithChildren> = ({
 }: PropsWithChildren) => {
   return (
     <>
-      <BabylonNavbar />
-      {children}
+      <div className="flex w-full h-full">
+        <BabylonNavbar />
+        <div className="flex w-full">{children}</div>
+      </div>
     </>
   );
 };
