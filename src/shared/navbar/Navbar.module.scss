@@ -9,7 +9,7 @@
 	padding-top: 50px;
 	padding-bottom: 50px;
 
-	@media only screen and (min-width: 768px) {
+	@media only screen and (min-width: 1024px) {
 		display: flex;
 	}
 }
@@ -49,7 +49,7 @@
 	display: block;
 	z-index: 5;
 
-	@media only screen and (min-width: 768px) {
+	@media only screen and (min-width: 1024px) {
 		margin-right: 0;
 		display: none;
 	}
