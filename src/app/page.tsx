@@ -1,9 +1,9 @@
-import Dashboard from '@/app/dashboard/dashboard';
+import Index from '@/app/index';
 
 export default function Home() {
   return (
     <>
-      <Dashboard />
+      <Index />
     </>
   );
 }

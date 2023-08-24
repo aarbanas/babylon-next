@@ -7,7 +7,7 @@ import registerUser from '@/services/user/register';
 import { RegisterUserData, Role, Type } from '@/app/register/types';
 import Image from 'next/image';
 import Button from '@/shared/button/button';
-import Back from '@/shared/icons/Back';
+import Back from '@/shared/icons/back/Back';
 
 const Register: NextPage = () => {
   const { watch, getValues, handleSubmit, register } = useForm<
