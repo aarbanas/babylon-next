@@ -19,7 +19,7 @@ const Profile: NextPage = () => {
         {userSession.role === Role.USER ? (
           <UserProfileForm userData={userSession} />
         ) : (
-          <OrganisationProfileForm />
+          <OrganisationProfileForm userData={userSession} />
         )}
       </DashboardLayout>
     </>

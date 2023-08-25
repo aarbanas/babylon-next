@@ -1,3 +1,4 @@
+'use client';
 import { NextPage } from 'next';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import Header from '../header/Header';
@@ -5,6 +6,8 @@ import BabylonNavbar from '@/shared/navbar/Navbar';
 import { useCurrentUser } from '@/services/auth/currentUser';
 import findOne from '@/services/user/findOne';
 import { UserDto } from '@/services/user/dto/user.dto';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const DashboardLayout: NextPage<PropsWithChildren> = ({
   children,
@@ -38,6 +41,7 @@ const DashboardLayout: NextPage<PropsWithChildren> = ({
           {children}
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 };
