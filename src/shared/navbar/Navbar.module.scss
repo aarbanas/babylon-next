@@ -21,29 +21,6 @@
 	line-height: 48px;
 }
 
-.navigation {
-	color: #FFFFFF;
-	width: 50%;
-	height: 100%;
-	padding-top: 20px;
-	display: flex;
-	flex-direction: column;
-}
-
-.bottomNavigation {
-	color: #FFFFFF;
-	width: 50%;
-	margin-top: auto;
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-}
-
-.menuItem {
-	cursor: pointer;
-	display: flex;
-}
-
 .menuDrawer {
 	padding-left: 10px;
 	display: block;
