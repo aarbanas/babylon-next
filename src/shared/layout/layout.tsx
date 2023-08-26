@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { PropsWithChildren } from 'react';
-import BabylonNavbar from '@/shared/navbar/navbar';
+import BabylonNavbar from '@/shared/navbar/Navbar';
 
 const Layout: NextPage<PropsWithChildren> = ({
   children,
