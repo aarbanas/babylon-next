@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Type } from '@/app/register/types';
 import { UserDto } from '@/services/user/dto/user.dto';
 import updateUser from '@/services/user/update';
 import { toast } from 'react-toastify';
+import { LoadingSpinner } from '@/shared/loadingSpinner';
 
 type Props = {
   userData: UserDto;
@@ -19,6 +20,7 @@ type UpdateUserFields = {
 };
 
 const UserProfileForm: FC<Props> = ({ userData }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     handleSubmit,
     register,
@@ -36,10 +38,13 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
 
   const submit = async () => {
     try {
+      setIsSubmitting(true);
       await updateUser(String(userData.id), getValues());
       toast('Profil je uspješno ažuriran', { type: 'success' });
     } catch (error) {
       toast('Nešto je prošlo po zlu. Probajte ponoviti', { type: 'error' });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -138,8 +143,17 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
         </div>
         <div className="flex mt-10">
           <div className="w-full">
-            <button className="rounded-full text-white bg-black py-4 w-full">
-              Spremi promjene
+            <button className="rounded-full text-white bg-black py-4 w-full relative">
+              {isSubmitting ? (
+                <LoadingSpinner
+                  height={24}
+                  width={24}
+                  color="#ffffff"
+                  position="relative"
+                />
+              ) : (
+                <span>Spremi promjene</span>
+              )}
             </button>
           </div>
         </div>
