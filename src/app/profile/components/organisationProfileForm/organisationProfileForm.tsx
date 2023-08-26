@@ -47,7 +47,7 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(submit)} style={{ width: 750, margin: 250 }}>
+      <form onSubmit={handleSubmit(submit)}>
         <div className="flex">
           <div className="w-full">
             <label
