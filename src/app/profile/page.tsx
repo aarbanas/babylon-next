@@ -27,22 +27,24 @@ const Profile: NextPage = () => {
   return (
     <>
       <DashboardLayout>
-        <NavigationTabs>
-          <Link href="/profile" className="flex items-center">
-            <HiPencil className="mr-2" size={24} />
-            <span>Osnovni podatci</span>
-          </Link>
-          <Link href="/profile/certificates" className="flex items-center">
-            <HiDocumentAdd className="mr-2" size={24} />
-            <span>Certifikati</span>
-          </Link>
-        </NavigationTabs>
+        <div className='py-14 px-20'>
+          <NavigationTabs>
+            <Link href="/profile" className="flex items-center">
+              <HiPencil className="mr-2" size={24} />
+              <span>Osnovni podatci</span>
+            </Link>
+            <Link href="/profile/certificates" className="flex items-center">
+              <HiDocumentAdd className="mr-2" size={24} />
+              <span>Certifikati</span>
+            </Link>
+          </NavigationTabs>
 
-        {!userSession ? (
-          <LoadingSpinner width={64} height={64} />
-        ) : (
-          profileUpdateFormFactory(userSession.role, userSession)
-        )}
+          {!userSession ? (
+            <LoadingSpinner width={64} height={64} />
+          ) : (
+            profileUpdateFormFactory(userSession.role, userSession)
+          )}
+        </div>
       </DashboardLayout>
     </>
   );
