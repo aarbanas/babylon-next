@@ -48,8 +48,8 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
   return (
     <>
       <form onSubmit={handleSubmit(submit)}>
-        <div className="flex">
-          <div className="w-full">
+        <div className="flex flex-wrap sm:flex-nowrap">
+          <div className="w-full mt-6 sm:mt-0 sm:mr-10">
             <label
               htmlFor="name"
               className="block font-light text-gray-500 mb-2">
@@ -69,8 +69,8 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
             </small>
           </div>
         </div>
-        <div className="flex mt-10">
-          <div className="w-full">
+        <div className="flex flex-wrap sm:flex-nowrap sm:mt-10">
+          <div className="w-full mt-6 sm:mt-0 sm:mr-10">
             <label
               htmlFor="oib"
               className="block font-light text-gray-500 mb-2">
@@ -88,8 +88,8 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
             </small>
           </div>
         </div>
-        <div className="flex mt-10">
-          <div className="w-1/2 mr-10">
+        <div className="flex flex-wrap sm:flex-nowrap sm:mt-10">
+          <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
             <label
               htmlFor="city"
               className="block font-light text-gray-500 mb-2">
@@ -106,7 +106,7 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
               {errors?.city && <span role="alert">{errors.city.message}</span>}
             </small>
           </div>
-          <div className="w-1/2">
+          <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
             <label
               htmlFor="street"
               className="block font-light text-gray-500 mb-2">
@@ -129,8 +129,8 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
           </div>
         </div>
 
-        <div className="flex mt-10">
-          <div className="w-full">
+        <div className="flex sm:mt-10">
+          <div className="w-full mt-6 sm:mt-0">
             <button className="rounded-full text-white bg-black py-4 w-full relative">
               {isSubmitting ? (
                 <LoadingSpinner
