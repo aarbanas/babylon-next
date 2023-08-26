@@ -51,9 +51,11 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
   return (
     <>
       <form onSubmit={handleSubmit(submit)}>
-        <div className="flex">
-          <div className="w-1/2 mr-10">
-            <label htmlFor="firstName" className="block mb-1">
+        <div className="flex flex-wrap sm:flex-nowrap">
+          <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
+            <label
+              htmlFor="firstName"
+              className="block font-light text-gray-500 mb-2">
               Ime*
             </label>
             <input
@@ -61,7 +63,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
               type="text"
               placeholder="John"
               id="firstName"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none outline-none"
+              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
             <small className="block mt-2 text-red-700">
               {errors?.firstname && (
@@ -69,8 +71,10 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
               )}
             </small>
           </div>
-          <div className="w-1/2">
-            <label htmlFor="lastName" className="block mb-1">
+          <div className="w-full sm:w-1/2 mt-6 sm:mt-0">
+            <label
+              htmlFor="lastName"
+              className="block font-light text-gray-500 mb-2">
               Prezime
             </label>
             <input
@@ -80,7 +84,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
               type="text"
               placeholder="Doe"
               id="lastName"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none outline-none"
+              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
             <small className="block mt-2 text-red-700">
               {errors?.lastname && (
@@ -89,9 +93,11 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
             </small>
           </div>
         </div>
-        <div className="flex mt-10">
-          <div className="w-1/2 mr-10">
-            <label htmlFor="city" className="block mb-1">
+        <div className="flex flex-wrap sm:flex-nowrap sm:mt-10">
+          <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
+            <label
+              htmlFor="city"
+              className="block font-light text-gray-500 mb-2">
               Grad*
             </label>
             <input
@@ -99,14 +105,16 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
               type="text"
               placeholder="New York"
               id="city"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none outline-none"
+              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
             <small className="block mt-2 text-red-700">
               {errors?.city && <span role="alert">{errors.city.message}</span>}
             </small>
           </div>
-          <div className="w-1/2">
-            <label htmlFor="phone" className="block mb-1">
+          <div className="w-full sm:w-1/2 mt-6 sm:mt-0">
+            <label
+              htmlFor="phone"
+              className="block font-light text-gray-500 mb-2">
               Broj mobitela
             </label>
             <input
@@ -114,13 +122,15 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
               type="text"
               placeholder="+385998885698"
               id="phone"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none outline-none"
+              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
         </div>
-        <div className="flex mt-10">
-          <div className="w-full">
-            <label htmlFor="type" className="block mb-1">
+        <div className="flex flex-wrap sm:flex-nowrap sm:mt-10">
+          <div className="w-full mt-6 sm:mt-0">
+            <label
+              htmlFor="type"
+              className="block font-light text-gray-500 mb-2">
               Tip korisnika*
             </label>
             <select
@@ -128,7 +138,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
                 required: 'Vrsta korisnika je obavezno polje',
               })}
               id="type"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none outline-none">
+              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40">
               <option value="DEFAULT" disabled>
                 Odaberi vrstu
               </option>
@@ -141,8 +151,8 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
             </small>
           </div>
         </div>
-        <div className="flex mt-10">
-          <div className="w-full">
+        <div className="flex sm:mt-10">
+          <div className="w-full mt-6 sm:mt-0">
             <button className="rounded-full text-white bg-black py-4 w-full relative">
               {isSubmitting ? (
                 <LoadingSpinner
