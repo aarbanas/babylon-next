@@ -7,6 +7,7 @@ export type UserDto = {
   email: string;
   active: boolean;
   role: Role;
+  profilePhoto?: string;
 };
 
 export type UserAttributesDto = {
