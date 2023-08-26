@@ -5,12 +5,13 @@ import { useUserSession } from '@/services/auth/useUserSession';
 import { Role } from '../register/types';
 import { UserProfileForm } from './components/userProfileForm';
 import { OrganisationProfileForm } from './components/organisationProfileForm';
+import { LoadingSpinner } from '@/shared/loadingSpinner';
 
 const Profile: NextPage = () => {
   const userSession = useUserSession();
 
   if (!userSession) {
-    return <h1>Loading...</h1>;
+    return <LoadingSpinner />;
   }
 
   return (
