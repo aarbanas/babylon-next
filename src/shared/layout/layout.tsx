@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import { PropsWithChildren } from 'react';
+import Header from '../header/Header';
 import BabylonNavbar from '@/shared/navbar/Navbar';
 
 const Layout: NextPage<PropsWithChildren> = ({
@@ -9,7 +10,10 @@ const Layout: NextPage<PropsWithChildren> = ({
     <>
       <div className="flex w-full h-full">
         <BabylonNavbar />
-        <div className="flex w-full">{children}</div>
+        <div className="flex flex-col w-full">
+          <Header />
+          {children}
+        </div>
       </div>
     </>
   );
