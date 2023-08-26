@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Button from '@/shared/button/button';
 
-const Dashboard: NextPage = () => {
+const Index: NextPage = () => {
   const router = useRouter();
 
   return (
@@ -58,4 +58,4 @@ const Dashboard: NextPage = () => {
   );
 };
 
-export default Dashboard;
+export default Index;
