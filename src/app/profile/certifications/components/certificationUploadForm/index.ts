@@ -1,4 +1,4 @@
-import CertificationUploadForm from "./certificationUploadForm";
+import CertificationUploadForm from './certificationUploadForm';
 
 export {
   CertificationUploadForm,

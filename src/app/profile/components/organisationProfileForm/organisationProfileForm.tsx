@@ -3,10 +3,10 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 
 import { Form } from '@/shared/form';
+import { Button } from '@/shared/button';
+import { FormInput } from '@/shared/formInput';
 import updateUser from '@/services/user/update';
 import { UserDto } from '@/services/user/dto/user.dto';
-import { LoadingSpinner } from '@/shared/loadingSpinner';
-import { FormInput } from '@/shared/formInput';
 
 type Props = {
   userData: UserDto;
@@ -81,18 +81,14 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
         </div>
         <div className="flex">
           <div className="w-full mt-6 sm:mt-0">
-            <button className="rounded-full text-white bg-black py-4 w-full relative">
-              {isSubmitting ? (
-                <LoadingSpinner
-                  height={24}
-                  width={24}
-                  color="#ffffff"
-                  position="relative"
-                />
-              ) : (
-                <span>Spremi promjene</span>
-              )}
-            </button>
+            <Button
+              color="primary"
+              showLoader={isSubmitting}
+              className="bg-black text-white !text-base"
+              type="submit"
+              full>
+              <span>Spremi promjene</span>
+            </Button>
           </div>
         </div>
       </Form>

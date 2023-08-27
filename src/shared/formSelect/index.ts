@@ -1,4 +1,4 @@
-import FormSelect from "./FormSelect";
+import FormSelect from './FormSelect';
 
 export {
   FormSelect,

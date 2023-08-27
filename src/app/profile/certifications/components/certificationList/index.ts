@@ -1,4 +1,4 @@
-import CertificationList from "./certificationList";
+import CertificationList from './certificationList';
 
 export {
   CertificationList,

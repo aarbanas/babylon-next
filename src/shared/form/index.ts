@@ -1,4 +1,4 @@
-import Form, { FieldError } from "./Form";
+import Form, { FieldError } from './Form';
 
 export {
   Form,
