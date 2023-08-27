@@ -1,6 +1,7 @@
+import Image from 'next/image';
 import { NextPage } from 'next';
 import styles from './Header.module.scss';
-import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 type Props = {
   username: string;
@@ -8,13 +9,25 @@ type Props = {
 };
 
 const Header: NextPage<Props> = ({ username, photo }) => {
+  const pathname = usePathname();
+
+  let title = '';
+  switch (pathname) {
+    case '/dashboard':
+      title = 'Početna';
+      break;
+    case '/profile':
+      title = 'Profil';
+      break;
+  }
+
   return (
     <>
       <div className={styles.container}>
+        <span>{title}</span>
         <div className={styles.avatarContainer}>
           <Image
             src={photo}
-            style={{ borderRadius: '100000px' }}
             alt="User profile picture"
             width={40}
             height={40}

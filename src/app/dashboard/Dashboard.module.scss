@@ -1,0 +1,76 @@
+.container {
+	margin: 0 50px 0 50px;
+
+	th {
+		display: none;
+	}
+
+	td:first-of-type {
+		width: 10%;
+	}
+
+	td:nth-of-type(2) {
+		width: 20%;
+	}
+
+	td:nth-of-type(3) {
+		width: 50%;
+	}
+
+	td:nth-of-type(4) {
+		width: 20%;
+	}
+
+	table {
+		width: 100%;
+	}
+
+	tbody {
+		tr {
+			border-top: 1px solid #f0f0f0;
+			height: 100px;
+		}
+
+		.usernameCell {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+	}
+}
+
+.header {
+	display: flex;
+	color: #5d5d5b;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 18px;
+	padding-bottom: 20px;
+
+	.users {
+		gap: 20px;
+		display: flex;
+	}
+
+	.filter {
+		margin-left: auto;
+	}
+}
+
+.userName {
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 22px;
+}
+
+.userTitle {
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 18px;
+}
+
+.userCity {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 22px;
+}

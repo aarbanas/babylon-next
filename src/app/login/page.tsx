@@ -30,7 +30,7 @@ const Login: NextPage = () => {
 
     try {
       await login(username, password);
-      router.push('/profile');
+      router.push('/dashboard');
     } catch (e) {
       setError('Pogrešni podaci');
     } finally {
