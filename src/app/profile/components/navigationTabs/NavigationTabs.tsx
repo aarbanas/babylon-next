@@ -4,15 +4,13 @@ import styles from './NavigationTabs.module.scss';
 const NavigationTabs: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
-      <div className={styles.navigationTabs}>
-        <div className={styles.navigationTabsItems}>
+      <div className={styles.container}>
+        <div className={styles.items}>
           {Children.map(children, (child) => {
-            return (
-              <button className={styles.navigationTabsItem}>{child}</button>
-            );
+            return <button className={styles.item}>{child}</button>;
           })}
         </div>
-        <div className={styles.navigationTabsDivider}>
+        <div className={styles.divider}>
           <></>
         </div>
       </div>

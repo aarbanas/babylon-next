@@ -11,15 +11,15 @@ interface FormInputProps extends ComponentProps<'input'> {
 const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   ({ id, label, type = 'text', ...props }, ref) => {
     return (
-      <div className={styles.formInputContainer}>
-        <label htmlFor={id} className={styles.formInputLabel}>
+      <div className={styles.container}>
+        <label htmlFor={id} className={styles.label}>
           {label}
         </label>
         <input
           id={id}
           ref={ref}
           type={type}
-          className={styles.formInput}
+          className={styles.input}
           {...props}
         />
         <FieldError name={props.name} />
