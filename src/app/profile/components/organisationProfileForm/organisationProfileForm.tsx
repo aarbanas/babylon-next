@@ -6,6 +6,7 @@ import { Form } from '@/shared/form';
 import updateUser from '@/services/user/update';
 import { UserDto } from '@/services/user/dto/user.dto';
 import { LoadingSpinner } from '@/shared/loadingSpinner';
+import { FormInput } from '@/shared/formInput';
 
 type Props = {
   userData: UserDto;
@@ -20,12 +21,7 @@ type UpdateOrganizationFields = {
 
 const OrganisationProfileForm: FC<Props> = ({ userData }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {
-    handleSubmit,
-    register,
-    getValues,
-    formState: { errors },
-  } = useForm<UpdateOrganizationFields>({
+  const form = useForm<UpdateOrganizationFields>({
     defaultValues: {
       city: userData.organisationAttributes.city ?? '',
       name: userData.organisationAttributes.name ?? '',
@@ -37,7 +33,7 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
   const submit = async () => {
     try {
       setIsSubmitting(true);
-      await updateUser(String(userData.id), getValues());
+      await updateUser(String(userData.id), form.getValues());
       toast('Profil je uspješno ažuriran', { type: 'success' });
     } catch (error) {
       toast('Nešto je prošlo po zlu. Probajte ponoviti', { type: 'error' });
@@ -48,88 +44,41 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
 
   return (
     <>
-      <Form onSubmit={handleSubmit(submit)}>
+      <Form form={form} onSubmit={submit}>
         <div className="flex flex-wrap sm:flex-nowrap">
-          <div className="w-full mt-6 sm:mt-0 sm:mr-10">
-            <label
-              htmlFor="name"
-              className="block font-light text-gray-500 mb-2">
-              Naziv organizacije*
-            </label>
-            <input
-              {...register('name', {
-                required: 'Naziv organizacije je obavezno polje',
-              })}
-              type="text"
-              placeholder=""
-              id="name"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-            <small className="block mt-2 text-red-700">
-              {errors?.name && <span role="alert">{errors.name.message}</span>}
-            </small>
-          </div>
+          <FormInput
+            id="name"
+            label="Naziv organizacije*"
+            placeholder="Crveni križ"
+            {...form.register('name', {
+              required: 'Naziv organizacije je obavezno polje',
+            })}
+          />
         </div>
         <div className="flex flex-wrap sm:flex-nowrap">
-          <div className="w-full mt-6 sm:mt-0 sm:mr-10">
-            <label
-              htmlFor="oib"
-              className="block font-light text-gray-500 mb-2">
-              OIB*
-            </label>
-            <input
-              {...register('oib', { required: 'OIB je obavezno polje' })}
-              type="text"
-              placeholder="OIB"
-              id="oib"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-            <small className="block mt-2 text-red-700">
-              {errors?.oib && <span role="alert">{errors.oib.message}</span>}
-            </small>
-          </div>
+          <FormInput
+            id="oib"
+            label="OIB*"
+            placeholder="OIB"
+            {...form.register('oib', { required: 'OIB je obavezno polje' })}
+          />
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap">
-          <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
-            <label
-              htmlFor="city"
-              className="block font-light text-gray-500 mb-2">
-              Grad*
-            </label>
-            <input
-              {...register('city', { required: 'Grad je obavezno polje' })}
-              type="text"
-              placeholder="Rijeka"
-              id="city"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-            <small className="block mt-2 text-red-700">
-              {errors?.city && <span role="alert">{errors.city.message}</span>}
-            </small>
-          </div>
-          <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
-            <label
-              htmlFor="street"
-              className="block font-light text-gray-500 mb-2">
-              Ulica i Broj*
-            </label>
-            <input
-              {...register('street', {
-                required: 'Ulica i broj je obavezno polje',
-              })}
-              type="text"
-              placeholder="Vukovarske ulica"
-              id="street"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-            <small className="block mt-2 text-red-700">
-              {errors?.street && (
-                <span role="alert">{errors.street.message}</span>
-              )}
-            </small>
-          </div>
+        <div className="flex flex-wrap sm:flex-nowrap sm:gap-10">
+          <FormInput
+            id="city"
+            label="Grad*"
+            placeholder="Rijeka"
+            {...form.register('city', { required: 'Grad je obavezno polje' })}
+          />
+          <FormInput
+            id="street"
+            label="Ulica i broj*"
+            placeholder="Vukovarske ulica"
+            {...form.register('street', {
+              required: 'Ulica i broj je obavezno polje',
+            })}
+          />
         </div>
-
         <div className="flex">
           <div className="w-full mt-6 sm:mt-0">
             <button className="rounded-full text-white bg-black py-4 w-full relative">

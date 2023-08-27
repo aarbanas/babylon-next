@@ -1,12 +1,13 @@
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Type } from '@/app/register/types';
 import { Form } from '@/shared/form';
 import { UserDto } from '@/services/user/dto/user.dto';
 import updateUser from '@/services/user/update';
 import { toast } from 'react-toastify';
 import { LoadingSpinner } from '@/shared/loadingSpinner';
+import { FormInput } from '@/shared/formInput';
+import { Type } from '@/app/register/types';
 
 type Props = {
   userData: UserDto;
@@ -22,12 +23,7 @@ type UpdateUserFields = {
 
 const UserProfileForm: FC<Props> = ({ userData }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {
-    handleSubmit,
-    register,
-    getValues,
-    formState: { errors },
-  } = useForm<UpdateUserFields>({
+  const form = useForm<UpdateUserFields>({
     defaultValues: {
       city: userData.userAttributes.city ?? '',
       firstname: userData.userAttributes.firstname ?? '',
@@ -40,7 +36,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
   const submit = async () => {
     try {
       setIsSubmitting(true);
-      await updateUser(String(userData.id), getValues());
+      await updateUser(String(userData.id), form.getValues());
       toast('Profil je uspješno ažuriran', { type: 'success' });
     } catch (error) {
       toast('Nešto je prošlo po zlu. Probajte ponoviti', { type: 'error' });
@@ -51,81 +47,40 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
 
   return (
     <>
-      <Form onSubmit={handleSubmit(submit)}>
-        <div className="flex flex-wrap sm:flex-nowrap">
-          <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
-            <label
-              htmlFor="firstName"
-              className="block font-light text-gray-500 mb-2">
-              Ime*
-            </label>
-            <input
-              {...register('firstname', { required: 'Ime je obavezno polje' })}
-              type="text"
-              placeholder="John"
-              id="firstName"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-            <small className="block mt-2 text-red-700">
-              {errors?.firstname && (
-                <span role="alert">{errors.firstname.message}</span>
-              )}
-            </small>
-          </div>
-          <div className="w-full sm:w-1/2 mt-6 sm:mt-0">
-            <label
-              htmlFor="lastName"
-              className="block font-light text-gray-500 mb-2">
-              Prezime
-            </label>
-            <input
-              {...register('lastname', {
-                required: 'Prezime je obavezno polje',
-              })}
-              type="text"
-              placeholder="Doe"
-              id="lastName"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-            <small className="block mt-2 text-red-700">
-              {errors?.lastname && (
-                <span role="alert">{errors.lastname.message}</span>
-              )}
-            </small>
-          </div>
+      <Form form={form} onSubmit={submit}>
+        <div className="flex flex-wrap sm:flex-nowrap sm:gap-16">
+          <FormInput
+            id="firstName"
+            label="Ime*"
+            placeholder="Ivan"
+            {...form.register('firstname', {
+              required: 'Ime je obavezno polje',
+            })}
+          />
+          <FormInput
+            id="lastName"
+            label="Prezime*"
+            placeholder="Doe"
+            {...form.register('lastname', {
+              required: 'Prezime je obavezno polje',
+            })}
+          />
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap">
-          <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
-            <label
-              htmlFor="city"
-              className="block font-light text-gray-500 mb-2">
-              Grad*
-            </label>
-            <input
-              {...register('city', { required: 'Grad je obavezno polje' })}
-              type="text"
-              placeholder="New York"
-              id="city"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-            <small className="block mt-2 text-red-700">
-              {errors?.city && <span role="alert">{errors.city.message}</span>}
-            </small>
-          </div>
-          <div className="w-full sm:w-1/2 mt-6 sm:mt-0">
-            <label
-              htmlFor="phone"
-              className="block font-light text-gray-500 mb-2">
-              Broj mobitela
-            </label>
-            <input
-              {...register('phone')}
-              type="text"
-              placeholder="+385998885698"
-              id="phone"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-          </div>
+        <div className="flex flex-wrap sm:flex-nowrap sm:gap-16">
+          <FormInput
+            id="city"
+            label="Grad*"
+            placeholder="Rijeka"
+            {...form.register('city', {
+              required: 'Grad je obavezno polje',
+            })}
+          />
+          <FormInput
+            id="phone"
+            label="Broj mobitela"
+            placeholder="+385998885698"
+            {...form.register('phone')}
+          />
         </div>
         <div className="flex flex-wrap sm:flex-nowrap">
           <div className="w-full mt-6 sm:mt-0">
@@ -135,7 +90,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
               Tip korisnika*
             </label>
             <select
-              {...register('type', {
+              {...form.register('type', {
                 required: 'Vrsta korisnika je obavezno polje',
               })}
               id="type"
@@ -147,9 +102,6 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
               <option value={Type.NURSE}>Tehničar</option>
               <option value={Type.LIFEGUARD}>Spasioc</option>
             </select>
-            <small className="block mt-2 text-red-700">
-              {errors?.type && <span role="alert">{errors.type.message}</span>}
-            </small>
           </div>
         </div>
         <div className="flex">
