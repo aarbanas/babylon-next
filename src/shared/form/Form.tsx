@@ -24,7 +24,7 @@ const Form = <T extends FieldValues>({
   return (
     <FormProvider {...form}>
       <form
-        className={styles.form}
+        className={styles.container}
         onSubmit={form.handleSubmit(onSubmit)}
         {...props}>
         {children}
@@ -51,7 +51,7 @@ export const FieldError = ({ name }: { name?: string }) => {
   }
 
   return (
-    <small className={styles.formError}>
+    <small className={styles.error}>
       <span role="alert">{error.message.toString()}</span>
     </small>
   );

@@ -14,11 +14,11 @@ interface FormSelectProps extends ComponentProps<'select'> {
 const FormSelect = forwardRef<HTMLSelectElement, FormSelectProps>(
   ({ id, label, value = DEFAULT_VALUE, children, ...props }, ref) => {
     return (
-      <div className={styles.formSelectContainer}>
-        <label htmlFor={id} className={styles.formSelectLabel}>
+      <div className={styles.container}>
+        <label htmlFor={id} className={styles.label}>
           {label}
         </label>
-        <select id={id} ref={ref} className={styles.formSelect} {...props}>
+        <select id={id} ref={ref} className={styles.select} {...props}>
           <option value={value} disabled>
             {props.placeholder}
           </option>

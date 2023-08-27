@@ -1,4 +1,4 @@
-.LoadingSpinnerContainer {
+.container {
   @apply h-full w-full flex justify-center items-center z-50 bg-inherit absolute;
   @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
 }

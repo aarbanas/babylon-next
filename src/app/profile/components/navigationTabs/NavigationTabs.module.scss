@@ -1,15 +1,15 @@
-.navigationTabs {
+.container {
   @apply inline-flex flex-col w-full sm:w-auto mb-10;
 
-  > .navigationTabsItems {
+  > .items {
     @apply flex flex-nowrap overflow-y-hidden py-4;
 
-    > .navigationTabsItem {
+    > .item {
       @apply mr-8 text-gray-800 font-semibold;
     }
   }
 
-  .navigationTabsDivider {
+  .divider {
     @apply bg-gray-300 h-1 rounded-full;
   }
 }
