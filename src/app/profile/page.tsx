@@ -27,7 +27,7 @@ const Profile: NextPage = () => {
   return (
     <>
       <DashboardLayout>
-        <div className='py-14 px-20 relative'>
+        <div className="px-20 relative">
           <NavigationTabs>
             <Link href="/profile" className="flex items-center">
               <HiPencil className="mr-2" size={24} />
@@ -40,7 +40,7 @@ const Profile: NextPage = () => {
           </NavigationTabs>
 
           {!userSession ? (
-            <LoadingSpinner width={64} height={64} />
+            <LoadingSpinner size={64} color="#de3333" />
           ) : (
             profileUpdateFormFactory(userSession.role, userSession)
           )}
