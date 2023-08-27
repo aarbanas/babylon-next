@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { LoadingSpinner } from '@/shared/loadingSpinner';
 import { FormInput } from '@/shared/formInput';
 import { Type } from '@/app/register/types';
+import { FormSelect } from '@/shared/formSelect';
 
 type Props = {
   userData: UserDto;
@@ -48,7 +49,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
   return (
     <>
       <Form form={form} onSubmit={submit}>
-        <div className="flex flex-wrap sm:flex-nowrap sm:gap-16">
+        <div className="flex flex-wrap sm:flex-nowrap sm:gap-10">
           <FormInput
             id="firstName"
             label="Ime*"
@@ -66,7 +67,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
             })}
           />
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap sm:gap-16">
+        <div className="flex flex-wrap sm:flex-nowrap sm:gap-10">
           <FormInput
             id="city"
             label="Grad*"
@@ -83,26 +84,17 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
           />
         </div>
         <div className="flex flex-wrap sm:flex-nowrap">
-          <div className="w-full mt-6 sm:mt-0">
-            <label
-              htmlFor="type"
-              className="block font-light text-gray-500 mb-2">
-              Tip korisnika*
-            </label>
-            <select
-              {...form.register('type', {
-                required: 'Vrsta korisnika je obavezno polje',
-              })}
-              id="type"
-              className="w-full px-3 py-4 rounded-full bg-gray-100 shadow-lg border-none focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40">
-              <option value="DEFAULT" disabled>
-                Odaberi vrstu
-              </option>
-              <option value={Type.DOCTOR}>Liječnik</option>
-              <option value={Type.NURSE}>Tehničar</option>
-              <option value={Type.LIFEGUARD}>Spasioc</option>
-            </select>
-          </div>
+          <FormSelect
+            id="type"
+            label="Tip korisnika*"
+            placeholder='Odaberi vrstu'
+            {...form.register('type', {
+              required: 'Vrsta korisnika je obavezno polje',
+            })}>
+            <option value={Type.DOCTOR}>Liječnik</option>
+            <option value={Type.NURSE}>Tehničar</option>
+            <option value={Type.LIFEGUARD}>Spasioc</option>
+          </FormSelect>
         </div>
         <div className="flex">
           <div className="w-full mt-6 sm:mt-0">
