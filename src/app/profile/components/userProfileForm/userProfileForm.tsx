@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Type } from '@/app/register/types';
+import { Form } from '@/shared/form';
 import { UserDto } from '@/services/user/dto/user.dto';
 import updateUser from '@/services/user/update';
 import { toast } from 'react-toastify';
@@ -50,7 +51,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(submit)}>
+      <Form onSubmit={handleSubmit(submit)}>
         <div className="flex flex-wrap sm:flex-nowrap">
           <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
             <label
@@ -93,7 +94,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
             </small>
           </div>
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap sm:mt-10">
+        <div className="flex flex-wrap sm:flex-nowrap">
           <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
             <label
               htmlFor="city"
@@ -126,7 +127,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
             />
           </div>
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap sm:mt-10">
+        <div className="flex flex-wrap sm:flex-nowrap">
           <div className="w-full mt-6 sm:mt-0">
             <label
               htmlFor="type"
@@ -151,7 +152,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
             </small>
           </div>
         </div>
-        <div className="flex sm:mt-10">
+        <div className="flex">
           <div className="w-full mt-6 sm:mt-0">
             <button className="rounded-full text-white bg-black py-4 w-full relative">
               {isSubmitting ? (
@@ -167,7 +168,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
             </button>
           </div>
         </div>
-      </form>
+      </Form>
     </>
   );
 };

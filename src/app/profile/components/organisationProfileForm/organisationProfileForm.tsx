@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 
+import { Form } from '@/shared/form';
 import updateUser from '@/services/user/update';
 import { UserDto } from '@/services/user/dto/user.dto';
 import { LoadingSpinner } from '@/shared/loadingSpinner';
@@ -47,7 +48,7 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(submit)}>
+      <Form onSubmit={handleSubmit(submit)}>
         <div className="flex flex-wrap sm:flex-nowrap">
           <div className="w-full mt-6 sm:mt-0 sm:mr-10">
             <label
@@ -69,7 +70,7 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
             </small>
           </div>
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap sm:mt-10">
+        <div className="flex flex-wrap sm:flex-nowrap">
           <div className="w-full mt-6 sm:mt-0 sm:mr-10">
             <label
               htmlFor="oib"
@@ -88,7 +89,7 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
             </small>
           </div>
         </div>
-        <div className="flex flex-wrap sm:flex-nowrap sm:mt-10">
+        <div className="flex flex-wrap sm:flex-nowrap">
           <div className="w-full sm:w-1/2 mt-6 sm:mt-0 sm:mr-10">
             <label
               htmlFor="city"
@@ -129,7 +130,7 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
           </div>
         </div>
 
-        <div className="flex sm:mt-10">
+        <div className="flex">
           <div className="w-full mt-6 sm:mt-0">
             <button className="rounded-full text-white bg-black py-4 w-full relative">
               {isSubmitting ? (
@@ -145,7 +146,7 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
             </button>
           </div>
         </div>
-      </form>
+      </Form>
     </>
   );
 };
