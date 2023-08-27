@@ -1,29 +1,16 @@
 'use client';
 import { NextPage } from 'next';
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren } from 'react';
 import Header from '../header/Header';
 import BabylonNavbar from '@/shared/navbar/Navbar';
-import { useCurrentUser } from '@/services/auth/currentUser';
-import findOne from '@/services/user/findOne';
-import { UserDto } from '@/services/user/dto/user.dto';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { useUserSession } from '@/services/auth/useUserSession';
 
 const DashboardLayout: NextPage<PropsWithChildren> = ({
   children,
 }: PropsWithChildren) => {
-  const sessionUser = useCurrentUser();
-  const [user, setUser] = useState<UserDto | null>(null);
-
-  useEffect(() => {
-    if (sessionUser) {
-      findOne(sessionUser.sub)
-        .then((_user) => {
-          setUser(_user);
-        })
-        .catch();
-    }
-  }, [sessionUser]);
+  const user = useUserSession();
 
   return (
     <>
