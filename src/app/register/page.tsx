@@ -248,7 +248,12 @@ const Register: NextPage = () => {
             )}
 
             <div className="mt-6">
-              <Button color="primary" disabled={submitting} type="submit" full>
+              <Button
+                color="primary"
+                disabled={submitting}
+                type="submit"
+                full
+                showLoader={submitting}>
                 Registracija
               </Button>
             </div>

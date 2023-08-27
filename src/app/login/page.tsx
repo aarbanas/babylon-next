@@ -92,7 +92,12 @@ const Login: NextPage = () => {
             </a>
 
             <div className="mt-4 md:mt-8">
-              <Button color="primary" disabled={submitting} type="submit" full>
+              <Button
+                color="primary"
+                disabled={submitting}
+                type="submit"
+                full
+                showLoader={submitting}>
                 Prijava
               </Button>
             </div>
