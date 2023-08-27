@@ -1,17 +1,58 @@
-import { FC, FormEventHandler, PropsWithChildren } from 'react';
+import { ComponentProps } from 'react';
+import {
+  FieldValues,
+  FormProvider,
+  SubmitHandler,
+  UseFormReturn,
+  useFormContext,
+} from 'react-hook-form';
+
 import styles from './Form.module.scss';
 
-type FormProps = {
-  id?: string;
-  onSubmit?: FormEventHandler<HTMLFormElement>;
-};
+interface FormProps<T extends FieldValues>
+  extends Omit<ComponentProps<'form'>, 'onSubmit'> {
+  form: UseFormReturn<T>;
+  onSubmit: SubmitHandler<T>;
+}
 
-const Form: FC<PropsWithChildren<FormProps>> = ({ children, ...formProps }) => {
+const Form = <T extends FieldValues>({
+  form,
+  onSubmit,
+  children,
+  ...props
+}: FormProps<T>) => {
   return (
-    <form className={styles.form} {...formProps}>
-      {children}
-    </form>
+    <FormProvider {...form}>
+      <form
+        className={styles.form}
+        onSubmit={form.handleSubmit(onSubmit)}
+        {...props}>
+        {children}
+      </form>
+    </FormProvider>
   );
 };
 
 export default Form;
+
+export const FieldError = ({ name }: { name?: string }) => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
+  if (!name) {
+    return null;
+  }
+
+  const error = errors[name];
+
+  if (!error || !error?.message) {
+    return null;
+  }
+
+  return (
+    <small className={styles.formError}>
+      <span role="alert">{error.message.toString()}</span>
+    </small>
+  );
+};
