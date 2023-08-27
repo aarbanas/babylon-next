@@ -1,19 +1,18 @@
 import { FC, PropsWithChildren, Children } from 'react';
+import styles from './NavigationTabs.module.scss';
 
 const NavigationTabs: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
-      <div className="inline-flex flex-col w-full sm:w-auto mb-10">
-        <div className="flex flex-nowrap overflow-y-hidden py-4">
+      <div className={styles.navigationTabs}>
+        <div className={styles.navigationTabsItems}>
           {Children.map(children, (child) => {
             return (
-              <button className="mr-8 text-gray-800 font-semibold">
-                {child}
-              </button>
+              <button className={styles.navigationTabsItem}>{child}</button>
             );
           })}
         </div>
-        <div className="bg-gray-300 h-1 rounded-full">
+        <div className={styles.navigationTabsDivider}>
           <></>
         </div>
       </div>

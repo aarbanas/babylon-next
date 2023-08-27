@@ -1,4 +1,4 @@
-import NavigationTabs from "./navigationTabs";
+import NavigationTabs from "./NavigationTabs";
 
 export {
   NavigationTabs,
