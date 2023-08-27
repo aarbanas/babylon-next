@@ -27,7 +27,7 @@ const Profile: NextPage = () => {
   return (
     <>
       <DashboardLayout>
-        <div className='py-14 px-20'>
+        <div className='py-14 px-20 relative'>
           <NavigationTabs>
             <Link href="/profile" className="flex items-center">
               <HiPencil className="mr-2" size={24} />
