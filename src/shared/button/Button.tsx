@@ -30,7 +30,12 @@ const Button: React.FC<Props> = ({
       disabled={disabled}
       onClick={onClick}
       type={type}
-      className={classNames(styles[color], full ? 'w-full' : 'w-40', className)}
+      className={classNames(
+        styles.root,
+        styles[color],
+        full ? 'w-full' : 'w-40',
+        className
+      )}
       style={{ fontWeight: '500' }}>
       {showLoader && (
         <LoadingSpinner
