@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import login from '@/services/auth/login';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Button } from '@/shared/button';
+import Button from '@/shared/button/Button';
 import Back from '@/shared/icons/back/Back';
 
 type FormData = {

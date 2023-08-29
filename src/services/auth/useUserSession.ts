@@ -13,10 +13,8 @@ export const useUserSession = () => {
       if (user?.sub) {
         const data = await findOne(user?.sub);
 
-        return setUserSession(data);
+        setUserSession(data);
       }
-
-      return null;
     };
 
     fetchUserSession();

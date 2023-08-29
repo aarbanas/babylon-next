@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './Button.module.scss';
-import { LoadingSpinner } from '../loadingSpinner';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import { classNames } from '@/utils/classNames';
 
 interface Props {
