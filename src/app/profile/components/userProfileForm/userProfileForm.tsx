@@ -2,12 +2,12 @@ import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 
-import { Form } from '@/shared/form';
+import Form from '@/shared/form/Form';
 import { Type } from '@/app/register/types';
-import { Button } from '@/shared/button';
-import { FormInput } from '@/shared/formInput';
+import Button from '@/shared/button/Button';
+import FormInput from '@/shared/formInput/FormInput';
 import updateUser from '@/services/user/update';
-import { FormSelect } from '@/shared/formSelect';
+import FormSelect from '@/shared/formSelect/FormSelect';
 import { UserDto } from '@/services/user/dto/user.dto';
 
 type Props = {

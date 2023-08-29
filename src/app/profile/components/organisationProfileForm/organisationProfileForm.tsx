@@ -2,9 +2,9 @@ import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 
-import { Form } from '@/shared/form';
-import { Button } from '@/shared/button';
-import { FormInput } from '@/shared/formInput';
+import Form from '@/shared/form/Form';
+import Button from '@/shared/button/Button';
+import FormInput from '@/shared/formInput/FormInput';
 import updateUser from '@/services/user/update';
 import { UserDto } from '@/services/user/dto/user.dto';
 

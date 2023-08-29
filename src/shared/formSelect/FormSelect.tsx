@@ -1,7 +1,7 @@
 import React, { ComponentProps, ReactElement, forwardRef } from 'react';
 
 import styles from './FormSelect.module.scss';
-import { FieldError } from '../form';
+import { FieldError } from '../form/Form';
 
 const DEFAULT_VALUE = 'none';
 

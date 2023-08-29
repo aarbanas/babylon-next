@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import registerUser from '@/services/user/register';
 import { RegisterUserData, Role, Type } from '@/app/register/types';
 import Image from 'next/image';
-import { Button } from '@/shared/button';
+import Button from '@/shared/button/Button';
 import Back from '@/shared/icons/back/Back';
 
 const Register: NextPage = () => {

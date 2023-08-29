@@ -6,12 +6,12 @@ import { HiPencil, HiDocumentAdd } from 'react-icons/hi';
 
 import { Role } from '../register/types';
 import { UserDto } from '@/services/user/dto/user.dto';
-import { LoadingSpinner } from '@/shared/loadingSpinner';
-import { NavigationTabs } from './components/navigationTabs';
+import LoadingSpinner from '@/shared/loadingSpinner/LoadingSpinner';
+import NavigationTabs from './components/navigationTabs/NavigationTabs';
 import DashboardLayout from '@/shared/layouts/dashboardLayout';
 import { useUserSession } from '@/services/auth/useUserSession';
-import { UserProfileForm } from './components/userProfileForm';
-import { OrganisationProfileForm } from './components/organisationProfileForm';
+import UserProfileForm from './components/userProfileForm/userProfileForm';
+import OrganisationProfileForm from './components/organisationProfileForm/organisationProfileForm';
 
 const profileUpdateFormFactory = (role: Role, userSession: UserDto) => {
   if (role === Role.USER) {

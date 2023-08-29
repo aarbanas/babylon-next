@@ -1,7 +1,7 @@
 import React, { ComponentProps, forwardRef } from 'react';
 
 import styles from './FormInput.module.scss';
-import { FieldError } from '../form';
+import { FieldError } from '../form/Form';
 
 interface FormInputProps extends ComponentProps<'input'> {
   id: string;
