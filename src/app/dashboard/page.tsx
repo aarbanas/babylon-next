@@ -1,14 +1,16 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Layout from '@/shared/layout/layout';
 import style from './Dashboard.module.scss';
 import findUsers from '@/services/user/find';
 import Image from 'next/image';
 import { UserDto, UserType } from '@/services/user/dto/user.dto';
 import { PaginationMetadata } from '@/services/user/dto/findUsers.dto';
+import { debounce } from 'lodash';
 
 const Dashboard: React.FC = () => {
   const [page, setPage] = useState<number>(0);
+  const [filter, setFilter] = useState<string>('');
   const [users, setUsers] = useState<UserDto[] | null>(null);
   const [metadata, setMetadata] = useState<PaginationMetadata | null>(null);
   const [isLoading, setLoading] = useState(true);
@@ -17,7 +19,15 @@ const Dashboard: React.FC = () => {
     findUsers({ page })
       .then((data) => {
         setUsers((prevState) => {
-          if (prevState?.length) return [...prevState, ...data.data];
+          if (prevState?.length) {
+            return prevState.reduce((users: UserDto[], user) => {
+              const userIndex = data.data.findIndex(({ id }) => id === user.id);
+              if (userIndex < 0) users.push(data.data[userIndex]);
+              else users.push(user);
+
+              return users;
+            }, []);
+          }
 
           return data.data;
         });
@@ -26,6 +36,16 @@ const Dashboard: React.FC = () => {
       })
       .catch(() => setLoading(false));
   }, [page]);
+
+  const debounceSearch = useRef(
+    debounce((criteria) => {
+      console.log(criteria);
+    }, 500)
+  ).current;
+
+  function searchText(e: React.ChangeEvent<HTMLInputElement>) {
+    debounceSearch(e.target.value);
+  }
 
   if (isLoading) return <Layout>Loading...</Layout>;
 
@@ -50,7 +70,13 @@ const Dashboard: React.FC = () => {
                   <span>{metadata.count}</span>
                   <span>{metadata.count !== 1 ? 'Korisnika' : 'Korisnik'}</span>
                 </div>
-                <span className={style.filter}>Filter</span>
+                <div className={style.filter}>
+                  <input
+                    type="text"
+                    placeholder="Pretraga korisnika"
+                    onChange={searchText}
+                  />
+                </div>
               </div>
               <table>
                 <thead>
