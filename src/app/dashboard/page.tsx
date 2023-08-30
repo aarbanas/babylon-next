@@ -1,16 +1,17 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import Layout from '@/shared/layout/layout';
 import style from './Dashboard.module.scss';
 import findUsers from '@/services/user/find';
 import Image from 'next/image';
-import { UserDto, UserType } from '@/services/user/dto/user.dto';
+import { UserDto } from '@/services/user/dto/user.dto';
 import { PaginationMetadata } from '@/services/user/dto/findUsers.dto';
 import { debounce } from 'lodash';
+import { Type } from '@/app/register/types';
+import DashboardLayout from '@/shared/layouts/dashboardLayout';
 
 const Dashboard: React.FC = () => {
   const [page, setPage] = useState<number>(0);
-  const [filter, setFilter] = useState<string>('');
+  // const [filter, setFilter] = useState<string>('');
   const [users, setUsers] = useState<UserDto[] | null>(null);
   const [metadata, setMetadata] = useState<PaginationMetadata | null>(null);
   const [isLoading, setLoading] = useState(true);
@@ -47,12 +48,12 @@ const Dashboard: React.FC = () => {
     debounceSearch(e.target.value);
   }
 
-  if (isLoading) return <Layout>Loading...</Layout>;
+  if (isLoading) return <DashboardLayout>Loading...</DashboardLayout>;
 
-  function translateUserType(type: UserType) {
-    if (type === 'DOCTOR') return 'Liječnik';
-    if (type === 'NURSE') return 'Tehničar';
-    if (type === 'LIFEGUARD') return 'Spasioc';
+  function translateUserType(type: Type) {
+    if (type === Type.DOCTOR) return 'Liječnik';
+    if (type === Type.NURSE) return 'Tehničar';
+    if (type === Type.LIFEGUARD) return 'Spasioc';
   }
 
   function changePage() {
@@ -61,7 +62,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Layout>
+      <DashboardLayout>
         <div className={style.container}>
           {users?.length && metadata?.count ? (
             <>
@@ -127,7 +128,7 @@ const Dashboard: React.FC = () => {
             <span>No usersFound</span>
           )}
         </div>
-      </Layout>
+      </DashboardLayout>
     </>
   );
 };
