@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import registerUser from '@/services/user/register';
 import { RegisterUserData, Role, Type } from '@/app/register/types';
 import Image from 'next/image';
-import Button from '@/shared/button/button';
+import Button from '@/shared/button/Button';
 import Back from '@/shared/icons/back/Back';
 
 const Register: NextPage = () => {
@@ -248,7 +248,12 @@ const Register: NextPage = () => {
             )}
 
             <div className="mt-6">
-              <Button color="primary" disabled={submitting} type="submit" full>
+              <Button
+                color="primary"
+                disabled={submitting}
+                type="submit"
+                full
+                showLoader={submitting}>
                 Registracija
               </Button>
             </div>

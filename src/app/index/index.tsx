@@ -2,7 +2,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Button from '@/shared/button/button';
+import Button from '@/shared/button/Button';
 
 const Index: NextPage = () => {
   const router = useRouter();
