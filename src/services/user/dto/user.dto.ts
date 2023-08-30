@@ -1,4 +1,4 @@
-import { Role } from '@/app/register/types';
+import { Role, Type } from '@/app/register/types';
 
 export type UserDto = {
   userAttributes: UserAttributesDto;
@@ -16,7 +16,7 @@ export type UserAttributesDto = {
   lastname: string;
   city: string;
   phone: string;
-  type: string;
+  type: Type;
 };
 
 type OrganisationAttributesDto = {
