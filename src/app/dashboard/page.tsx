@@ -9,38 +9,46 @@ import { debounce } from 'lodash';
 import { Type } from '@/app/register/types';
 import DashboardLayout from '@/shared/layouts/dashboardLayout';
 
+enum FilterKey {
+  FIRSTNAME = 'firstname',
+  LASTNAME = 'lastname',
+  CITY = 'city',
+}
+
 const Dashboard: React.FC = () => {
   const [page, setPage] = useState<number>(0);
-  // const [filter, setFilter] = useState<string>('');
+  const [filter, setFilter] = useState<string>('');
+  const [filterKey, setFilterKey] = useState<string | null>(null);
   const [users, setUsers] = useState<UserDto[] | null>(null);
   const [metadata, setMetadata] = useState<PaginationMetadata | null>(null);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    findUsers({ page })
+    findUsers({
+      page,
+      filter: filter && filterKey ? { [filterKey]: filter } : undefined,
+    })
       .then((data) => {
         setUsers((prevState) => {
-          if (prevState?.length) {
-            return prevState.reduce((users: UserDto[], user) => {
-              const userIndex = data.data.findIndex(({ id }) => id === user.id);
-              if (userIndex < 0) users.push(data.data[userIndex]);
-              else users.push(user);
+          if (filter || !prevState?.length) return data.data;
 
-              return users;
-            }, []);
-          }
+          return prevState.reduce((users: UserDto[], user) => {
+            const userIndex = data.data.findIndex(({ id }) => id === user.id);
+            if (userIndex < 0) users.push(data.data[userIndex]);
+            else users.push(user);
 
-          return data.data;
+            return users;
+          }, []);
         });
         setMetadata(data.meta);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [page]);
+  }, [page, filter, filterKey]);
 
   const debounceSearch = useRef(
     debounce((criteria) => {
-      console.log(criteria);
+      setFilter(criteria);
     }, 500)
   ).current;
 
@@ -64,69 +72,87 @@ const Dashboard: React.FC = () => {
     <>
       <DashboardLayout>
         <div className={style.container}>
-          {users?.length && metadata?.count ? (
-            <>
-              <div className={style.header}>
-                <div className={style.users}>
-                  <span>{metadata.count}</span>
-                  <span>{metadata.count !== 1 ? 'Korisnika' : 'Korisnik'}</span>
-                </div>
-                <div className={style.filter}>
-                  <input
-                    type="text"
-                    placeholder="Pretraga korisnika"
-                    onChange={searchText}
-                  />
-                </div>
+          <>
+            <div className={style.header}>
+              <div className={style.users}>
+                <span>{metadata?.count ?? 0}</span>
+                <span>{metadata?.count !== 1 ? 'Korisnika' : 'Korisnik'}</span>
               </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Profilna slika</th>
-                    <th>Korisničko ime</th>
-                    <th>Lokacija</th>
-                    <th>Pogledaj profil</th>
+              <div className={style.filter}>
+                <select
+                  id="grid-state"
+                  defaultValue={'DEFAULT'}
+                  onChange={(choice) => setFilterKey(choice.target.value)}>
+                  <option value="DEFAULT" disabled>
+                    Pretraži po
+                  </option>
+                  <option value={FilterKey.FIRSTNAME}>Ime</option>
+                  <option value={FilterKey.LASTNAME}>Prezime</option>
+                  <option value={FilterKey.CITY}>Grad</option>
+                </select>
+                <input
+                  type="text"
+                  placeholder={
+                    filterKey ? 'Pretraga korisnika' : 'Odaberi iz izbornika'
+                  }
+                  onChange={searchText}
+                  disabled={!filterKey}
+                />
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Profilna slika</th>
+                  <th>Korisničko ime</th>
+                  <th>Lokacija</th>
+                  <th>Pogledaj profil</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users?.map((user) => (
+                  <tr key={user.id}>
+                    <td>
+                      <Image
+                        src={user.profilePhoto || '/user-icon.png'}
+                        style={{ borderRadius: '100000px' }}
+                        alt="User profile picture"
+                        width={48}
+                        height={48}
+                      />
+                    </td>
+                    <td>
+                      <div className={style.usernameCell}>
+                        <span className={style.userName}>
+                          {user.userAttributes.firstname +
+                            ' ' +
+                            user.userAttributes.lastname}{' '}
+                        </span>
+                        <span className={style.userTitle}>
+                          {translateUserType(user.userAttributes.type)}
+                        </span>
+                      </div>
+                    </td>
+                    <td className={style.userCity}>
+                      {user.userAttributes.city}
+                    </td>
+                    <td>
+                      <button color={'secondary'}>Pregledaj profil</button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id}>
-                      <td>
-                        <Image
-                          src={user.profilePhoto || '/user-icon.png'}
-                          style={{ borderRadius: '100000px' }}
-                          alt="User profile picture"
-                          width={48}
-                          height={48}
-                        />
-                      </td>
-                      <td>
-                        <div className={style.usernameCell}>
-                          <span className={style.userName}>
-                            {user.userAttributes.firstname +
-                              ' ' +
-                              user.userAttributes.lastname}{' '}
-                          </span>
-                          <span className={style.userTitle}>
-                            {translateUserType(user.userAttributes.type)}
-                          </span>
-                        </div>
-                      </td>
-                      <td className={style.userCity}>
-                        {user.userAttributes.city}
-                      </td>
-                      <td>Pregledaj profil</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {users.length < metadata.count && (
-                <button onClick={changePage}>Učitaj još</button>
-              )}
-            </>
-          ) : (
-            <span>No usersFound</span>
-          )}
+                ))}
+              </tbody>
+            </table>
+            {users && metadata && (
+              <>
+                {users.length === metadata.count && (
+                  <div className={style.loadMore}>
+                    <button onClick={changePage}>Učitaj još</button>
+                  </div>
+                )}
+              </>
+            )}
+          </>
         </div>
       </DashboardLayout>
     </>
