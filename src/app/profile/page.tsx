@@ -12,6 +12,7 @@ import DashboardLayout from '@/shared/layouts/dashboardLayout';
 import { useUserSession } from '@/services/auth/useUserSession';
 import UserProfileForm from './components/userProfileForm/userProfileForm';
 import OrganisationProfileForm from './components/organisationProfileForm/organisationProfileForm';
+import ProfileImageForm from './components/profileImageForm/ProfileImageForm';
 
 const profileUpdateFormFactory = (role: Role, userSession: UserDto) => {
   if (role === Role.USER) {
@@ -42,7 +43,10 @@ const Profile: NextPage = () => {
           {!userSession ? (
             <LoadingSpinner size={64} color="#de3333" />
           ) : (
-            profileUpdateFormFactory(userSession.role, userSession)
+            <>
+              <ProfileImageForm user={userSession} />
+              {profileUpdateFormFactory(userSession.role, userSession)}
+            </>
           )}
         </div>
       </DashboardLayout>
