@@ -6,6 +6,7 @@ type FindUsersQueryData = {
   limit?: number;
   sort?: string;
   dir?: 'asc' | 'desc';
+  filter?: object;
 };
 
 const findUsers = async (data?: FindUsersQueryData) => {
@@ -17,6 +18,11 @@ const findUsers = async (data?: FindUsersQueryData) => {
     if (data.limit) queryParams.push(`limit=${data.limit}`);
     if (data.sort) queryParams.push(`sort=${data.sort}`);
     if (data.dir) queryParams.push(`dir=${data.dir}`);
+    if (data.filter) {
+      Object.entries(data.filter).forEach(([key, value]) => {
+        queryParams.push(`filter[${key}]=${value}`);
+      });
+    }
 
     queryParams.forEach((param, index) => {
       if (index === 0) {
