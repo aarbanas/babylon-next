@@ -18,7 +18,7 @@ export const get = async <T>(path: string, signal?: AbortSignal) => {
 
 export const post = async <T>(
   path: string,
-  postData: { [p: string | number]: unknown }
+  postData: { [p: string | number]: unknown } | FormData
 ) => {
   const { data } = await http.post<T>(generateUrl(path), postData);
   return data;
@@ -26,20 +26,11 @@ export const post = async <T>(
 
 export const patch = async <T>(
   path: string,
-  postData: { [p: string | number]: unknown }
+  postData: { [p: string | number]: unknown } | FormData
 ) => {
   const { data } = await http.patch<T>(generateUrl(path), postData);
   return data;
 };
-
-export const upload = async <T>(
-  path: string,
-  formData: FormData,
-) => {
-  const { data } = await http.post<T>(generateUrl(path), formData);
-
-  return data;
-}
 
 http.interceptors.request.use((config) => {
   const currentUser = Cookies.get('currentUser');

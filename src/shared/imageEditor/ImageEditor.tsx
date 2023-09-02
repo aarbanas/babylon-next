@@ -5,15 +5,15 @@ import { ChangeEventHandler, forwardRef, useEffect, useState } from 'react';
 import styles from './ImageEditor.module.scss';
 
 type Props = {
-  imageUrl: string;
+  image: string | File | null;
 };
 
-const ImageEditor = forwardRef<AvatarEditor, Props>(({ imageUrl }, ref) => {
+const ImageEditor = forwardRef<AvatarEditor, Props>(({ image }, ref) => {
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
     setScale(1);
-  }, [imageUrl]);
+  }, [image]);
 
   const onScaleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const scale = Number(e.target.value ?? 1);
@@ -25,7 +25,7 @@ const ImageEditor = forwardRef<AvatarEditor, Props>(({ imageUrl }, ref) => {
     <>
       <AvatarEditor
         ref={ref}
-        image={imageUrl ?? '/user-icon.png'}
+        image={image ?? ''}
         borderRadius={9999999}
         width={400}
         height={400}
@@ -43,7 +43,7 @@ const ImageEditor = forwardRef<AvatarEditor, Props>(({ imageUrl }, ref) => {
           max={5}
           step={0.01}
           onChange={onScaleChange}
-          className="w-full mx-3"
+          className={styles.slider}
         />
         <HiUser size={30} />
       </div>

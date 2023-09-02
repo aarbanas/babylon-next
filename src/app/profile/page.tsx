@@ -6,13 +6,13 @@ import { HiPencil, HiDocumentAdd } from 'react-icons/hi';
 
 import { Role } from '../register/types';
 import { UserDto } from '@/services/user/dto/user.dto';
-import LoadingSpinner from '@/shared/loadingSpinner/LoadingSpinner';
-import NavigationTabs from './components/navigationTabs/NavigationTabs';
 import DashboardLayout from '@/shared/layouts/dashboardLayout';
 import { useUserSession } from '@/services/auth/useUserSession';
+import LoadingSpinner from '@/shared/loadingSpinner/LoadingSpinner';
+import NavigationTabs from './components/navigationTabs/NavigationTabs';
 import UserProfileForm from './components/userProfileForm/userProfileForm';
+import ProfilePhotoForm from './components/profilePhotoForm/ProfilePhotoForm';
 import OrganisationProfileForm from './components/organisationProfileForm/organisationProfileForm';
-import ProfileImageForm from './components/profileImageForm/ProfileImageForm';
 
 const profileUpdateFormFactory = (role: Role, userSession: UserDto) => {
   if (role === Role.USER) {
@@ -44,7 +44,9 @@ const Profile: NextPage = () => {
             <LoadingSpinner size={64} color="#de3333" />
           ) : (
             <>
-              <ProfileImageForm user={userSession} />
+              <ProfilePhotoForm
+                profilePhoto={userSession?.profilePhoto || '/user-icon.png'}
+              />
               {profileUpdateFormFactory(userSession.role, userSession)}
             </>
           )}
