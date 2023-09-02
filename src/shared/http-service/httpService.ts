@@ -32,6 +32,15 @@ export const patch = async <T>(
   return data;
 };
 
+export const upload = async <T>(
+  path: string,
+  formData: FormData,
+) => {
+  const { data } = await http.post<T>(generateUrl(path), formData);
+
+  return data;
+}
+
 http.interceptors.request.use((config) => {
   const currentUser = Cookies.get('currentUser');
   if (currentUser)
