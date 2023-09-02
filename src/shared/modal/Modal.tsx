@@ -1,12 +1,19 @@
 import { FC, PropsWithChildren, MouseEvent, useRef } from 'react';
 import styles from './Modal.module.scss';
+import { classNames } from '@/utils/classNames';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  className?: string;
 };
 
-const Modal: FC<PropsWithChildren<Props>> = ({ children, onClose, isOpen }) => {
+const Modal: FC<PropsWithChildren<Props>> = ({
+  children,
+  onClose,
+  isOpen,
+  className = '',
+}) => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
 
   if (!isOpen) {
@@ -21,7 +28,7 @@ const Modal: FC<PropsWithChildren<Props>> = ({ children, onClose, isOpen }) => {
 
   return (
     <div ref={overlayRef} className={styles.overlay} onClick={handleClose}>
-      <div className={styles.content}>{children}</div>
+      <div className={classNames(styles.content, className)}>{children}</div>
     </div>
   );
 };

@@ -2,7 +2,7 @@
   @apply relative h-20 w-20 rounded-full mb-10;
 }
 
-.changePhotoIcon {
-  @apply flex justify-center items-center;
+.changePhotoButton {
+  @apply flex justify-center items-center cursor-pointer;
   @apply absolute right-0 bottom-0 rounded-full h-6 w-6 text-white bg-black;
 }
