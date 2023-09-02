@@ -32,13 +32,12 @@ const Dashboard: React.FC = () => {
         setUsers((prevState) => {
           if (filter || !prevState?.length) return data.data;
 
-          return prevState.reduce((users: UserDto[], user) => {
-            const userIndex = data.data.findIndex(({ id }) => id === user.id);
-            if (userIndex < 0) users.push(data.data[userIndex]);
-            else users.push(user);
+          data.data.forEach((user) => {
+            const userIndex = prevState.findIndex(({ id }) => id === user.id);
+            if (userIndex < 0) prevState.push(user);
+          });
 
-            return users;
-          }, []);
+          return prevState;
         });
         setMetadata(data.meta);
         setLoading(false);
@@ -82,7 +81,10 @@ const Dashboard: React.FC = () => {
                 <select
                   id="grid-state"
                   defaultValue={'DEFAULT'}
-                  onChange={(choice) => setFilterKey(choice.target.value)}>
+                  onChange={(choice) => {
+                    setFilterKey(choice.target.value);
+                    setPage(0);
+                  }}>
                   <option value="DEFAULT" disabled>
                     Pretraži po
                   </option>
@@ -145,7 +147,7 @@ const Dashboard: React.FC = () => {
             </table>
             {users && metadata && (
               <>
-                {users.length === metadata.count && (
+                {users.length < metadata.count && (
                   <div className={style.loadMore}>
                     <button onClick={changePage}>Učitaj još</button>
                   </div>

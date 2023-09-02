@@ -25,6 +25,7 @@ const NavbarMenuDrawer: NextPage<Props> = ({ logout, onRouterClick }) => {
         <div className={styles.headerContent}>
           <span className={styles.title}>Dobrodošli</span>
           <div
+            className={'cursor-pointer'}
             onClick={() => {
               setShowMenu(false);
             }}>
