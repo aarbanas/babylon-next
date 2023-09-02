@@ -15,10 +15,10 @@ const DashboardLayout: NextPage<PropsWithChildren> = ({
   return (
     <>
       <div className="flex">
-        <div className="w-1/5">
+        <div className="w-1/12 lg:w-1/5">
           <BabylonNavbar />
         </div>
-        <div className="flex flex-col w-4/5">
+        <div className="flex flex-col w-11/12 lg:w-4/5">
           {user && (
             <Header
               username={user.email}
