@@ -24,11 +24,12 @@ const Dashboard: React.FC = () => {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    findUsers({
-      page,
-      filter: filter && filterKey ? { [filterKey]: filter } : undefined,
-    })
-      .then((data) => {
+    const fetchUsers = async () => {
+      try {
+        const data = await findUsers({
+          page,
+          filter: filter && filterKey ? { [filterKey]: filter } : undefined,
+        });
         setUsers((prevState) => {
           if (filter || !prevState?.length) return data.data;
 
@@ -41,8 +42,12 @@ const Dashboard: React.FC = () => {
         });
         setMetadata(data.meta);
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      } catch (e) {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
   }, [page, filter, filterKey]);
 
   const debounceSearch = useRef(
