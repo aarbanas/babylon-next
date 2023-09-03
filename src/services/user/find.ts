@@ -10,30 +10,21 @@ type FindUsersQueryData = {
 };
 
 const findUsers = async (data?: FindUsersQueryData) => {
-  const queryParams = [];
-  let query = '';
+  const searchParams = new URLSearchParams();
 
   if (data) {
-    if (data.page) queryParams.push(`page=${data.page}`);
-    if (data.limit) queryParams.push(`limit=${data.limit}`);
-    if (data.sort) queryParams.push(`sort=${data.sort}`);
-    if (data.dir) queryParams.push(`dir=${data.dir}`);
+    if (data.page) searchParams.append(`page`, data.page.toString());
+    if (data.limit) searchParams.append(`limit`, data.limit.toString());
+    if (data.sort) searchParams.append(`sort`, data.sort);
+    if (data.dir) searchParams.append(`dir`, data.dir);
     if (data.filter) {
       Object.entries(data.filter).forEach(([key, value]) => {
-        queryParams.push(`filter[${key}]=${value}`);
+        searchParams.append(`filter[${key}]`, value);
       });
     }
-
-    queryParams.forEach((param, index) => {
-      if (index === 0) {
-        query += `?${param}`;
-      } else {
-        query += `&${param}`;
-      }
-    });
   }
 
-  return get<FindUsersDto>(APIs.USER + `${query}`);
+  return get<FindUsersDto>(`${APIs.USER}?${searchParams}`);
 };
 
 export default findUsers;
