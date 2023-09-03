@@ -49,9 +49,10 @@ const ProfilePhotoForm: FC<Props> = ({ profilePhoto }) => {
         const formData = new FormData();
         formData.append('profilePhoto', blob);
 
-        const data = await uploadProfilePhoto(formData);
+        await uploadProfilePhoto(formData);
 
-        setCurrentImage(data.profilePhoto);
+        const objectUrl = URL.createObjectURL(blob);
+        setCurrentImage(objectUrl);
 
         toast('Profilna slika je uspješno ažuriran', { type: 'success' });
       } catch (error) {
