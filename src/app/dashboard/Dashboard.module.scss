@@ -1,0 +1,152 @@
+.container {
+	margin: 0 50px 0 50px;
+
+	th {
+		display: none;
+	}
+
+	td:first-of-type {
+		width: 10%;
+	}
+
+	td:nth-of-type(2) {
+		width: 20%;
+	}
+
+	td:nth-of-type(3) {
+		width: 50%;
+	}
+
+	td:nth-of-type(4) {
+		width: 20%;
+	}
+
+	table {
+		width: 100%;
+	}
+
+	button {
+		width: 144px;
+		height: 34px;
+		padding: 0px 8px;
+		border: 1px solid #1c1c1e;
+		box-sizing: border-box;
+		border-radius: 12px;
+		background-color: #ffffff;
+		color: #1c1c1e;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 18px;
+		outline: none;
+	}
+
+	tbody {
+		tr {
+			border-top: 1px solid #f0f0f0;
+			height: 100px;
+			padding-bottom: 10px;
+		}
+
+		td {
+			display: block;
+			padding-bottom: 10px;
+
+			@media only screen and (min-width: 768px) {
+				display: table-cell;
+				padding-bottom: 0;
+			}
+		}
+
+		td:first-of-type {
+			display: none;
+
+			@media only screen and (min-width: 450px) {
+				display: block;
+			}
+
+			@media only screen and (min-width: 768px) {
+				display: table-cell;
+			}
+		}
+
+		td:last-of-type {
+			display: block;
+
+			@media only screen and (min-width: 350px) {
+				display: table-cell;
+			}
+
+			@media only screen and (min-width: 768px) {
+				display: table-cell;
+			}
+		}
+
+		.usernameCell {
+			display: flex;
+			flex-direction: column;
+			gap: 0;
+
+			@media only screen and (min-width: 768px) {
+				gap: 10px;
+			}
+		}
+	}
+}
+
+.header {
+	display: flex;
+	align-items: end;
+	flex-direction: column;
+	color: #5d5d5b;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 18px;
+	padding-bottom: 10px;
+
+	@media only screen and (min-width: 768px) {
+		flex-direction: row;
+		padding-bottom: 20px;
+	}
+
+	.users {
+		gap: 20px;
+		display: flex;
+	}
+
+	.filter {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		@media only screen and (min-width: 450px) {
+			flex-direction: row;
+			gap: 20px;
+		}
+
+		@media only screen and (min-width: 768px) {
+			margin-left: auto;
+		}
+	}
+}
+
+.userName {
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 22px;
+}
+
+.userTitle {
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 18px;
+}
+
+.userCity {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 22px;
+}
+
+.loadMore {
+	@apply flex mt-10 justify-center
+}
