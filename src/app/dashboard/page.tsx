@@ -6,8 +6,9 @@ import Image from 'next/image';
 import { UserDto } from '@/services/user/dto/user.dto';
 import { PaginationMetadata } from '@/services/user/dto/findUsers.dto';
 import { debounce } from 'lodash';
-import { Type } from '@/app/register/types';
 import DashboardLayout from '@/shared/layouts/dashboardLayout';
+import { useRouter } from 'next/navigation';
+import { translateUserTypes } from '@/utils/translateUserTypes';
 
 enum FilterKey {
   FIRSTNAME = 'firstname',
@@ -22,6 +23,7 @@ const Dashboard: React.FC = () => {
   const [users, setUsers] = useState<UserDto[] | null>(null);
   const [metadata, setMetadata] = useState<PaginationMetadata | null>(null);
   const [isLoading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -61,12 +63,6 @@ const Dashboard: React.FC = () => {
   }
 
   if (isLoading) return <DashboardLayout>Loading...</DashboardLayout>;
-
-  function translateUserType(type: Type) {
-    if (type === Type.DOCTOR) return 'Liječnik';
-    if (type === Type.NURSE) return 'Tehničar';
-    if (type === Type.LIFEGUARD) return 'Spasioc';
-  }
 
   function changePage() {
     setPage((prevState) => prevState + 1);
@@ -136,7 +132,7 @@ const Dashboard: React.FC = () => {
                             user.userAttributes.lastname}{' '}
                         </span>
                         <span className={style.userTitle}>
-                          {translateUserType(user.userAttributes.type)}
+                          {translateUserTypes(user.userAttributes.type)}
                         </span>
                       </div>
                     </td>
@@ -144,7 +140,11 @@ const Dashboard: React.FC = () => {
                       {user.userAttributes.city}
                     </td>
                     <td>
-                      <button color={'secondary'}>Pregledaj profil</button>
+                      <button
+                        color={'secondary'}
+                        onClick={() => router.push(`/user-profile/${user.id}`)}>
+                        Pregledaj profil
+                      </button>
                     </td>
                   </tr>
                 ))}
