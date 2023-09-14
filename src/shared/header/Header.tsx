@@ -12,12 +12,15 @@ const Header: NextPage<Props> = ({ username, photo }) => {
   const pathname = usePathname();
 
   let title = '';
-  switch (pathname) {
-    case '/dashboard':
+  switch (true) {
+    case pathname === '/dashboard':
       title = 'Početna';
       break;
-    case '/profile':
+    case pathname === '/profile':
       title = 'Profil';
+      break;
+    case pathname.includes('/user-profile'):
+      title = 'Podaci o korisniku';
       break;
   }
 

@@ -1,0 +1,44 @@
+.container {
+	display: flex;
+	margin: 0 50px 0 50px;
+}
+
+.userCard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 30%;
+	gap: 20px;
+
+	.userTitle {
+		font-size: 32px;
+		font-weight: 500;
+		line-height: 38px;
+	}
+
+	.userInfo {
+		font-size: 20px;
+		font-weight: 300;
+		line-height: 26px;
+	}
+}
+
+.userDetails {
+	width: 70%;
+	padding: 30px;
+
+	table {
+		width: 100%;
+	}
+
+	thead {
+		display: inline-block;
+		width: 50%;
+		text-align: left;
+	}
+
+	tbody {
+		display: inline-block;
+		width: 50%;
+	}
+}
