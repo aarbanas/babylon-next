@@ -60,7 +60,13 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
             <table>
               <thead>
                 <tr>
-                  <th>Ime i prezime</th>
+                  <th>Ime</th>
+                </tr>
+                <tr>
+                  <th>Prezime</th>
+                </tr>
+                <tr>
+                  <th>Grad</th>
                 </tr>
                 <tr>
                   <th>Email</th>
@@ -71,10 +77,13 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
-                    {user.userAttributes.firstname}{' '}
-                    {user.userAttributes.lastname}
-                  </td>
+                  <td>{user.userAttributes.firstname}</td>
+                </tr>
+                <tr>
+                  <td>{user.userAttributes.lastname}</td>
+                </tr>
+                <tr>
+                  <td>{user.userAttributes.city}</td>
                 </tr>
                 <tr>
                   <td>{user.email}</td>
