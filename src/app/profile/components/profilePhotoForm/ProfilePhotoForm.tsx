@@ -97,7 +97,7 @@ const ProfilePhotoForm: FC<Props> = ({ profilePhoto }) => {
             color="secondary"
             full
             onClick={() => setIsImageEditorOpen(false)}>
-            <span>Otkazi</span>
+            <span>Otkaži</span>
           </Button>
         </div>
       </Modal>

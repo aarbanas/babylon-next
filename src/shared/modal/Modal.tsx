@@ -6,6 +6,7 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   className?: string;
+  persistent?: boolean;
 };
 
 const Modal: FC<PropsWithChildren<Props>> = ({
@@ -13,6 +14,7 @@ const Modal: FC<PropsWithChildren<Props>> = ({
   onClose,
   isOpen,
   className = '',
+  persistent = false,
 }) => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
 
@@ -21,7 +23,7 @@ const Modal: FC<PropsWithChildren<Props>> = ({
   }
 
   const handleClose = (e: MouseEvent<HTMLDivElement>) => {
-    if (overlayRef?.current === e.target) {
+    if (overlayRef?.current === e.target && !persistent) {
       onClose();
     }
   };
