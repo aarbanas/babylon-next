@@ -7,4 +7,5 @@
 .content {
   @apply relative bg-white flex flex-col shadow-lg;
   @apply px-10 py-5 rounded-md;
+  max-width: calc(100% - 2rem);
 }
