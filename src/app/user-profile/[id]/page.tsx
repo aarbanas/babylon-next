@@ -93,6 +93,10 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
                 </tr>
               </tbody>
             </table>
+
+            <div className={style.certificate}>
+              <span className={style.title}>Certifikati</span>
+            </div>
           </div>
         </div>
       </DashboardLayout>
