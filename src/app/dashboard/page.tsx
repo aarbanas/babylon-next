@@ -7,8 +7,8 @@ import { UserDto } from '@/services/user/dto/user.dto';
 import { PaginationMetadata } from '@/services/user/dto/findUsers.dto';
 import { debounce } from 'lodash';
 import DashboardLayout from '@/shared/layouts/dashboardLayout';
-import { useRouter } from 'next/navigation';
 import { translateUserTypes } from '@/utils/translateUserTypes';
+import Link from 'next/link';
 
 enum FilterKey {
   FIRSTNAME = 'firstname',
@@ -23,7 +23,6 @@ const Dashboard: React.FC = () => {
   const [users, setUsers] = useState<UserDto[] | null>(null);
   const [metadata, setMetadata] = useState<PaginationMetadata | null>(null);
   const [isLoading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -140,10 +139,10 @@ const Dashboard: React.FC = () => {
                       {user.userAttributes.city}
                     </td>
                     <td>
-                      <button
-                        color={'secondary'}
-                        onClick={() => router.push(`/user-profile/${user.id}`)}>
-                        Pregledaj profil
+                      <button color={'secondary'}>
+                        <Link href={`/user-profile/${user.id}`}>
+                          Pregledaj profil
+                        </Link>
                       </button>
                     </td>
                   </tr>
