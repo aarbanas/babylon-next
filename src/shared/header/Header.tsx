@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { NextPage } from 'next';
 import styles from './Header.module.scss';
 import { usePathname } from 'next/navigation';
+import { resolvePageTitle } from '@/utils/resolvePageTitle';
 
 type Props = {
   username: string;
@@ -10,19 +11,7 @@ type Props = {
 
 const Header: NextPage<Props> = ({ username, photo }) => {
   const pathname = usePathname();
-
-  let title = '';
-  switch (true) {
-    case pathname === '/dashboard':
-      title = 'Početna';
-      break;
-    case pathname === '/profile':
-      title = 'Profil';
-      break;
-    case pathname.includes('/user-profile'):
-      title = 'Podaci o korisniku';
-      break;
-  }
+  const title = resolvePageTitle(pathname);
 
   return (
     <>
