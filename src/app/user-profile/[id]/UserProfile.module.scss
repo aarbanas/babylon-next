@@ -122,6 +122,8 @@
 		}
 	}
 
+	// with this feature we can have thead and tbody in one table row on small screens
+	// attr data-label added to each td element in tsx file
 	td::before {
 		content: attr(data-label);
 		font-weight: 700;
