@@ -77,19 +77,19 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>{user.userAttributes.firstname}</td>
+                  <td data-label="Ime">{user.userAttributes.firstname}</td>
                 </tr>
                 <tr>
-                  <td>{user.userAttributes.lastname}</td>
+                  <td data-label="Prezime">{user.userAttributes.lastname}</td>
                 </tr>
                 <tr>
-                  <td>{user.userAttributes.city}</td>
+                  <td data-label="Grad">{user.userAttributes.city}</td>
                 </tr>
                 <tr>
-                  <td>{user.email}</td>
+                  <td data-label="Email">{user.email}</td>
                 </tr>
                 <tr>
-                  <td>{user.userAttributes.phone}</td>
+                  <td data-label="Telefon">{user.userAttributes.phone}</td>
                 </tr>
               </tbody>
             </table>
