@@ -69,6 +69,7 @@
 	}
 
 	table {
+		table-layout: fixed;
 		width: 100%;
 	}
 
@@ -108,9 +109,6 @@
 	td {
 		display: block;
 		padding: 10px;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		overflow: hidden;
 
 		@media only screen and (min-width: 450px) {
 			display: table-cell;
