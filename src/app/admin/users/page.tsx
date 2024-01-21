@@ -164,7 +164,7 @@ const UsersIcon = (props: TSVGElementProps) => {
   );
 };
 
-function ListIcon(props: TSVGElementProps) {
+const ListIcon = (props: TSVGElementProps) => {
   return (
     <svg
       {...props}
@@ -185,9 +185,9 @@ function ListIcon(props: TSVGElementProps) {
       <line x1="3" x2="3.01" y1="18" y2="18" />
     </svg>
   );
-}
+};
 
-function SearchIcon(props: TSVGElementProps) {
+const SearchIcon = (props: TSVGElementProps) => {
   return (
     <svg
       {...props}
@@ -204,6 +204,6 @@ function SearchIcon(props: TSVGElementProps) {
       <path d="m21 21-4.3-4.3" />
     </svg>
   );
-}
+};
 
 export default UserList;
