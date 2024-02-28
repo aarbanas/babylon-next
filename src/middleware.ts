@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { authRoutes, protectedRoutes } from '@/routes/routes';
+import { authAdminRoutes, authRoutes, protectedRoutes } from '@/routes/routes';
 import jwt_decode from 'jwt-decode';
 
 export function middleware(request: NextRequest) {
   const currentUser = request.cookies.get('currentUser')?.value;
-  console.log(request.nextUrl.pathname);
+
   if (
     protectedRoutes.includes(request.nextUrl.pathname) &&
     (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
@@ -32,6 +32,10 @@ export function middleware(request: NextRequest) {
     response.cookies.delete('currentUser');
 
     return response;
+  }
+
+  if (authAdminRoutes.includes(request.nextUrl.pathname) && currentUser) {
+    return NextResponse.redirect(new URL('/admin/users', request.url));
   }
 }
 
