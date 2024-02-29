@@ -44,7 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
     "commitizen": "^4.3.0",
-    "eslint": "^8.45.0",
+    "eslint": "^8.57.0",
     "eslint-config-next": "^13.4.11",
     "eslint-plugin-react-hooks": "^5.0.0-canary-7118f5dd7-20230705",
     "husky": "^8.0.0",
