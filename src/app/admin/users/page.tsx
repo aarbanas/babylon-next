@@ -23,17 +23,22 @@ import {
   PaginationContent,
   Pagination,
 } from '@/components/ui/pagination';
-import { SVGProps, useEffect } from 'react';
+import { SVGProps, useEffect, useState } from 'react';
 import findUsers from '@/services/user/find';
+import { UserDto } from '@/services/user/dto/user.dto';
+import { CheckCircle2, XCircle } from 'lucide-react';
 
 type TSVGElementProps = SVGProps<SVGSVGElement>;
 
 const UserList = () => {
+  const [users, setUsers] = useState<UserDto[] | null>(null);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const data = await findUsers();
-        console.log(data);
+
+        setUsers(data.data);
       } catch (e) {
         console.log(e);
       }
@@ -96,34 +101,47 @@ const UserList = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[80px]">ID</TableHead>
-                  <TableHead className="max-w-[150px]">Username</TableHead>
                   <TableHead className="hidden md:table-cell">Email</TableHead>
+                  <TableHead className="hidden md:table-cell">
+                    First Name
+                  </TableHead>
+                  <TableHead className="hidden md:table-cell">
+                    Last Name
+                  </TableHead>
                   <TableHead className="hidden md:table-cell">Role</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>1</TableCell>
-                  <TableCell className="font-medium">JohnDoe</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    johndoe@example.com
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">Admin</TableCell>
-                  <TableCell>Active</TableCell>
-                  <TableCell>
-                    <Button size="sm" variant="outline">
-                      View
-                    </Button>
-                    <Button className="ml-2" size="sm" variant="outline">
-                      Edit
-                    </Button>
-                    <Button className="ml-2" size="sm" variant="outline">
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
+                {users?.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>{user.id}</TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {user.email}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {user.userAttributes.firstname}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {user.userAttributes.lastname}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {user.role}
+                    </TableCell>
+                    <TableCell>
+                      {user.active ? <CheckCircle2 /> : <XCircle />}
+                    </TableCell>
+                    <TableCell>
+                      <Button className="ml-2" size="sm" variant="outline">
+                        Edit
+                      </Button>
+                      <Button className="ml-2" size="sm" variant="outline">
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </div>
