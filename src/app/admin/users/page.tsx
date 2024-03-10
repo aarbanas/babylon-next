@@ -15,13 +15,9 @@ import {
   Table,
 } from '@/components/ui/table';
 import {
-  PaginationPrevious,
-  PaginationItem,
-  PaginationLink,
-  PaginationEllipsis,
-  PaginationNext,
   PaginationContent,
   Pagination,
+  PaginationPages,
 } from '@/components/ui/pagination';
 import { SVGProps, useEffect, useState } from 'react';
 import findUsers from '@/services/user/find';
@@ -32,20 +28,24 @@ type TSVGElementProps = SVGProps<SVGSVGElement>;
 
 const UserList = () => {
   const [users, setUsers] = useState<UserDto[] | null>(null);
+  const [page, setPage] = useState<number>(0);
+  const [totalPageNumber, setTotalPageNumber] = useState<number>(1);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const data = await findUsers();
+        const data = await findUsers({ page });
 
         setUsers(data.data);
+        setTotalPageNumber(Math.ceil(data.meta.count / data.meta.take));
       } catch (e) {
         console.log(e);
       }
     };
 
     fetchUsers();
-  }, []);
+  }, [page]);
+
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-gray-100/40 lg:block">
@@ -147,26 +147,19 @@ const UserList = () => {
           </div>
           <Pagination>
             <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
+              <PaginationPages
+                totalPageNumber={totalPageNumber}
+                currentPage={page + 1}
+                onChangePage={(pageNumber) => setPage(pageNumber)}
+                onPreviousPage={() => {
+                  if (page === 0) return;
+                  setPage(page - 1);
+                }}
+                onNextPage={() => {
+                  if (page === totalPageNumber - 1) return;
+                  setPage(page + 1);
+                }}
+              />
             </PaginationContent>
           </Pagination>
         </main>
