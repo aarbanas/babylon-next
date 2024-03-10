@@ -27,7 +27,7 @@ import { CheckCircle2, XCircle } from 'lucide-react';
 type TSVGElementProps = SVGProps<SVGSVGElement>;
 
 const UserList = () => {
-  const [users, setUsers] = useState<UserDto[] | null>(null);
+  const [users, setUsers] = useState<UserDto[]>([]);
   const [page, setPage] = useState<number>(0);
   const [totalPageNumber, setTotalPageNumber] = useState<number>(1);
 
@@ -114,7 +114,7 @@ const UserList = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {users?.map((user) => (
+                {users.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell>{user.id}</TableCell>
                     <TableCell className="hidden md:table-cell">
