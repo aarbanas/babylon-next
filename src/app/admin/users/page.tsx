@@ -131,11 +131,21 @@ const UserList = () => {
                       <ArrowUpDown size={16} />
                     </div>
                   </TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    First Name
+                  <TableHead
+                    className="hidden md:table-cell cursor-pointer"
+                    onClick={() => sortUsers('userAttributes.firstname')}>
+                    <div className="flex justify-between">
+                      First Name
+                      <ArrowUpDown size={16} />
+                    </div>
                   </TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Last Name
+                  <TableHead
+                    className="hidden md:table-cell cursor-pointer"
+                    onClick={() => sortUsers('userAttributes.lastname')}>
+                    <div className="flex justify-between">
+                      Last Name
+                      <ArrowUpDown size={16} />
+                    </div>
                   </TableHead>
                   <TableHead
                     className="hidden md:table-cell cursor-pointer"
