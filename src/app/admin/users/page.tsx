@@ -20,21 +20,26 @@ import {
   PaginationPages,
 } from '@/components/ui/pagination';
 import { SVGProps, useEffect, useState } from 'react';
-import findUsers from '@/services/user/find';
+import findUsers, { Sort } from '@/services/user/find';
 import { UserDto } from '@/services/user/dto/user.dto';
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { ArrowUpDown, CheckCircle2, XCircle } from 'lucide-react';
 
 type TSVGElementProps = SVGProps<SVGSVGElement>;
 
 const UserList = () => {
   const [users, setUsers] = useState<UserDto[]>([]);
   const [page, setPage] = useState<number>(0);
+  const [sort, setSort] = useState<Sort>({ id: 'asc' });
   const [totalPageNumber, setTotalPageNumber] = useState<number>(1);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const data = await findUsers({ page });
+        const data = await findUsers({
+          page,
+          sort: Object.keys(sort)[0],
+          dir: Object.values(sort)[0],
+        });
 
         setUsers(data.data);
         setTotalPageNumber(Math.ceil(data.meta.count / data.meta.take));
@@ -44,7 +49,17 @@ const UserList = () => {
     };
 
     fetchUsers();
-  }, [page]);
+  }, [page, sort]);
+
+  const sortUsers = (key: string) => {
+    if (sort[key]) {
+      setSort({ [key]: sort[key] === 'asc' ? 'desc' : 'asc' });
+      return;
+    }
+
+    const _sort: Sort = { [key]: 'asc' };
+    setSort(_sort);
+  };
 
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
@@ -100,15 +115,36 @@ const UserList = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[80px]">ID</TableHead>
-                  <TableHead className="hidden md:table-cell">Email</TableHead>
+                  <TableHead
+                    className="w-[80px] cursor-pointer"
+                    onClick={() => sortUsers('id')}>
+                    <div className="flex justify-between">
+                      ID
+                      <ArrowUpDown size={16} />
+                    </div>
+                  </TableHead>
+                  <TableHead
+                    className="hidden md:table-cell cursor-pointer align-middle grid-cols-1"
+                    onClick={() => sortUsers('email')}>
+                    <div className="flex justify-between">
+                      Email
+                      <ArrowUpDown size={16} />
+                    </div>
+                  </TableHead>
                   <TableHead className="hidden md:table-cell">
                     First Name
                   </TableHead>
                   <TableHead className="hidden md:table-cell">
                     Last Name
                   </TableHead>
-                  <TableHead className="hidden md:table-cell">Role</TableHead>
+                  <TableHead
+                    className="hidden md:table-cell cursor-pointer"
+                    onClick={() => sortUsers('role')}>
+                    <div className="flex justify-between">
+                      Role
+                      <ArrowUpDown size={16} />
+                    </div>
+                  </TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
