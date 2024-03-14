@@ -11,9 +11,9 @@ import { translateUserTypes } from '@/utils/translateUserTypes';
 import Link from 'next/link';
 
 enum FilterKey {
-  FIRSTNAME = 'firstname',
-  LASTNAME = 'lastname',
-  CITY = 'city',
+  FIRSTNAME = 'userAttributes.firstname',
+  LASTNAME = 'userAttributes.lastname',
+  CITY = 'userAttributes.city',
 }
 
 const Dashboard: React.FC = () => {

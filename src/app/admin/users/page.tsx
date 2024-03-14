@@ -19,10 +19,11 @@ import {
   Pagination,
   PaginationPages,
 } from '@/components/ui/pagination';
-import { SVGProps, useEffect, useState } from 'react';
+import React, { SVGProps, useEffect, useRef, useState } from 'react';
 import findUsers, { Sort } from '@/services/user/find';
 import { UserDto } from '@/services/user/dto/user.dto';
 import { ArrowUpDown, CheckCircle2, XCircle } from 'lucide-react';
+import { debounce } from 'lodash';
 
 type TSVGElementProps = SVGProps<SVGSVGElement>;
 
@@ -30,6 +31,7 @@ const UserList = () => {
   const [users, setUsers] = useState<UserDto[]>([]);
   const [page, setPage] = useState<number>(0);
   const [sort, setSort] = useState<Sort>({ id: 'asc' });
+  const [filter, setFilter] = useState<string>('');
   const [totalPageNumber, setTotalPageNumber] = useState<number>(1);
 
   useEffect(() => {
@@ -39,6 +41,7 @@ const UserList = () => {
           page,
           sort: Object.keys(sort)[0],
           dir: Object.values(sort)[0],
+          ...(filter && { filter: { email: filter } }),
         });
 
         setUsers(data.data);
@@ -49,7 +52,7 @@ const UserList = () => {
     };
 
     fetchUsers();
-  }, [page, sort]);
+  }, [page, sort, filter]);
 
   const sortUsers = (key: string) => {
     if (sort[key]) {
@@ -59,6 +62,17 @@ const UserList = () => {
 
     const _sort: Sort = { [key]: 'asc' };
     setSort(_sort);
+  };
+
+  const debounceSearch = useRef(
+    debounce((criteria) => {
+      setFilter(criteria);
+      setPage(0);
+    }, 500)
+  ).current;
+
+  const searchText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debounceSearch(e.target.value);
   };
 
   return (
@@ -100,8 +114,9 @@ const UserList = () => {
                 <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
                 <Input
                   className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3"
-                  placeholder="Search users..."
+                  placeholder="Search users by email..."
                   type="search"
+                  onChange={searchText}
                 />
               </div>
             </form>
@@ -155,7 +170,14 @@ const UserList = () => {
                       <ArrowUpDown size={16} />
                     </div>
                   </TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead
+                    className="hidden md:table-cell cursor-pointer"
+                    onClick={() => sortUsers('active')}>
+                    <div className="flex justify-between">
+                      Status
+                      <ArrowUpDown size={16} />
+                    </div>
+                  </TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
