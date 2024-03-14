@@ -44,20 +44,18 @@ const PaginationPages: React.FC<PaginationProps> = ({
   return (
     <>
       <PaginationItem onClick={() => onPreviousPage()}>
-        <PaginationPrevious href="#" />
+        <PaginationPrevious />
       </PaginationItem>
 
       {Array.from({ length: totalPageNumber }, (_, i) => i).map(
         (num, index) => (
-          <>
-            <PaginationItem
-              key={index}
-              onClick={() => onChangePage(Number(num))}>
+          <React.Fragment key={index}>
+            <PaginationItem onClick={() => onChangePage(Number(num))}>
               <PaginationLink isActive={currentPage === num + 1}>
                 {num + 1}
               </PaginationLink>
             </PaginationItem>
-          </>
+          </React.Fragment>
         )
       )}
 
@@ -68,7 +66,7 @@ const PaginationPages: React.FC<PaginationProps> = ({
       )}
 
       <PaginationItem onClick={() => onNextPage()}>
-        <PaginationNext href="#" />
+        <PaginationNext />
       </PaginationItem>
     </>
   );
