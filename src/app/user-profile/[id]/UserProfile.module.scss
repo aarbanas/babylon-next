@@ -1,151 +1,151 @@
 .container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 0 20px 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 20px 0 10px;
 
-	@media only screen and (min-width: 250px) {
-		margin: 0 40px 0 0;
-	}
+  @media only screen and (min-width: 250px) {
+    margin: 0 40px 0 0;
+  }
 
-	@media only screen and (min-width: 450px) {
-		margin: 0 50px 0 0;
-	}
+  @media only screen and (min-width: 450px) {
+    margin: 0 50px 0 0;
+  }
 
-	@media only screen and (min-width: 768px) {
-		flex-direction: row;
-		align-items: flex-start;
-		margin: 0 50px 0 50px;
-	}
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 0 50px 0 50px;
+  }
 }
 
 .userCard {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	margin-bottom: 20px;
-	gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+  gap: 20px;
 
-	@media only screen and (min-width: 768px) {
-		width: 30%;
-		margin-bottom: 0;
-	}
+  @media only screen and (min-width: 768px) {
+    width: 30%;
+    margin-bottom: 0;
+  }
 
-	.userTitle {
-		font-size: 24px;
-		font-weight: 400;
-		line-height: 30px;
+  .userTitle {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 30px;
 
-		@media only screen and (min-width: 768px) {
-			font-size: 32px;
-			font-weight: 500;
-			line-height: 38px;
-		}
-	}
+    @media only screen and (min-width: 768px) {
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 38px;
+    }
+  }
 
-	.userInfo {
-		font-size: 16px;
-		font-weight: 200;
-		line-height: 20px;
+  .userInfo {
+    font-size: 16px;
+    font-weight: 200;
+    line-height: 20px;
 
-		@media only screen and (min-width: 768px) {
-			font-size: 20px;
-			font-weight: 300;
-			line-height: 26px;
-		}
-	}
+    @media only screen and (min-width: 768px) {
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 26px;
+    }
+  }
 }
 
 .userDetails {
-	width: 100%;
-	height: 100%;
-	margin: 0 30px;
-	border: 1px solid #030303;
-	background-color: #f0f0f0;
+  width: 100%;
+  height: 100%;
+  margin: 0 30px;
+  border: 1px solid #030303;
+  background-color: #f0f0f0;
 
-	@media only screen and (min-width: 768px) {
-		width: 70%;
-	}
+  @media only screen and (min-width: 768px) {
+    width: 70%;
+  }
 
-	table {
-		table-layout: fixed;
-		width: 100%;
-	}
+  table {
+    table-layout: fixed;
+    width: 100%;
+  }
 
-	thead {
-		display: none;
-		width: 50%;
-		text-align: left;
+  thead {
+    display: none;
+    width: 50%;
+    text-align: left;
 
-		@media only screen and (min-width: 450px) {
-			display: inline-block;
-		}
-	}
+    @media only screen and (min-width: 450px) {
+      display: inline-block;
+    }
+  }
 
-	tbody {
-		display: inline-block;
-		width: 100%;
+  tbody {
+    display: inline-block;
+    width: 100%;
 
-		@media only screen and (min-width: 450px) {
-			width: 50%;
-		}
-	}
+    @media only screen and (min-width: 450px) {
+      width: 50%;
+    }
+  }
 
-	th {
-		display: none;
-		padding: 10px;
+  th {
+    display: none;
+    padding: 10px;
 
-		@media only screen and (min-width: 450px) {
-			display: table-cell;
-			padding: 20px;
-		}
+    @media only screen and (min-width: 450px) {
+      display: table-cell;
+      padding: 20px;
+    }
 
-		@media only screen and (min-width: 768px) {
-			padding: 30px;
-		}
-	}
+    @media only screen and (min-width: 768px) {
+      padding: 30px;
+    }
+  }
 
-	td {
-		display: block;
-		padding: 10px;
+  td {
+    display: block;
+    padding: 10px;
 
-		@media only screen and (min-width: 450px) {
-			display: table-cell;
-			padding: 20px;
-		}
+    @media only screen and (min-width: 450px) {
+      display: table-cell;
+      padding: 20px;
+    }
 
-		@media only screen and (min-width: 768px) {
-			padding: 30px;
-		}
-	}
+    @media only screen and (min-width: 768px) {
+      padding: 30px;
+    }
+  }
 
-	// with this feature we can have thead and tbody in one table row on small screens
-	// attr data-label added to each td element in tsx file
-	td::before {
-		content: attr(data-label);
-		font-weight: 700;
-		display: block;
+  // with this feature we can have thead and tbody in one table row on small screens
+  // attr data-label added to each td element in tsx file
+  td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    display: block;
 
-		@media only screen and (min-width: 450px) {
-			display: none;
-		}
-	}
+    @media only screen and (min-width: 450px) {
+      display: none;
+    }
+  }
 
-	.certificate {
-		border-top: 1px solid #030303;
-		padding: 10px 10px;
+  .certificate {
+    border-top: 1px solid #030303;
+    padding: 10px 10px;
 
-		@media only screen and (min-width: 450px) {
-			padding: 20px 20px;
-		}
+    @media only screen and (min-width: 450px) {
+      padding: 20px 20px;
+    }
 
-		@media only screen and (min-width: 768px) {
-			padding: 30px 30px;
-		}
+    @media only screen and (min-width: 768px) {
+      padding: 30px 30px;
+    }
 
-		.title {
-			font-weight: 700;
-		}
-	}
+    .title {
+      font-weight: 700;
+    }
+  }
 }

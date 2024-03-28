@@ -28,7 +28,7 @@ const Profile: NextPage = () => {
   return (
     <>
       <DashboardLayout>
-        <div className="px-20 relative">
+        <div className="relative px-20">
           <NavigationTabs>
             <Link href="/profile" className="flex items-center">
               <HiPencil className="mr-2" size={24} />

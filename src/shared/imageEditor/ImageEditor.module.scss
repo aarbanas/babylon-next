@@ -1,12 +1,12 @@
 .container {
-  @apply bg-white max-w-full;
+  @apply max-w-full bg-white;
   height: auto !important;
 }
 
 .settingsRow {
-  @apply flex items-center py-3 w-full;
+  @apply flex w-full items-center py-3;
 }
 
 .slider {
-  @apply w-full mx-3;
+  @apply mx-3 w-full;
 }

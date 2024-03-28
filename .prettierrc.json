@@ -5,12 +5,9 @@
   "singleQuote": true,
   "printWidth": 80,
   "bracketSameLine": true,
-  "importOrder": [
-    "<THIRD_PARTY_MODULES>",
-    "^components/(.*)$",
-    "^[./]"
-  ],
+  "importOrder": ["<THIRD_PARTY_MODULES>", "^components/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

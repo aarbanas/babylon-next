@@ -40,8 +40,8 @@ const Login: NextPage = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row justify-center items-center h-full sm:p-0 md:p-6 lg:p-8">
-        <div className="flex flex-col items-center w-2/5">
+      <div className="flex h-full flex-col items-center justify-center sm:p-0 md:flex-row md:p-6 lg:p-8">
+        <div className="flex w-2/5 flex-col items-center">
           <Image
             src="/login_page.png"
             alt="Login image"
@@ -51,16 +51,16 @@ const Login: NextPage = () => {
             height={100}
           />
           <div
-            className="flex justify-start cursor-pointer"
+            className="flex cursor-pointer justify-start"
             onClick={() => router.push('/')}>
-            <div className="w-8 h-8">
+            <div className="h-8 w-8">
               <Back />
             </div>
             <span className="ml-2 flex items-center">Povratak</span>
           </div>
         </div>
 
-        <div className="flex flex-col w-3/5 items-center">
+        <div className="flex w-3/5 flex-col items-center">
           <form
             className="mt-6 w-full md:w-3/5"
             onSubmit={handleSubmit(onSubmit)}>
@@ -73,21 +73,21 @@ const Login: NextPage = () => {
               <input
                 {...register('username', { required: true })}
                 type="email"
-                className="block w-full px-4 py-2 mt-3 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="mt-3 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
               />
             </div>
             <div className="mb-2">
-              <label className="block text-sm font-light text-gray-500 mt-1">
+              <label className="mt-1 block text-sm font-light text-gray-500">
                 Lozinka
               </label>
               <input
                 {...register('password', { required: true })}
                 type="password"
-                className="block w-full px-4 py-2 mt-3 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="mt-3 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
               />
             </div>
 
-            <a href="#" className="text-xs underline hover:text-red-700 mt-3">
+            <a href="#" className="mt-3 text-xs underline hover:text-red-700">
               Zaboravljena Lozinka?
             </a>
 
@@ -102,7 +102,7 @@ const Login: NextPage = () => {
               </Button>
             </div>
 
-            <p className="mt-4 md:mt-8 mb-6 md:mb-0 text-xs font-light text-center text-gray-700">
+            <p className="mb-6 mt-4 text-center text-xs font-light text-gray-700 md:mb-0 md:mt-8">
               {' '}
               Nemaš račun?{' '}
               <a

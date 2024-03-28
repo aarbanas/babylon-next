@@ -1,11 +1,11 @@
 .overlay {
   @apply fixed left-0 top-0 z-40;
   @apply h-full w-full overflow-hidden backdrop-blur-md;
-  @apply flex justify-center items-center;
+  @apply flex items-center justify-center;
 }
 
 .content {
-  @apply relative bg-white flex flex-col shadow-lg;
-  @apply px-10 py-5 rounded-md;
+  @apply relative flex flex-col bg-white shadow-lg;
+  @apply rounded-md px-10 py-5;
   max-width: calc(100% - 2rem);
 }
