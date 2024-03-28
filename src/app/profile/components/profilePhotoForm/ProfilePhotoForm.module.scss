@@ -1,5 +1,5 @@
 .container {
-  @apply relative h-20 w-20 rounded-full mb-10;
+  @apply relative mb-10 h-20 w-20 rounded-full;
 }
 
 .profilePhotoPreview {
@@ -12,6 +12,6 @@
 }
 
 .changePhotoButton {
-  @apply flex justify-center items-center cursor-pointer;
-  @apply absolute right-0 bottom-0 rounded-full h-6 w-6 text-white bg-black;
+  @apply flex cursor-pointer items-center justify-center;
+  @apply absolute bottom-0 right-0 h-6 w-6 rounded-full bg-black text-white;
 }

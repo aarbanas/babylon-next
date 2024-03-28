@@ -44,8 +44,8 @@ const Register: NextPage = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center h-full sm:p-0 md:p-6 lg:p-8">
-        <div className="flex flex-col items-center w-2/5">
+      <div className="flex h-full flex-col items-center sm:p-0 md:flex-row md:p-6 lg:p-8">
+        <div className="flex w-2/5 flex-col items-center">
           <Image
             src="/login_page.png"
             alt="Login image"
@@ -55,9 +55,9 @@ const Register: NextPage = () => {
             height={100}
           />
           <div
-            className="flex justify-start cursor-pointer"
+            className="flex cursor-pointer justify-start"
             onClick={() => router.push('/')}>
-            <div className="w-8 h-8">
+            <div className="h-8 w-8">
               <Back />
             </div>
             <span className="ml-2 flex items-center">Povratak</span>
@@ -66,7 +66,7 @@ const Register: NextPage = () => {
 
         <div
           className={
-            'flex flex-col w-3/5 h-full items-center flex-wrap ' +
+            'flex h-full w-3/5 flex-col flex-wrap items-center ' +
             (role ? '' : 'justify-center')
           }>
           <form
@@ -82,7 +82,7 @@ const Register: NextPage = () => {
               <div className="relative">
                 <select
                   {...register('role', { required: true })}
-                  className="block appearance-none w-full bg-white border-gray-300 rounded-xl text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:ring focus:ring-opacity-40 focus:border-gray-300-red-400 focus:ring-red-300"
+                  className="focus:border-gray-300-red-400 block w-full appearance-none rounded-xl border-gray-300 bg-white px-4 py-3 pr-8 leading-tight text-gray-700 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
                   id="grid-state"
                   defaultValue={'DEFAULT'}>
                   <option value="DEFAULT" disabled>
@@ -105,7 +105,7 @@ const Register: NextPage = () => {
               <input
                 {...register('email', { required: true })}
                 type="email"
-                className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
               />
             </div>
 
@@ -116,7 +116,7 @@ const Register: NextPage = () => {
               <input
                 {...register('password', { required: true })}
                 type="password"
-                className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
               />
             </div>
 
@@ -133,7 +133,7 @@ const Register: NextPage = () => {
                   },
                 })}
                 type="password"
-                className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
               />
             </div>
 
@@ -145,7 +145,7 @@ const Register: NextPage = () => {
                 <input
                   {...register('city', { required: true })}
                   type="text"
-                  className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                  className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
                 />
               </div>
             )}
@@ -160,7 +160,7 @@ const Register: NextPage = () => {
                   <div className="relative">
                     <select
                       {...register('type')}
-                      className="block appearance-none w-full bg-white border-gray-300 rounded-xl text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:ring focus:ring-opacity-40 focus:border-red-400 focus:ring-red-300"
+                      className="block w-full appearance-none rounded-xl border-gray-300 bg-white px-4 py-3 pr-8 leading-tight text-gray-700 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
                       id="grid-state"
                       defaultValue={'DEFAULT'}>
                       <option value="DEFAULT" disabled>
@@ -182,7 +182,7 @@ const Register: NextPage = () => {
                   <input
                     {...register('firstname')}
                     type="text"
-                    className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
                   />
                 </div>
 
@@ -193,7 +193,7 @@ const Register: NextPage = () => {
                   <input
                     {...register('lastname')}
                     type="text"
-                    className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
                   />
                 </div>
 
@@ -204,7 +204,7 @@ const Register: NextPage = () => {
                   <input
                     {...register('phone')}
                     type="text"
-                    className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
                   />
                 </div>
               </div>
@@ -219,7 +219,7 @@ const Register: NextPage = () => {
                   <input
                     {...register('name')}
                     type="text"
-                    className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
                   />
                 </div>
 
@@ -230,7 +230,7 @@ const Register: NextPage = () => {
                   <input
                     {...register('street')}
                     type="text"
-                    className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
                   />
                 </div>
 
@@ -241,7 +241,7 @@ const Register: NextPage = () => {
                   <input
                     {...register('oib')}
                     type="text"
-                    className="block w-full px-4 py-2 mt-2 bg-white border-gray-300 rounded-xl focus:border-red-400 focus:ring-red-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="mt-2 block w-full rounded-xl border-gray-300 bg-white px-4 py-2 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40"
                   />
                 </div>
               </div>
@@ -258,7 +258,7 @@ const Register: NextPage = () => {
               </Button>
             </div>
 
-            <p className="mt-6 mb-6 text-xs font-light text-center text-gray-700">
+            <p className="mb-6 mt-6 text-center text-xs font-light text-gray-700">
               {' '}
               Već imaš račun?{' '}
               <a

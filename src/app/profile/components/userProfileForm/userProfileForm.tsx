@@ -97,11 +97,11 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
           </FormSelect>
         </div>
         <div className="flex">
-          <div className="w-full mt-6 sm:mt-0">
+          <div className="mt-6 w-full sm:mt-0">
             <Button
               color="primary"
               showLoader={isSubmitting}
-              className="bg-black text-white !text-base"
+              className="bg-black !text-base text-white"
               type="submit"
               full>
               <span>Spremi promjene</span>

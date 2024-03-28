@@ -1,24 +1,22 @@
 {
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "extends": [
-        "eslint:recommended",
-        "next/core-web-vitals",
-        "plugin:react-hooks/recommended",
-        "plugin:@typescript-eslint/recommended"
-    ],
-    "rules": {
-        "@typescript-eslint/no-unused-vars": "error",
-        "@typescript-eslint/no-explicit-any": "error",
-        "no-console": "warn",
-        "react/self-closing-comp": [
-            "error",
-            {
-                "component": true,
-                "html": true
-            }
-        ]
-    }
+  "plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "next/core-web-vitals",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "no-console": "warn",
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": true,
+        "html": true
+      }
+    ]
+  }
 }

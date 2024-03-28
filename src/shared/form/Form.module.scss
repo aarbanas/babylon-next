@@ -1,7 +1,7 @@
 .container {
-  @apply flex flex-col w-full sm:gap-10;
+  @apply flex w-full flex-col sm:gap-10;
 }
 
 .error {
-  @apply text-red-700 text-xs;
+  @apply text-xs text-red-700;
 }

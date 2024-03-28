@@ -19,13 +19,21 @@ import {
   Pagination,
   PaginationPages,
 } from '@/components/ui/pagination';
-import React, { SVGProps, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import findUsers, { Sort } from '@/services/user/find';
 import { UserDto } from '@/services/user/dto/user.dto';
-import { ArrowUpDown, CheckCircle2, XCircle } from 'lucide-react';
+import {
+  ArrowUpDown,
+  Building,
+  CheckCircle2,
+  SearchIcon,
+  Users,
+  XCircle,
+} from 'lucide-react';
 import { debounce } from 'lodash';
-
-type TSVGElementProps = SVGProps<SVGSVGElement>;
+import NewNavbar from '@/components/ui/navbar/navbar';
+import { fontColors } from '@/utils';
+import Header from '@/components/ui/header/Header';
 
 const UserList = () => {
   const [users, setUsers] = useState<UserDto[]>([]);
@@ -77,43 +85,18 @@ const UserList = () => {
 
   return (
     <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-gray-100/40 lg:block">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-[60px] items-center border-b px-6">
-            <Link className="flex items-center gap-2 font-semibold" href="#">
-              <span className="">User Management</span>
-            </Link>
-          </div>
-          <div className="flex-1 overflow-auto py-2">
-            <nav className="grid items-start px-4 text-sm font-medium">
-              <Link
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900"
-                href="#">
-                <UsersIcon className="h-4 w-4" />
-                User List
-              </Link>
-              <Link
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900"
-                href="#">
-                <ListIcon className="h-4 w-4" />
-                Organisation list
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </div>
+      <NewNavbar title="UserManagement">
+        <AdminUserNavigation />
+      </NewNavbar>
+
       <div className="flex flex-col">
-        <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6">
-          <Link className="lg:hidden" href="#">
-            <UsersIcon className="h-6 w-6" />
-            <span className="sr-only">Home</span>
-          </Link>
-          <div className="w-full flex-1">
+        <Header>
+          <div className="w-full">
             <form>
               <div className="relative">
                 <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
                 <Input
-                  className="w-full bg-white shadow-none appearance-none pl-8 md:w-2/3 lg:w-1/3"
+                  className="w-full appearance-none bg-white pl-8 shadow-none md:w-2/3 lg:w-1/3"
                   placeholder="Search users by email..."
                   type="search"
                   onChange={searchText}
@@ -121,12 +104,13 @@ const UserList = () => {
               </div>
             </form>
           </div>
-        </header>
+        </Header>
+
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="flex items-center">
-            <h1 className="font-semibold text-lg md:text-2xl">User List</h1>
+            <h1 className="text-lg font-semibold md:text-2xl">User List</h1>
           </div>
-          <div className="border shadow-sm rounded-lg">
+          <div className="rounded-lg border shadow-sm">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -139,7 +123,7 @@ const UserList = () => {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="hidden md:table-cell cursor-pointer align-middle grid-cols-1"
+                    className="cursor-pointer grid-cols-1 align-middle md:table-cell"
                     onClick={() => sortUsers('email')}>
                     <div className="flex justify-between">
                       Email
@@ -147,7 +131,7 @@ const UserList = () => {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="hidden md:table-cell cursor-pointer"
+                    className="hidden cursor-pointer md:table-cell"
                     onClick={() => sortUsers('userAttributes.firstname')}>
                     <div className="flex justify-between">
                       First Name
@@ -155,7 +139,7 @@ const UserList = () => {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="hidden md:table-cell cursor-pointer"
+                    className="hidden cursor-pointer md:table-cell"
                     onClick={() => sortUsers('userAttributes.lastname')}>
                     <div className="flex justify-between">
                       Last Name
@@ -163,7 +147,7 @@ const UserList = () => {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="hidden md:table-cell cursor-pointer"
+                    className="hidden cursor-pointer md:table-cell"
                     onClick={() => sortUsers('role')}>
                     <div className="flex justify-between">
                       Role
@@ -171,7 +155,7 @@ const UserList = () => {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="hidden md:table-cell cursor-pointer"
+                    className="hidden cursor-pointer md:table-cell"
                     onClick={() => sortUsers('active')}>
                     <div className="flex justify-between">
                       Status
@@ -185,7 +169,7 @@ const UserList = () => {
                 {users.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell>{user.id}</TableCell>
-                    <TableCell className="hidden md:table-cell">
+                    <TableCell className="md:table-cell">
                       {user.email}
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
@@ -197,7 +181,7 @@ const UserList = () => {
                     <TableCell className="hidden md:table-cell">
                       {user.role}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden md:table-cell">
                       {user.active ? <CheckCircle2 /> : <XCircle />}
                     </TableCell>
                     <TableCell>
@@ -236,66 +220,22 @@ const UserList = () => {
   );
 };
 
-const UsersIcon = (props: TSVGElementProps) => {
+const AdminUserNavigation = () => {
   return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round">
-      <path d="M16 21v-2a4 4 0 0-4-4H6a4 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M22 21v-2a4 4 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 1 7.75" />
-    </svg>
-  );
-};
-
-const ListIcon = (props: TSVGElementProps) => {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round">
-      <line x1="8" x2="21" y1="6" y2="6" />
-      <line x1="8" x2="21" y1="12" y2="12" />
-      <line x1="8" x2="21" y1="18" y2="18" />
-      <line x1="3" x2="3.01" y1="6" y2="6" />
-      <line x1="3" x2="3.01" y1="12" y2="12" />
-      <line x1="3" x2="3.01" y1="18" y2="18" />
-    </svg>
-  );
-};
-
-const SearchIcon = (props: TSVGElementProps) => {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round">
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
+    <nav className="grid items-start text-sm font-medium lg:px-4">
+      <Link
+        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${fontColors.primary} transition-all hover:text-gray-900`}
+        href="#">
+        <Users />
+        User List
+      </Link>
+      <Link
+        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${fontColors.primary} transition-all hover:text-gray-900`}
+        href="#">
+        <Building />
+        Organisation list
+      </Link>
+    </nav>
   );
 };
 

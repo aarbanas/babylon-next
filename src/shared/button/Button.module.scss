@@ -1,11 +1,11 @@
 .root {
-  @apply px-3 md:px-4 lg:px-6 text-xl md:text-xl relative overflow-hidden rounded-3xl h-12;
+  @apply relative h-12 overflow-hidden rounded-3xl px-3 text-xl md:px-4 md:text-xl lg:px-6;
 }
 
 .primary {
-  @apply bg-primary-color text-secondary-color border-0;
+  @apply border-0 bg-primary-color text-secondary-color;
 }
 
 .secondary {
-  @apply bg-secondary-color text-primary-color border border-primary-color;
+  @apply border border-primary-color bg-secondary-color text-primary-color;
 }

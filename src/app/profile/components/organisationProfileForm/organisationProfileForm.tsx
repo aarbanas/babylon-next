@@ -23,10 +23,10 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<UpdateOrganizationFields>({
     defaultValues: {
-      city: userData.organisationAttributes.city ?? '',
-      name: userData.organisationAttributes.name ?? '',
-      oib: userData.organisationAttributes.oib ?? '',
-      street: userData.organisationAttributes.street ?? '',
+      city: userData.organisationAttributes?.city ?? '',
+      name: userData.organisationAttributes?.name ?? '',
+      oib: userData.organisationAttributes?.oib ?? '',
+      street: userData.organisationAttributes?.street ?? '',
     },
   });
 
@@ -80,11 +80,11 @@ const OrganisationProfileForm: FC<Props> = ({ userData }) => {
           />
         </div>
         <div className="flex">
-          <div className="w-full mt-6 sm:mt-0">
+          <div className="mt-6 w-full sm:mt-0">
             <Button
               color="primary"
               showLoader={isSubmitting}
-              className="bg-black text-white !text-base"
+              className="bg-black !text-base text-white"
               type="submit"
               full>
               <span>Spremi promjene</span>
