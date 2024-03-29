@@ -15,14 +15,20 @@ const NewNavbarMenuDrawer: NextPage<Props> = ({
   color = 'primary',
 }) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
+  const [menu, setMenu] = useState<boolean>(false);
 
   return !showMenu ? (
-    <button aria-label="Open menu" onClick={() => setShowMenu(true)}>
+    <button
+      aria-label="Open menu"
+      onClick={() => {
+        setShowMenu(true);
+        setMenu(true);
+      }}>
       <Menu />
     </button>
   ) : (
     <div
-      className={styles.menu}
+      className={`${menu ? styles.menu : styles.menuClosing}`}
       style={{ backgroundColor: backgroundColors[color] }}>
       <div className={styles.header}>
         <div className={styles.headerContent}>
@@ -30,7 +36,8 @@ const NewNavbarMenuDrawer: NextPage<Props> = ({
           <div
             className={'cursor-pointer'}
             onClick={() => {
-              setShowMenu(false);
+              setMenu(false);
+              setTimeout(() => setShowMenu(false), 500);
             }}>
             <X />
           </div>
