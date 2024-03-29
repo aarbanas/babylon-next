@@ -1,6 +1,6 @@
 export const backgroundColors = {
   primary: 'rgb(243 244 246)',
-  secondary: 'rgb(222 51 51)',
+  secondary: 'rgb(255,81,81)',
 };
 
 export const fontColors = {
