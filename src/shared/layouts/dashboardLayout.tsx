@@ -32,10 +32,12 @@ const DashboardLayout: NextPage<PropsWithChildren> = ({
                 <Image
                   src={user.profilePhoto || '/user-icon.png'}
                   alt="User profile picture"
-                  width={40}
-                  height={40}
+                  width={24}
+                  height={24}
                 />
-                <span className="content-center">Pozdrav, {user.email}</span>
+                <span className="ml-2 content-center text-xs md:text-base">
+                  Pozdrav, {user.email}
+                </span>
               </div>
             )}
           </Header>
@@ -52,13 +54,13 @@ const DashboardNavigation = () => {
     <nav className="grid items-start text-sm font-medium lg:px-4">
       <Link
         className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 ${fontColors.secondary}`}
-        href="dashboard">
+        href="/dashboard">
         <HomeIcon />
         Početna
       </Link>
       <Link
         className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 ${fontColors.secondary}`}
-        href="profile">
+        href="/profile">
         <UserRoundCog />
         Profil
       </Link>
