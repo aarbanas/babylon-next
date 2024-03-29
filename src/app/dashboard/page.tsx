@@ -1,47 +1,55 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import style from './Dashboard.module.scss';
-import findUsers from '@/services/user/find';
+import findUsers, { Sort } from '@/services/user/find';
 import Image from 'next/image';
 import { UserDto } from '@/services/user/dto/user.dto';
-import { PaginationMetadata } from '@/services/user/dto/findUsers.dto';
 import { debounce } from 'lodash';
 import DashboardLayout from '@/shared/layouts/dashboardLayout';
 import { translateUserTypes } from '@/utils/translateUserTypes';
 import Link from 'next/link';
-
-enum FilterKey {
-  FIRSTNAME = 'userAttributes.firstname',
-  LASTNAME = 'userAttributes.lastname',
-  CITY = 'userAttributes.city',
-}
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationPages,
+} from '@/components/ui/pagination';
+import { ArrowUpDown, SearchIcon } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 const Dashboard: React.FC = () => {
   const [page, setPage] = useState<number>(0);
   const [filter, setFilter] = useState<string>('');
-  const [filterKey, setFilterKey] = useState<string | null>(null);
-  const [users, setUsers] = useState<UserDto[] | null>(null);
-  const [metadata, setMetadata] = useState<PaginationMetadata | null>(null);
+  const [users, setUsers] = useState<UserDto[]>([]);
+  const [totalPageNumber, setTotalPageNumber] = useState<number>(1);
   const [isLoading, setLoading] = useState(true);
+  const [sort, setSort] = useState<Sort>({ id: 'asc' });
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const data = await findUsers({
           page,
-          filter: filter && filterKey ? { [filterKey]: filter } : undefined,
+          sort: Object.keys(sort)[0],
+          dir: Object.values(sort)[0],
+          ...(filter && {
+            filter: {
+              'userAttributes.firstname': filter,
+              'userAttributes.lastname': filter,
+              'userAttributes.city': filter,
+            },
+          }),
         });
-        setUsers((prevState) => {
-          if (filter || !prevState?.length) return data.data;
 
-          data.data.forEach((user) => {
-            const userIndex = prevState.findIndex(({ id }) => id === user.id);
-            if (userIndex < 0) prevState.push(user);
-          });
-
-          return prevState;
-        });
-        setMetadata(data.meta);
+        setUsers(data.data);
+        setTotalPageNumber(Math.ceil(data.meta.count / data.meta.take));
         setLoading(false);
       } catch (e) {
         setLoading(false);
@@ -49,7 +57,7 @@ const Dashboard: React.FC = () => {
     };
 
     fetchUsers();
-  }, [page, filter, filterKey]);
+  }, [page, filter, sort]);
 
   const debounceSearch = useRef(
     debounce((criteria) => {
@@ -61,105 +69,120 @@ const Dashboard: React.FC = () => {
     debounceSearch(e.target.value);
   }
 
-  if (isLoading) return <DashboardLayout>Loading...</DashboardLayout>;
+  const sortUsers = (key: string) => {
+    if (sort[key]) {
+      setSort({ [key]: sort[key] === 'asc' ? 'desc' : 'asc' });
+      return;
+    }
 
-  function changePage() {
-    setPage((prevState) => prevState + 1);
-  }
+    const _sort: Sort = { [key]: 'asc' };
+    setSort(_sort);
+  };
+
+  if (isLoading) return <DashboardLayout>Loading...</DashboardLayout>;
 
   return (
     <>
       <DashboardLayout>
-        <div className={style.container}>
-          <>
-            <div className={style.header}>
-              <div className={style.users}>
-                <span>{metadata?.count ?? 0}</span>
-                <span>{metadata?.count !== 1 ? 'Korisnika' : 'Korisnik'}</span>
-              </div>
-              <div className={style.filter}>
-                <select
-                  id="grid-state"
-                  defaultValue={'DEFAULT'}
-                  onChange={(choice) => {
-                    setFilterKey(choice.target.value);
-                    setPage(0);
-                  }}>
-                  <option value="DEFAULT" disabled>
-                    Pretraži po
-                  </option>
-                  <option value={FilterKey.FIRSTNAME}>Ime</option>
-                  <option value={FilterKey.LASTNAME}>Prezime</option>
-                  <option value={FilterKey.CITY}>Grad</option>
-                </select>
-                <input
-                  type="text"
-                  placeholder={
-                    filterKey ? 'Pretraga korisnika' : 'Odaberi iz izbornika'
-                  }
-                  onChange={searchText}
-                  disabled={!filterKey}
-                />
-              </div>
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+          <div className="flex items-center">
+            <h1 className="text-lg font-semibold md:text-2xl">Početna</h1>
+            <div className="ml-5 flex w-80 md:ml-auto">
+              <form className="ml-3 w-full">
+                <div className="relative">
+                  <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                  <Input
+                    className="w-full appearance-none bg-white pl-8 shadow-none"
+                    placeholder="Traži po imenu/prezimenu/gradu"
+                    type="search"
+                    onChange={searchText}
+                  />
+                </div>
+              </form>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Profilna slika</th>
-                  <th>Korisničko ime</th>
-                  <th>Lokacija</th>
-                  <th>Pogledaj profil</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users?.map((user) => (
-                  <tr key={user.id}>
-                    <td>
+          </div>
+          <div className="rounded-lg border shadow-sm">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[150px] grid-cols-1 align-middle md:table-cell">
+                    Profilna slika
+                  </TableHead>
+                  <TableHead className="md:table-cell">Ime i prezime</TableHead>
+                  <TableHead
+                    className="cursor-pointer md:table-cell"
+                    onClick={() => sortUsers('userAttributes.type')}>
+                    <div className="flex justify-between">
+                      Zanimanje
+                      <ArrowUpDown size={16} />
+                    </div>
+                  </TableHead>
+                  <TableHead
+                    className="cursor-pointer md:table-cell"
+                    onClick={() => sortUsers('userAttributes.city')}>
+                    <div className="flex justify-between">
+                      Lokacija
+                      <ArrowUpDown size={16} />
+                    </div>
+                  </TableHead>
+                  <TableHead className="md:table-cell">
+                    Pogledaj profil
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {users.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell>
                       <Image
                         src={user.profilePhoto || '/user-icon.png'}
                         style={{ borderRadius: '100000px' }}
                         alt="User profile picture"
-                        width={48}
-                        height={48}
+                        width={24}
+                        height={24}
                       />
-                    </td>
-                    <td>
-                      <div className={style.usernameCell}>
-                        <span className={style.userName}>
-                          {user.userAttributes.firstname +
-                            ' ' +
-                            user.userAttributes.lastname}{' '}
-                        </span>
-                        <span className={style.userTitle}>
-                          {translateUserTypes(user.userAttributes.type)}
-                        </span>
-                      </div>
-                    </td>
-                    <td className={style.userCity}>
+                    </TableCell>
+                    <TableCell className="md:table-cell">
+                      {user.userAttributes.firstname +
+                        ' ' +
+                        user.userAttributes.lastname}{' '}
+                    </TableCell>
+                    <TableCell className="md:table-cell">
+                      {translateUserTypes(user.userAttributes.type)}
+                    </TableCell>
+                    <TableCell className="md:table-cell">
                       {user.userAttributes.city}
-                    </td>
-                    <td>
-                      <button color={'secondary'}>
+                    </TableCell>
+                    <TableCell>
+                      <Button className="ml-2" size="sm" variant="outline">
                         <Link href={`/user-profile/${user.id}`}>
                           Pregledaj profil
                         </Link>
-                      </button>
-                    </td>
-                  </tr>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-            {users && metadata && (
-              <>
-                {users.length < metadata.count && (
-                  <div className={style.loadMore}>
-                    <button onClick={changePage}>Učitaj još</button>
-                  </div>
-                )}
-              </>
-            )}
-          </>
-        </div>
+              </TableBody>
+            </Table>
+          </div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationPages
+                totalPageNumber={totalPageNumber}
+                currentPage={page + 1}
+                onChangePage={(pageNumber) => setPage(pageNumber)}
+                onPreviousPage={() => {
+                  if (page === 0) return;
+                  setPage(page - 1);
+                }}
+                onNextPage={() => {
+                  if (page === totalPageNumber - 1) return;
+                  setPage(page + 1);
+                }}
+              />
+            </PaginationContent>
+          </Pagination>
+        </main>
       </DashboardLayout>
     </>
   );
