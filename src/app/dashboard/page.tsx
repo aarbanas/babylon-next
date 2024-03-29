@@ -53,6 +53,7 @@ const Dashboard: React.FC = () => {
         setLoading(false);
       } catch (e) {
         setLoading(false);
+        setUsers([]);
       }
     };
 
