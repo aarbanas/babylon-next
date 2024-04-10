@@ -15,11 +15,11 @@ import ProfilePhotoForm from './components/profilePhotoForm/ProfilePhotoForm';
 import OrganisationProfileForm from './components/organisationProfileForm/organisationProfileForm';
 
 const profileUpdateFormFactory = (role: Role, userSession: UserDto) => {
-  if (role === Role.USER) {
-    return <UserProfileForm userData={userSession} />;
+  if (role === Role.ORGANISATION) {
+    return <OrganisationProfileForm userData={userSession} />;
   }
 
-  return <OrganisationProfileForm userData={userSession} />;
+  return <UserProfileForm userData={userSession} />;
 };
 
 const Profile: NextPage = () => {

@@ -55,7 +55,7 @@ const UserList = () => {
         setUsers(data.data);
         setTotalPageNumber(Math.ceil(data.meta.count / data.meta.take));
       } catch (e) {
-        console.log(e);
+        setUsers([]);
       }
     };
 

@@ -19,27 +19,31 @@ const DashboardLayout: NextPage<PropsWithChildren> = ({
   return (
     <>
       <div className="flex">
-        <div className="grid min-h-screen lg:grid-cols-[280px_1fr]">
-          <NewNavbar title="Dobrodošli" color="secondary">
-            <DashboardNavigation />
-          </NewNavbar>
-        </div>
+        <div className="flex min-h-screen w-full flex-col lg:flex-row">
+          <div className="lg:w-1/5">
+            <NewNavbar title="Dobrodošli" color="secondary">
+              <DashboardNavigation />
+            </NewNavbar>
+          </div>
 
-        <div className="flex w-full flex-col">
-          <Header color="secondary">
-            {user && (
-              <div className="flex align-middle sm:ml-auto">
-                <Image
-                  src={user.profilePhoto || '/user-icon.png'}
-                  alt="User profile picture"
-                  width={40}
-                  height={40}
-                />
-                <span className="content-center">Pozdrav, {user.email}</span>
-              </div>
-            )}
-          </Header>
-          {children}
+          <div className="flex w-full flex-col lg:w-4/5">
+            <Header color="secondary">
+              {user && (
+                <div className="flex align-middle sm:ml-auto">
+                  <Image
+                    src={user.profilePhoto || '/user-icon.png'}
+                    alt="User profile picture"
+                    width={24}
+                    height={24}
+                  />
+                  <span className="ml-2 content-center text-xs md:text-base">
+                    Pozdrav, {user.email}
+                  </span>
+                </div>
+              )}
+            </Header>
+            {children}
+          </div>
         </div>
       </div>
       <ToastContainer />
@@ -52,13 +56,13 @@ const DashboardNavigation = () => {
     <nav className="grid items-start text-sm font-medium lg:px-4">
       <Link
         className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 ${fontColors.secondary}`}
-        href="dashboard">
+        href="/dashboard">
         <HomeIcon />
         Početna
       </Link>
       <Link
         className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-gray-900 ${fontColors.secondary}`}
-        href="profile">
+        href="/profile">
         <UserRoundCog />
         Profil
       </Link>
