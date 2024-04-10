@@ -80,15 +80,21 @@ const Dashboard: React.FC = () => {
     setSort(_sort);
   };
 
+  const onRowClick = (id: number) => {
+    if (window.innerWidth < 768) {
+      window.location.href = `/user-profile/${id}`;
+    }
+  };
+
   if (isLoading) return <DashboardLayout>Loading...</DashboardLayout>;
 
   return (
     <>
       <DashboardLayout>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-          <div className="flex items-center">
+          <div className="flex flex-col items-center md:flex-row">
             <h1 className="text-lg font-semibold md:text-2xl">Početna</h1>
-            <div className="ml-5 flex w-80 md:ml-auto">
+            <div className="flex w-72 sm:w-80 md:ml-auto">
               <form className="ml-3 w-full">
                 <div className="relative">
                   <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
@@ -119,21 +125,24 @@ const Dashboard: React.FC = () => {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="cursor-pointer md:table-cell"
+                    className="hidden cursor-pointer md:table-cell"
                     onClick={() => sortUsers('userAttributes.city')}>
                     <div className="flex justify-between">
                       Lokacija
                       <ArrowUpDown size={16} />
                     </div>
                   </TableHead>
-                  <TableHead className="md:table-cell">
+                  <TableHead className="hidden md:table-cell">
                     Pogledaj profil
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {users.map((user) => (
-                  <TableRow key={user.id}>
+                  <TableRow
+                    key={user.id}
+                    className="cursor-pointer md:cursor-auto"
+                    onClick={() => onRowClick(user.id)}>
                     <TableCell>
                       <Image
                         src={user.profilePhoto || '/user-icon.png'}
@@ -151,10 +160,10 @@ const Dashboard: React.FC = () => {
                     <TableCell className="md:table-cell">
                       {translateUserTypes(user.userAttributes.type)}
                     </TableCell>
-                    <TableCell className="md:table-cell">
+                    <TableCell className="hidden md:table-cell">
                       {user.userAttributes.city}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden md:table-cell">
                       <Button className="ml-2" size="sm" variant="outline">
                         <Link href={`/user-profile/${user.id}`}>
                           Pregledaj profil
