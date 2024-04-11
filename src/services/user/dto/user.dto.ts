@@ -8,6 +8,8 @@ export type UserDto = {
   active: boolean;
   role: Role;
   profilePhoto?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type UserAttributesDto = {

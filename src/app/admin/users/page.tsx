@@ -186,7 +186,7 @@ const UserList = () => {
                     </TableCell>
                     <TableCell>
                       <Button className="ml-2" size="sm" variant="outline">
-                        Edit
+                        <Link href={`users/profile/${user.id}`}>Edit</Link>
                       </Button>
                       <Button className="ml-2" size="sm" variant="outline">
                         Delete
