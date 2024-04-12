@@ -9,4 +9,5 @@ export type UpdateUserProfile = {
   name: string;
   street: string;
   oib: string;
+  active?: boolean;
 };
