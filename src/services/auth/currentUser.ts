@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 type TokenPayload = {
   username: string;
@@ -23,7 +23,7 @@ export const useCurrentUser = () => {
     const currentUser = Cookies.get('currentUser');
     if (currentUser) {
       const user = JSON.parse(currentUser);
-      const decodedToken: TokenPayload = jwt_decode(user.accessToken);
+      const decodedToken: TokenPayload = jwtDecode(user.accessToken);
 
       setUser({ ...user, ...decodedToken });
     }

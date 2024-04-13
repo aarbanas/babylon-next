@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { authAdminRoutes, authRoutes, protectedRoutes } from '@/routes/routes';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export function middleware(request: NextRequest) {
   const currentUser = request.cookies.get('currentUser')?.value;
@@ -40,7 +40,7 @@ export function middleware(request: NextRequest) {
 }
 
 const getRoleFromJWT = (token: string) => {
-  const decodedToken = jwt_decode<{ role: string }>(token);
+  const decodedToken = jwtDecode<{ role: string }>(token);
   if (!decodedToken) return null;
 
   return decodedToken.role;
