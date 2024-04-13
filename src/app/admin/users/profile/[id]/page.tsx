@@ -9,7 +9,16 @@ import { Label } from '@/components/ui/label';
 import { translateUserTypes } from '@/utils';
 import * as Switch from '@radix-ui/react-switch';
 import updateUser from '@/services/user/update';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import AdminLayout from '@/shared/layouts/adminLayout';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 interface Props {
   params: { id: string };
@@ -56,9 +65,9 @@ const UserProfile: React.FC<Props> = ({ params }) => {
   if (!user) return null;
 
   return (
-    <>
+    <AdminLayout headerChildren={<h1>Update user profile</h1>}>
       <div className="flex">
-        <Card className="w-full max-w-3xl">
+        <Card className="w-1/3">
           <CardHeader>
             <CardTitle className="text-lg">Profile</CardTitle>
             <p className="text-sm leading-none text-gray-500">
@@ -172,9 +181,55 @@ const UserProfile: React.FC<Props> = ({ params }) => {
             </div>
           </CardContent>
         </Card>
+        <Card className="w-2/3">
+          <CardHeader>
+            <CardTitle className="text-lg">Certificates</CardTitle>
+            <p className="text-sm leading-none text-gray-500">
+              List user attached certificates.
+            </p>
+          </CardHeader>
+
+          <CardContent className="space-y-4">
+            <div className="rounded-lg border shadow-sm">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[80px]">ID</TableHead>
+                    <TableHead className="hidden md:table-cell">Type</TableHead>
+                    <TableHead className="hidden md:table-cell">Key</TableHead>
+                    <TableHead className="hidden md:table-cell">
+                      Valid till
+                    </TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {user.userAttributes?.certificates?.map((certificate) => (
+                    <TableRow key={certificate.id}>
+                      <TableCell>{certificate.id}</TableCell>
+                      <TableCell className="md:table-cell">
+                        {certificate.type}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {certificate.key}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {getFullYear(certificate.validTill.toString())}
+                      </TableCell>
+                      <TableCell>
+                        <Button className="ml-2" size="sm" variant="outline">
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-      <ToastContainer />
-    </>
+    </AdminLayout>
   );
 };
 

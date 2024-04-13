@@ -24,7 +24,7 @@ const NewNavbar: React.FC<Props> = ({ title, children, color = 'primary' }) => {
       <div
         className="hidden h-full border-r lg:block"
         style={{ backgroundColor: `${backgroundColors[color]}` }}>
-        <div className="flex h-full max-h-screen flex-col gap-2">
+        <div className="flex h-full flex-col gap-2">
           <div className="flex h-[60px] items-center border-b px-6">
             <span className="flex items-center gap-2 font-semibold">
               <span style={{ color: fontColors[color] }}>{title}</span>

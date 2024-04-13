@@ -19,6 +19,7 @@ export type UserAttributesDto = {
   city: string;
   phone: string;
   type: Type;
+  certificates?: Certificate[];
 };
 
 type OrganisationAttributesDto = {
@@ -27,4 +28,13 @@ type OrganisationAttributesDto = {
   street: string;
   city: string;
   oib: string;
+};
+
+type Certificate = {
+  id: number;
+  type: 'UNIVERSITY' | 'REDCROSS';
+  validTill: Date;
+  key: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

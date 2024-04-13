@@ -22,18 +22,9 @@ import {
 import React, { useEffect, useRef, useState } from 'react';
 import findUsers, { Sort } from '@/services/user/find';
 import { UserDto } from '@/services/user/dto/user.dto';
-import {
-  ArrowUpDown,
-  Building,
-  CheckCircle2,
-  SearchIcon,
-  Users,
-  XCircle,
-} from 'lucide-react';
+import { ArrowUpDown, CheckCircle2, SearchIcon, XCircle } from 'lucide-react';
 import { debounce } from 'lodash';
-import NewNavbar from '@/components/ui/navbar/navbar';
-import { fontColors } from '@/utils';
-import Header from '@/components/ui/header/Header';
+import AdminLayout from '@/shared/layouts/adminLayout';
 
 const UserList = () => {
   const [users, setUsers] = useState<UserDto[]>([]);
@@ -84,158 +75,137 @@ const UserList = () => {
   };
 
   return (
-    <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
-      <NewNavbar title="UserManagement">
-        <AdminUserNavigation />
-      </NewNavbar>
-
-      <div className="flex flex-col">
-        <Header>
-          <div className="w-full">
-            <form>
-              <div className="relative">
-                <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                <Input
-                  className="w-full appearance-none bg-white pl-8 shadow-none md:w-2/3 lg:w-1/3"
-                  placeholder="Search users by email..."
-                  type="search"
-                  onChange={searchText}
-                />
-              </div>
-            </form>
-          </div>
-        </Header>
-
-        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-          <div className="flex items-center">
-            <h1 className="text-lg font-semibold md:text-2xl">User List</h1>
-          </div>
-          <div className="rounded-lg border shadow-sm">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead
-                    className="w-[80px] cursor-pointer"
-                    onClick={() => sortUsers('id')}>
-                    <div className="flex justify-between">
-                      ID
-                      <ArrowUpDown size={16} />
-                    </div>
-                  </TableHead>
-                  <TableHead
-                    className="cursor-pointer grid-cols-1 align-middle md:table-cell"
-                    onClick={() => sortUsers('email')}>
-                    <div className="flex justify-between">
-                      Email
-                      <ArrowUpDown size={16} />
-                    </div>
-                  </TableHead>
-                  <TableHead
-                    className="hidden cursor-pointer md:table-cell"
-                    onClick={() => sortUsers('userAttributes.firstname')}>
-                    <div className="flex justify-between">
-                      First Name
-                      <ArrowUpDown size={16} />
-                    </div>
-                  </TableHead>
-                  <TableHead
-                    className="hidden cursor-pointer md:table-cell"
-                    onClick={() => sortUsers('userAttributes.lastname')}>
-                    <div className="flex justify-between">
-                      Last Name
-                      <ArrowUpDown size={16} />
-                    </div>
-                  </TableHead>
-                  <TableHead
-                    className="hidden cursor-pointer md:table-cell"
-                    onClick={() => sortUsers('role')}>
-                    <div className="flex justify-between">
-                      Role
-                      <ArrowUpDown size={16} />
-                    </div>
-                  </TableHead>
-                  <TableHead
-                    className="hidden cursor-pointer md:table-cell"
-                    onClick={() => sortUsers('active')}>
-                    <div className="flex justify-between">
-                      Status
-                      <ArrowUpDown size={16} />
-                    </div>
-                  </TableHead>
-                  <TableHead>Actions</TableHead>
+    <AdminLayout headerChildren={<AdminUserHeader searchText={searchText} />}>
+      <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+        <div className="flex items-center">
+          <h1 className="text-lg font-semibold md:text-2xl">User List</h1>
+        </div>
+        <div className="rounded-lg border shadow-sm">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead
+                  className="w-[80px] cursor-pointer"
+                  onClick={() => sortUsers('id')}>
+                  <div className="flex justify-between">
+                    ID
+                    <ArrowUpDown size={16} />
+                  </div>
+                </TableHead>
+                <TableHead
+                  className="cursor-pointer grid-cols-1 align-middle md:table-cell"
+                  onClick={() => sortUsers('email')}>
+                  <div className="flex justify-between">
+                    Email
+                    <ArrowUpDown size={16} />
+                  </div>
+                </TableHead>
+                <TableHead
+                  className="hidden cursor-pointer md:table-cell"
+                  onClick={() => sortUsers('userAttributes.firstname')}>
+                  <div className="flex justify-between">
+                    First Name
+                    <ArrowUpDown size={16} />
+                  </div>
+                </TableHead>
+                <TableHead
+                  className="hidden cursor-pointer md:table-cell"
+                  onClick={() => sortUsers('userAttributes.lastname')}>
+                  <div className="flex justify-between">
+                    Last Name
+                    <ArrowUpDown size={16} />
+                  </div>
+                </TableHead>
+                <TableHead
+                  className="hidden cursor-pointer md:table-cell"
+                  onClick={() => sortUsers('role')}>
+                  <div className="flex justify-between">
+                    Role
+                    <ArrowUpDown size={16} />
+                  </div>
+                </TableHead>
+                <TableHead
+                  className="hidden cursor-pointer md:table-cell"
+                  onClick={() => sortUsers('active')}>
+                  <div className="flex justify-between">
+                    Status
+                    <ArrowUpDown size={16} />
+                  </div>
+                </TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.id}</TableCell>
+                  <TableCell className="md:table-cell">{user.email}</TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {user.userAttributes.firstname}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {user.userAttributes.lastname}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {user.role}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell">
+                    {user.active ? <CheckCircle2 /> : <XCircle />}
+                  </TableCell>
+                  <TableCell>
+                    <Button className="ml-2" size="sm" variant="outline">
+                      <Link href={`users/profile/${user.id}`}>Edit</Link>
+                    </Button>
+                    <Button className="ml-2" size="sm" variant="outline">
+                      Delete
+                    </Button>
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.id}</TableCell>
-                    <TableCell className="md:table-cell">
-                      {user.email}
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {user.userAttributes.firstname}
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {user.userAttributes.lastname}
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {user.role}
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      {user.active ? <CheckCircle2 /> : <XCircle />}
-                    </TableCell>
-                    <TableCell>
-                      <Button className="ml-2" size="sm" variant="outline">
-                        <Link href={`users/profile/${user.id}`}>Edit</Link>
-                      </Button>
-                      <Button className="ml-2" size="sm" variant="outline">
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-          <Pagination>
-            <PaginationContent>
-              <PaginationPages
-                totalPageNumber={totalPageNumber}
-                currentPage={page + 1}
-                onChangePage={(pageNumber) => setPage(pageNumber)}
-                onPreviousPage={() => {
-                  if (page === 0) return;
-                  setPage(page - 1);
-                }}
-                onNextPage={() => {
-                  if (page === totalPageNumber - 1) return;
-                  setPage(page + 1);
-                }}
-              />
-            </PaginationContent>
-          </Pagination>
-        </main>
-      </div>
-    </div>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationPages
+              totalPageNumber={totalPageNumber}
+              currentPage={page + 1}
+              onChangePage={(pageNumber) => setPage(pageNumber)}
+              onPreviousPage={() => {
+                if (page === 0) return;
+                setPage(page - 1);
+              }}
+              onNextPage={() => {
+                if (page === totalPageNumber - 1) return;
+                setPage(page + 1);
+              }}
+            />
+          </PaginationContent>
+        </Pagination>
+      </main>
+    </AdminLayout>
   );
 };
 
-const AdminUserNavigation = () => {
+type AdminUserHeaderProps = {
+  searchText: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+const AdminUserHeader: React.FC<AdminUserHeaderProps> = ({ searchText }) => {
   return (
-    <nav className="grid items-start text-sm font-medium lg:px-4">
-      <Link
-        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${fontColors.primary} transition-all hover:text-gray-900`}
-        href="#">
-        <Users />
-        User List
-      </Link>
-      <Link
-        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${fontColors.primary} transition-all hover:text-gray-900`}
-        href="#">
-        <Building />
-        Organisation list
-      </Link>
-    </nav>
+    <div className="w-full">
+      <form>
+        <div className="relative">
+          <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+          <Input
+            className="w-full appearance-none bg-white pl-8 shadow-none md:w-2/3 lg:w-1/3"
+            placeholder="Search users by email..."
+            type="search"
+            onChange={searchText}
+          />
+        </div>
+      </form>
+    </div>
   );
 };
 
