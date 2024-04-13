@@ -19,6 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   params: { id: string };
@@ -29,6 +30,7 @@ const UserProfile: React.FC<Props> = ({ params }) => {
   const [isLoading, setLoading] = useState(true);
   const [active, setActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -66,8 +68,8 @@ const UserProfile: React.FC<Props> = ({ params }) => {
 
   return (
     <AdminLayout headerChildren={<h1>Update user profile</h1>}>
-      <div className="flex">
-        <Card className="w-1/3">
+      <div className="flex flex-col md:flex-row">
+        <Card className="w-full md:w-1/3">
           <CardHeader>
             <CardTitle className="text-lg">Profile</CardTitle>
             <p className="text-sm leading-none text-gray-500">
@@ -175,13 +177,16 @@ const UserProfile: React.FC<Props> = ({ params }) => {
               <Button size="sm" onClick={_updateUser} disabled={isSubmitting}>
                 Save
               </Button>
-              <Button size="sm" variant="outline">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => router.push('/admin/users')}>
                 Cancel
               </Button>
             </div>
           </CardContent>
         </Card>
-        <Card className="w-2/3">
+        <Card className="w-full md:w-2/3">
           <CardHeader>
             <CardTitle className="text-lg">Certificates</CardTitle>
             <p className="text-sm leading-none text-gray-500">
