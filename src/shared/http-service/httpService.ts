@@ -32,6 +32,11 @@ export const patch = async <T>(
   return data;
 };
 
+export const deleteRequest = async <T>(path: string) => {
+  const { data } = await http.delete<T>(generateUrl(path));
+  return data;
+};
+
 http.interceptors.request.use((config) => {
   const currentUser = Cookies.get('currentUser');
   if (currentUser)
