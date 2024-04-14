@@ -25,6 +25,9 @@ import { UserDto } from '@/services/user/dto/user.dto';
 import { ArrowUpDown, CheckCircle2, SearchIcon, XCircle } from 'lucide-react';
 import { debounce } from 'lodash';
 import AdminLayout from '@/shared/layouts/adminLayout';
+import AlertDialog from '@/components/ui/alertDialog';
+import { toast } from 'react-toastify';
+import deleteUser from '@/services/user/delete';
 
 const UserList = () => {
   const [users, setUsers] = useState<UserDto[]>([]);
@@ -32,6 +35,8 @@ const UserList = () => {
   const [sort, setSort] = useState<Sort>({ id: 'asc' });
   const [filter, setFilter] = useState<string>('');
   const [totalPageNumber, setTotalPageNumber] = useState<number>(1);
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -72,6 +77,18 @@ const UserList = () => {
 
   const searchText = (e: React.ChangeEvent<HTMLInputElement>) => {
     debounceSearch(e.target.value);
+  };
+
+  const _deleteUser = async (id: number) => {
+    try {
+      await deleteUser(id.toString());
+      setUsers(users.filter((user) => user.id !== id));
+      toast('User profile deleted', { type: 'success' });
+    } catch (e) {
+      toast('Something went wrong. Please try again', { type: 'error' });
+    } finally {
+      setDialogOpen(false);
+    }
   };
 
   return (
@@ -156,9 +173,24 @@ const UserList = () => {
                     <Button className="ml-2" size="sm" variant="outline">
                       <Link href={`users/profile/${user.id}`}>Edit</Link>
                     </Button>
-                    <Button className="ml-2" size="sm" variant="outline">
+                    <Button
+                      className="ml-2"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        setUserIdToDelete(user.id);
+                        setDialogOpen(true);
+                      }}>
                       Delete
                     </Button>
+                    {isDialogOpen && (
+                      <AlertDialog
+                        title="Delete User"
+                        message={`Are you sure you want to delete user ID: ${userIdToDelete}.`}
+                        onClose={() => setDialogOpen(false)}
+                        onConfirm={() => _deleteUser(userIdToDelete!)}
+                      />
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
