@@ -1,11 +1,13 @@
 import { APIs, get } from '@/shared/http-service/httpService';
 import { FindUsersDto } from '@/services/user/dto/findUsers.dto';
+import { Role } from '@/app/register/types';
 
 export type Sort = {
   [key: string]: 'asc' | 'desc';
 };
 
 type FindUsersQueryData = {
+  type: Role;
   page?: number;
   limit?: number;
   sort?: string;
@@ -13,7 +15,7 @@ type FindUsersQueryData = {
   filter?: object;
 };
 
-const findUsers = async (data?: FindUsersQueryData) => {
+const findUsers = async (data: FindUsersQueryData) => {
   const searchParams = new URLSearchParams();
 
   if (data) {
@@ -21,6 +23,7 @@ const findUsers = async (data?: FindUsersQueryData) => {
     if (data.limit) searchParams.append(`limit`, data.limit.toString());
     if (data.sort) searchParams.append(`sort`, data.sort);
     if (data.dir) searchParams.append(`dir`, data.dir);
+    if (data.type) searchParams.append(`type`, data.type);
     if (data.filter) {
       Object.entries(data.filter).forEach(([key, value]) => {
         searchParams.append(`filter[${key}]`, value);

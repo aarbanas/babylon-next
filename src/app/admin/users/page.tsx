@@ -7,16 +7,16 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableCell,
-  TableBody,
   Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui/table';
 import {
-  PaginationContent,
   Pagination,
+  PaginationContent,
   PaginationPages,
 } from '@/components/ui/pagination';
 import React, { useEffect, useRef, useState } from 'react';
@@ -28,6 +28,7 @@ import AdminLayout from '@/shared/layouts/adminLayout';
 import { toast } from 'react-toastify';
 import deleteUser from '@/services/user/delete';
 import Modal from '@/shared/modal/Modal';
+import { Role } from '@/app/register/types';
 
 const UserList = () => {
   const [users, setUsers] = useState<UserDto[]>([]);
@@ -45,6 +46,7 @@ const UserList = () => {
           page,
           sort: Object.keys(sort)[0],
           dir: Object.values(sort)[0],
+          type: Role.USER,
           ...(filter && { filter: { email: filter } }),
         });
 
