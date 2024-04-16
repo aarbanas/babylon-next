@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/pagination';
 import { ArrowUpDown, SearchIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Role } from '@/app/register/types';
 
 const Dashboard: React.FC = () => {
   const [page, setPage] = useState<number>(0);
@@ -39,6 +40,7 @@ const Dashboard: React.FC = () => {
           page,
           sort: Object.keys(sort)[0],
           dir: Object.values(sort)[0],
+          type: Role.USER,
           ...(filter && {
             filter: {
               'userAttributes.firstname': filter,
