@@ -262,7 +262,7 @@ const Register: NextPage = () => {
               {' '}
               Već imaš račun?{' '}
               <a
-                href="/login"
+                href="/"
                 className="font-medium text-primary-color hover:underline">
                 Prijava
               </a>
