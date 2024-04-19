@@ -6,13 +6,14 @@ import { FieldError } from '../form/Form';
 interface FormInputProps extends ComponentProps<'input'> {
   id: string;
   label: string;
+  className?: string;
 }
 
 const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
-  ({ id, label, type = 'text', ...props }, ref) => {
+  ({ id, label, type = 'text', className, ...props }, ref) => {
     return (
       <div className={styles.container}>
-        <label htmlFor={id} className={styles.label}>
+        <label htmlFor={id} className={className || styles.label}>
           {label}
         </label>
         <input
