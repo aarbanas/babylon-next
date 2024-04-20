@@ -1,9 +1,8 @@
 'use client';
 import AdminLayout from '@/shared/layouts/adminLayout';
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { ArrowUpDown, CheckCircle2, SearchIcon, XCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { debounce } from 'lodash';
 import {
   Table,
   TableBody,
@@ -15,81 +14,30 @@ import {
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Modal from '@/shared/modal/Modal';
-import findUsers, { Sort } from '@/services/user/find';
-import { UserDto } from '@/services/user/dto/user.dto';
-import deleteUser from '@/services/user/delete';
-import { toast } from 'react-toastify';
 import { Role } from '@/app/register/types';
 import {
   Pagination,
   PaginationContent,
   PaginationPages,
 } from '@/components/ui/pagination';
+import { useUserList } from '@/services/auth/useUserList';
 
 const Organisations = () => {
-  const [organisations, setOrganisations] = useState<UserDto[]>([]);
-  const [page, setPage] = useState<number>(0);
-  const [sort, setSort] = useState<Sort>({ id: 'asc' });
-  const [filter, setFilter] = useState<string>('');
-  const [totalPageNumber, setTotalPageNumber] = useState<number>(1);
-  const [isDialogOpen, setDialogOpen] = useState(false);
-  const [organisationIdToDelete, setOrganistionIdToDelete] = useState<
-    number | null
-  >(null);
-
-  useEffect(() => {
-    const fetchOrganisations = async () => {
-      try {
-        const data = await findUsers({
-          page,
-          sort: Object.keys(sort)[0],
-          dir: Object.values(sort)[0],
-          type: Role.ORGANISATION,
-          ...(filter && { filter: { email: filter } }),
-        });
-
-        setOrganisations(data.data);
-        setTotalPageNumber(Math.ceil(data.meta.count / data.meta.take));
-      } catch (e) {
-        setOrganisations([]);
-      }
-    };
-
-    fetchOrganisations();
-  }, [filter, page, sort]);
-
-  const sortOrganisations = (key: string) => {
-    if (sort[key]) {
-      setSort({ [key]: sort[key] === 'asc' ? 'desc' : 'asc' });
-      return;
-    }
-
-    const _sort: Sort = { [key]: 'asc' };
-    setSort(_sort);
-  };
-
-  const debounceSearch = useRef(
-    debounce((criteria) => {
-      setFilter(criteria);
-      setPage(0);
-    }, 500)
-  ).current;
-
-  const searchText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debounceSearch(e.target.value);
-  };
-
-  const deleteOrganisation = async (id: number) => {
-    try {
-      await deleteUser(id.toString());
-      setOrganisations(organisations.filter((org) => org.id !== id));
-      toast('Organisation profile deleted', { type: 'success' });
-    } catch (e) {
-      toast('Something went wrong. Please try again', { type: 'error' });
-    } finally {
-      setDialogOpen(false);
-    }
-  };
+  const {
+    users: organisations,
+    page,
+    setPage,
+    totalPageNumber,
+    isDialogOpen,
+    setDialogOpen,
+    userIdToDelete: organisationIdToDelete,
+    setUserIdToDelete: setOrganisationIdToDelete,
+    sortUsers: sortOrganisations,
+    searchText,
+    deleteUser: deleteOrganisation,
+  } = useUserList({
+    initialRole: Role.ORGANISATION,
+  });
 
   return (
     <AdminLayout
@@ -141,12 +89,7 @@ const Organisations = () => {
                     <ArrowUpDown size={16} />
                   </div>
                 </TableHead>
-                <TableHead className="hidden  md:table-cell">
-                  <div className="flex justify-between">
-                    Oib
-                    <ArrowUpDown size={16} />
-                  </div>
-                </TableHead>
+                <TableHead className="hidden  md:table-cell">Oib</TableHead>
                 <TableHead
                   className="hidden cursor-pointer md:table-cell"
                   onClick={() => sortOrganisations('active')}>
@@ -188,7 +131,7 @@ const Organisations = () => {
                       size="sm"
                       variant="outline"
                       onClick={() => {
-                        setOrganistionIdToDelete(organisation.id);
+                        setOrganisationIdToDelete(organisation.id);
                         setDialogOpen(true);
                       }}>
                       Delete
