@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form';
 
 import Form from '@/shared/form/Form';
 import { Type } from '@/app/register/types';
-import Button from '@/shared/button/Button';
 import FormInput from '@/shared/formInput/FormInput';
 import updateUser from '@/services/user/update';
 import FormSelect from '@/shared/formSelect/FormSelect';
 import { UserDto } from '@/services/user/dto/user.dto';
+import { Button } from '@/components/ui/button';
 
 type Props = {
   userData: UserDto;
@@ -79,7 +79,7 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
           <FormInput
             id="phone"
             label="Broj mobitela"
-            placeholder="+385998885698"
+            placeholder="+385911234567"
             {...form.register('phone')}
           />
         </div>
@@ -97,13 +97,8 @@ const UserProfileForm: FC<Props> = ({ userData }) => {
           </FormSelect>
         </div>
         <div className="flex">
-          <div className="mt-6 w-full sm:mt-0">
-            <Button
-              color="primary"
-              showLoader={isSubmitting}
-              className="bg-black !text-base text-white"
-              type="submit"
-              full>
+          <div className="mt-6 flex w-full sm:mt-0">
+            <Button className="w-full" type="submit" showLoading={isSubmitting}>
               <span>Spremi promjene</span>
             </Button>
           </div>

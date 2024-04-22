@@ -9,13 +9,17 @@ interface FormSelectProps extends ComponentProps<'select'> {
   id: string;
   label: string;
   children?: ReactElement<HTMLOptionElement>[];
+  labelClassName?: string;
 }
 
 const FormSelect = forwardRef<HTMLSelectElement, FormSelectProps>(
-  ({ id, label, value = DEFAULT_VALUE, children, ...props }, ref) => {
+  (
+    { id, label, value = DEFAULT_VALUE, children, labelClassName, ...props },
+    ref
+  ) => {
     return (
       <div className={styles.container}>
-        <label htmlFor={id} className={styles.label}>
+        <label htmlFor={id} className={labelClassName || styles.label}>
           {label}
         </label>
         <select id={id} ref={ref} className={styles.select} {...props}>

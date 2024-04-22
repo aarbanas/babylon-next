@@ -1,9 +1,6 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
-import findUsers, { Sort } from '@/services/user/find';
+import React from 'react';
 import Image from 'next/image';
-import { UserDto } from '@/services/user/dto/user.dto';
-import { debounce } from 'lodash';
 import DashboardLayout from '@/shared/layouts/dashboardLayout';
 import { translateUserTypes } from '@/utils/translateUserTypes';
 import Link from 'next/link';
@@ -23,72 +20,23 @@ import {
 } from '@/components/ui/pagination';
 import { ArrowUpDown, SearchIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Role } from '@/app/register/types';
+import { useUserList } from '@/services/auth/useUserList';
 
 const Dashboard: React.FC = () => {
-  const [page, setPage] = useState<number>(0);
-  const [filter, setFilter] = useState<string>('');
-  const [users, setUsers] = useState<UserDto[]>([]);
-  const [totalPageNumber, setTotalPageNumber] = useState<number>(1);
-  const [isLoading, setLoading] = useState(true);
-  const [sort, setSort] = useState<Sort>({ id: 'asc' });
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const data = await findUsers({
-          page,
-          sort: Object.keys(sort)[0],
-          dir: Object.values(sort)[0],
-          type: Role.USER,
-          ...(filter && {
-            filter: {
-              'userAttributes.firstname': filter,
-              'userAttributes.lastname': filter,
-              'userAttributes.city': filter,
-            },
-          }),
-        });
-
-        setUsers(data.data);
-        setTotalPageNumber(Math.ceil(data.meta.count / data.meta.take));
-        setLoading(false);
-      } catch (e) {
-        setLoading(false);
-        setUsers([]);
-      }
-    };
-
-    fetchUsers();
-  }, [page, filter, sort]);
-
-  const debounceSearch = useRef(
-    debounce((criteria) => {
-      setFilter(criteria);
-    }, 500)
-  ).current;
-
-  function searchText(e: React.ChangeEvent<HTMLInputElement>) {
-    debounceSearch(e.target.value);
-  }
-
-  const sortUsers = (key: string) => {
-    if (sort[key]) {
-      setSort({ [key]: sort[key] === 'asc' ? 'desc' : 'asc' });
-      return;
-    }
-
-    const _sort: Sort = { [key]: 'asc' };
-    setSort(_sort);
-  };
+  const { users, page, setPage, totalPageNumber, sortUsers, searchText } =
+    useUserList({
+      initialFilterKeys: [
+        'userAttributes.firstname',
+        'userAttributes.lastname',
+        'userAttributes.city',
+      ],
+    });
 
   const onRowClick = (id: number) => {
     if (window.innerWidth < 768) {
       window.location.href = `/user-profile/${id}`;
     }
   };
-
-  if (isLoading) return <DashboardLayout>Loading...</DashboardLayout>;
 
   return (
     <>
