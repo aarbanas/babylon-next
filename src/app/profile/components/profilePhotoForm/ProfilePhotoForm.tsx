@@ -7,8 +7,8 @@ import Modal from '@/shared/modal/Modal';
 import styles from './ProfilePhotoForm.module.scss';
 import ImageEditor from '@/shared/imageEditor/ImageEditor';
 import AvatarEditor from 'react-avatar-editor';
-import Button from '@/shared/button/Button';
 import uploadProfilePhoto from '@/services/user/uploadProfilePhoto';
+import { Button } from '@/components/ui/button';
 
 type Props = {
   profilePhoto: string;
@@ -88,14 +88,13 @@ const ProfilePhotoForm: FC<Props> = ({ profilePhoto }) => {
         <div className={styles.buttonRow}>
           <Button
             color="primary"
-            full
             onClick={saveProfilePhoto}
-            showLoader={isLoading}>
+            showLoading={isLoading}>
             <span>Spremi</span>
           </Button>
           <Button
-            color="secondary"
-            full
+            variant={'secondary'}
+            className="ml-auto"
             onClick={() => setIsImageEditorOpen(false)}>
             <span>Otkaži</span>
           </Button>

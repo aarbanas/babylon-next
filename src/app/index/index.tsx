@@ -15,6 +15,7 @@ const Index: NextPage = () => {
 
   return (
     <>
+      {/*TODO Add correct data here*/}
       <Head>
         <title>Your Page Title</title>
         <meta name="description" content="Your page description" />
@@ -24,7 +25,7 @@ const Index: NextPage = () => {
         <meta property="og:type" content="website" />
         <link rel="canonical" href="https://yourwebsite.com/your-page" />
       </Head>
-      <div className="flex h-full justify-center border-t bg-gray-50/90 bg-secondary-color">
+      <div className="flex h-full justify-center border-t bg-secondary-color">
         <div className="container grid items-center justify-center gap-4 px-4 py-12 md:grid-cols-[1fr_400px] md:px-6 lg:gap-10 lg:py-24 xl:grid-cols-[1fr_600px]">
           <div className="space-y-3 text-center md:items-start md:text-left">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
@@ -40,13 +41,12 @@ const Index: NextPage = () => {
             ) : (
               <>
                 {' '}
-                <Button
-                  className="inline-flex h-10 cursor-pointer items-center justify-center rounded-md border border-gray-800 bg-gray-950 px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-800 hover:text-gray-50 focus-visible:ring-gray-300"
-                  onClick={() => setShowLogin(true)}>
+                <Button className="px-8" onClick={() => setShowLogin(true)}>
                   Prijava
                 </Button>
                 <Button
-                  className="inline-flex h-10 cursor-pointer items-center justify-center rounded-md bg-gray-50 px-8 text-sm font-medium text-gray-900 shadow transition-colors hover:bg-gray-50/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300 disabled:pointer-events-none disabled:opacity-50"
+                  className="px-8"
+                  variant="secondary"
                   onClick={() => router.push('/register')}>
                   Registracija
                 </Button>
@@ -120,7 +120,8 @@ const Login: React.FC<Readonly<LoginProps>> = ({ showLogin }) => {
         <Button
           onClick={() => showLogin()}
           size="lg"
-          className="ml-auto bg-gray-50 text-gray-900 hover:bg-gray-50/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300">
+          variant="secondary"
+          className="ml-auto">
           Odustani
         </Button>
       </div>

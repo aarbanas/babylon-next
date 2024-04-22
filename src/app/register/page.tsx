@@ -44,7 +44,7 @@ const Register: NextPage = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center p-3 md:flex-row md:p-6">
+      <div className="flex flex-col items-center justify-center bg-secondary-color p-3 md:flex-row md:p-6">
         <Form
           className="mt-6 flex w-full flex-col gap-2 md:w-2/5 md:gap-4"
           form={form}
@@ -55,6 +55,7 @@ const Register: NextPage = () => {
             id="role"
             label="Vrsta računa*"
             placeholder={'Odaberi vrstu računa'}
+            labelClassName="mb-2 text-black"
             {...form.register('role', {
               required: 'Vrsta računa je obavezno polje',
             })}>
@@ -70,6 +71,7 @@ const Register: NextPage = () => {
             id="username"
             label="Email*"
             type={'email'}
+            className="mb-2 text-black"
             {...form.register('email', {
               required: 'Email je obavezno polje',
             })}
@@ -79,6 +81,7 @@ const Register: NextPage = () => {
             id="password"
             label="Lozinka*"
             type={'password'}
+            className="mb-2 text-black"
             {...form.register('password', {
               required: 'Lozinka je obavezno polje',
             })}
@@ -88,6 +91,7 @@ const Register: NextPage = () => {
             id={'repeatPassword'}
             label={'Ponovi lozinku*'}
             type={'password'}
+            className="mb-2 text-black"
             {...form.register('repeatPassword', {
               required: true,
               validate: (val: string) => {
@@ -101,6 +105,7 @@ const Register: NextPage = () => {
             <FormInput
               id="city"
               label="Grad*"
+              className="mb-2 text-black"
               {...form.register('city', {
                 required: 'Grad je obavezno polje',
               })}
@@ -113,6 +118,7 @@ const Register: NextPage = () => {
                 id="type"
                 label="Tip korisnika*"
                 placeholder="Odaberi vrstu"
+                labelClassName="mb-2 text-black"
                 {...form.register('type', {
                   required: 'Vrsta korisnika je obavezno polje',
                 })}>
@@ -124,6 +130,7 @@ const Register: NextPage = () => {
               <FormInput
                 id="firstname"
                 label="Ime*"
+                className="mb-2 text-black"
                 {...form.register('firstname', {
                   required: 'Ime je obavezno polje',
                 })}
@@ -132,6 +139,7 @@ const Register: NextPage = () => {
               <FormInput
                 id="lastname"
                 label="Prezime*"
+                className="mb-2 text-black"
                 {...form.register('lastname', {
                   required: 'Prezime je obavezno polje',
                 })}
@@ -140,6 +148,7 @@ const Register: NextPage = () => {
               <FormInput
                 id="phone"
                 label="Telefon*"
+                className="mb-2 text-black"
                 {...form.register('phone', {
                   required: 'Telefon je obavezno polje',
                 })}
@@ -152,6 +161,7 @@ const Register: NextPage = () => {
               <FormInput
                 id="name"
                 label="Naziv*"
+                className="mb-2 text-black"
                 {...form.register('name', {
                   required: 'Naziv je obavezno polje',
                 })}
@@ -160,6 +170,7 @@ const Register: NextPage = () => {
               <FormInput
                 id="street"
                 label="Ulica i Broj*"
+                className="mb-2 text-black"
                 {...form.register('street', {
                   required: 'Ulica i Broj je obavezno polje',
                 })}
@@ -168,6 +179,7 @@ const Register: NextPage = () => {
               <FormInput
                 id="oib"
                 label="OIB*"
+                className="mb-2 text-black"
                 {...form.register('oib', {
                   required: 'OIB je obavezno polje',
                 })}
@@ -182,7 +194,8 @@ const Register: NextPage = () => {
             <Button
               onClick={() => router.push('/')}
               size="lg"
-              className="ml-auto bg-gray-50 text-gray-900 hover:bg-gray-50/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-300">
+              variant={'secondary'}
+              className="ml-auto">
               Odustani
             </Button>
           </div>

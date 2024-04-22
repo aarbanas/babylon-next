@@ -5,8 +5,9 @@ import { UserDto } from '@/services/user/dto/user.dto';
 import findOne from '@/services/user/findOne';
 import style from './UserProfile.module.scss';
 import Image from 'next/image';
-import { translateUserTypes } from '@/utils/translateUserTypes';
-import Button from '@/shared/button/Button';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { translateUserTypes } from '@/utils';
 
 interface Props {
   params: { id: string };
@@ -33,8 +34,8 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
   return (
     <>
       <DashboardLayout>
-        <div className={style.container}>
-          <div className={style.userCard}>
+        <div className="flex flex-col md:flex-row">
+          <Card className="e flex w-full flex-col items-center md:w-1/3">
             <Image
               src={user.profilePhoto || '/user-icon.png'}
               style={{ borderRadius: '100000px' }}
@@ -42,21 +43,15 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
               width={250}
               height={250}
             />
-            <span className={style.userTitle}>
-              {user.userAttributes.firstname} {user.userAttributes.lastname}
-            </span>
-            <span className={style.userInfo}>
-              {translateUserTypes(user.userAttributes.type)}
-            </span>
-            <span className={style.userInfo}>{user.userAttributes.city}</span>
             <Button
               color={'primary'}
-              full
+              className={'mt-auto w-full'}
               onClick={() => (window.location.href = `mailto:${user.email}`)}>
               Kontakt
             </Button>
-          </div>
-          <div className={style.userDetails}>
+          </Card>
+
+          <Card className={style.userDetails}>
             <table>
               <thead>
                 <tr>
@@ -67,6 +62,9 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
                 </tr>
                 <tr>
                   <th>Grad</th>
+                </tr>
+                <tr>
+                  <th>Tip</th>
                 </tr>
                 <tr>
                   <th>Email</th>
@@ -86,6 +84,11 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
                   <td data-label="Grad">{user.userAttributes.city}</td>
                 </tr>
                 <tr>
+                  <td data-label="Tip">
+                    {translateUserTypes(user.userAttributes.type)}
+                  </td>
+                </tr>
+                <tr>
                   <td data-label="Email">{user.email}</td>
                 </tr>
                 <tr>
@@ -97,7 +100,7 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
             <div className={style.certificate}>
               <span className={style.title}>Certifikati</span>
             </div>
-          </div>
+          </Card>
         </div>
       </DashboardLayout>
     </>
