@@ -60,7 +60,8 @@ export const useUserList = ({
     };
 
     fetchUsers();
-  }, [page, sort, filter, initialFilterKeys, initialRole]);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, sort, filter]);
 
   const sortUsers = (key: string) => {
     if (sort[key]) {
