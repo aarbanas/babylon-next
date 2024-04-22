@@ -7,6 +7,7 @@ export const generateUrl = (path: string) => `${baseUrl}${path}`;
 export enum APIs {
   USER = '/users',
   CERTIFICATE = '/certificates',
+  CERTIFICATE_FILES = '/certificate-files',
 }
 
 const http = axios.create();
@@ -46,3 +47,5 @@ http.interceptors.request.use((config) => {
 
   return config;
 });
+
+export default http;

@@ -1,3 +1,9 @@
+import CertificateForm from './components/certificateForm/certificateForm';
+
 export default function CertificatePage() {
-  return <h1>Hello</h1>;
+  return (
+    <h1>
+      <CertificateForm />
+    </h1>
+  );
 }
