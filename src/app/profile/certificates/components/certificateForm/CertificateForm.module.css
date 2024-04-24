@@ -5,3 +5,7 @@
 .label {
   @apply mb-2 font-light text-gray-500;
 }
+
+.form {
+  @apply flex w-[50rem] max-w-[calc(100%-1rem)] flex-col gap-3;
+}
