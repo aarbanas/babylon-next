@@ -12,20 +12,31 @@ import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/button';
 import deleteCertificateFileFromStorage from '@/services/certificate-files/delete-certificate-file';
 import generatePresignedURL from '@/services/certificate-files/generate-presigned-url';
-import Form from '@/shared/form/Form';
+import Form, { FieldError } from '@/shared/form/Form';
 import FormInput from '@/shared/formInput/FormInput';
+import FormSelect from '@/shared/formSelect/FormSelect';
+
+import styles from './CertificateForm.module.css';
+import createCertificate from '@/services/certificates/createCertificates';
+import { useRef } from 'react';
 
 registerPlugin(FilePondPluginImagePreview);
 
 const httpInstance = axios.create();
 
+enum CertificateType {
+  UNIVERSITY = 'UNIVERSITY',
+  REDCROSS = 'REDCROSS',
+}
+
 type CertificateFormInputs = {
-  type: string;
+  type: CertificateType | '';
   validTill: Date;
   key: string;
 };
 
 const CertificateForm = () => {
+  const filePondRef = useRef<FilePond | null>(null);
   const form = useForm<CertificateFormInputs>({
     defaultValues: {
       key: '',
@@ -34,27 +45,55 @@ const CertificateForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<CertificateFormInputs> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<CertificateFormInputs> = async (data) => {
+    await createCertificate({
+      key: data.key,
+      type: data.type,
+      userId: 1,
+      validTill: new Date(data.validTill).toISOString(),
+    });
+
+    form.reset();
+    filePondRef.current && filePondRef.current.removeFiles();
+
+    toast('Certifikat uspješno prenesen', { type: 'success' });
+  };
 
   return (
     <Form form={form} onSubmit={onSubmit}>
-      <FormInput id="type" label="Tip*" {...form.register('type')} />
+      <FormSelect
+        id="type"
+        label="Tip*"
+        {...form.register('type', {
+          required: 'Tip je obavezan',
+        })}>
+        <option value="">Odaberi tip</option>
+        <option value={CertificateType.UNIVERSITY}>Sveučilište</option>
+        <option value={CertificateType.REDCROSS}>Crveni križ</option>
+      </FormSelect>
+
       <FormInput
         id="validTill"
         label="Važi do*"
         type="date"
-        {...form.register('validTill')}
+        {...form.register('validTill', {
+          required: 'Datum je obavezan',
+        })}
       />
+
       <Controller
         name="key"
         control={form.control}
+        rules={{ required: 'Certifikat je obavezn' }}
         render={({ field }) => (
-          <>
-            <label htmlFor={field.name}>Datoteka*</label>
+          <div className={styles.container}>
+            <label htmlFor={field.name} className={styles.label}>
+              Certifikat*
+            </label>
             <FilePond
               name={field.name}
-              labelIdle="Povuci i pusti datoteku ovdje ili klikni"
+              ref={(ref) => (filePondRef.current = ref)}
+              labelIdle="Povuci i pusti certifikat ovdje ili klikni"
               maxFiles={1}
               onupdatefiles={(fileItems) => {
                 if (fileItems.length === 0) {
@@ -124,7 +163,8 @@ const CertificateForm = () => {
                 },
               }}
             />
-          </>
+            <FieldError name={field.name} />
+          </div>
         )}
       />
       <Button type="submit">Prenesi</Button>

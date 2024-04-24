@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { HiDocumentAdd, HiPencil } from 'react-icons/hi';
+import 'react-toastify/dist/ReactToastify.css';
 
 import NavigationTabs from './components/navigationTabs/NavigationTabs';
 import DashboardLayout from '@/shared/layouts/dashboardLayout';
+import { ToastContainer } from 'react-toastify';
 
 export default function ProfileLayout({
   children,
@@ -25,6 +27,7 @@ export default function ProfileLayout({
 
         {children}
       </div>
+      <ToastContainer />
     </DashboardLayout>
   );
 }
