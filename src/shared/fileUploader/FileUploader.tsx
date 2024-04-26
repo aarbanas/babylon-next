@@ -12,7 +12,6 @@ import {
   Path,
   RegisterOptions,
 } from 'react-hook-form';
-import { Ref } from 'react';
 import 'filepond/dist/filepond.min.css';
 
 import { FilePond, registerPlugin } from 'react-filepond';
@@ -35,7 +34,6 @@ interface FileUploaderProps<T extends FieldValues, R> {
   onProcessFileSuccess: (file: FilePondFile) => void;
   processHandler: ProcessServerConfigFunction;
   revertHandler: RevertServerConfigFunction;
-  ref?: Ref<FilePond>;
 }
 
 const FileUploader = <T extends FieldValues, R>({
@@ -50,7 +48,6 @@ const FileUploader = <T extends FieldValues, R>({
   onProcessFileSuccess,
   processHandler,
   revertHandler,
-  ref,
 }: FileUploaderProps<T, R>) => {
   return (
     <Controller
@@ -64,7 +61,6 @@ const FileUploader = <T extends FieldValues, R>({
           </label>
           <FilePond
             name={field.name}
-            ref={ref}
             labelIdle={labelIdle}
             maxFiles={maxFiles}
             onupdatefiles={(fileItems) => {

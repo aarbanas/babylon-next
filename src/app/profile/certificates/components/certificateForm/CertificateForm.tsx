@@ -1,9 +1,8 @@
 'use client';
 
+import { FC, useState } from 'react';
 import { toast } from 'react-toastify';
-import { FilePond } from 'react-filepond';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FC, useCallback, useRef, useState } from 'react';
 
 import Form from '@/shared/form/Form';
 import { Button } from '@/components/ui/button';
@@ -12,8 +11,9 @@ import styles from './CertificateForm.module.css';
 import FormInput from '@/shared/formInput/FormInput';
 import FormSelect from '@/shared/formSelect/FormSelect';
 import FileUploader from '@/shared/fileUploader/FileUploader';
+import { ApiError } from '@/shared/http-service/httpService';
+import { createCertificate } from '../../services/certificates-service';
 import { CertificateTypeEnum } from '../../enums/certificate-types.enum';
-import createCertificate from '@/services/certificates/createCertificates';
 import { CERTIFICATE_TRANSLATION } from '../../constants/certificate-translation';
 import processCertificateUploadHandler from '../../handlers/process-certificate-upload.handler';
 import deleteCertificateFileFromStorage from '@/services/certificate-files/delete-certificate-file';
@@ -26,7 +26,6 @@ type CertificateFormInputs = {
 
 const CertificateForm: FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const filePondRef = useRef<FilePond | null>(null);
   const form = useForm<CertificateFormInputs>({
     defaultValues: {
       key: '',
@@ -36,20 +35,8 @@ const CertificateForm: FC = () => {
   });
   const { reset: resetForm } = form;
 
-  // FIXME: filePondRef.current is always null
-  // it has to do something with passing the ref to the FilePond component
-  const resetFilePond = useCallback((revert = false) => {
-    if (filePondRef.current) {
-      const files = filePondRef.current.getFiles();
-      filePondRef.current.removeFiles(files, {
-        revert,
-      });
-    }
-  }, []);
-
   const onDialogClose = () => {
     resetForm();
-    resetFilePond(true);
     setIsDialogOpen(false);
   };
 
@@ -58,17 +45,20 @@ const CertificateForm: FC = () => {
       await createCertificate({
         key: data.key,
         type: data.type,
-        userId: 1,
         validTill: new Date(data.validTill).toISOString(),
       });
 
-
       resetForm();
-      resetFilePond();
       setIsDialogOpen(false);
 
       toast('Certifikat je uspješno dodan', { type: 'success' });
-    } catch {
+    } catch (error) {
+      if (error instanceof ApiError) {
+        if (error.code === 'certificate_already_exists') {
+          toast('Certifikat tog tipa već postoji.', { type: 'error' });
+        }
+        return;
+      }
       toast('Nešto je prošlo po zlu. Probajte ponoviti', { type: 'error' });
     }
   };
@@ -104,7 +94,6 @@ const CertificateForm: FC = () => {
           />
 
           <FileUploader
-            ref={filePondRef}
             allowMultiple={false}
             maxFiles={1}
             control={form.control}
