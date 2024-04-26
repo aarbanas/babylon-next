@@ -5,7 +5,7 @@ import generatePresignedURL from '@/services/certificate-files/generate-presigne
 
 const httpInstance = axios.create();
 
-const uploadCertificateHandler: ProcessServerConfigFunction = async (
+const processCertificateUploadHandler: ProcessServerConfigFunction = async (
   _fieldName,
   file,
   _metadata,
@@ -48,4 +48,4 @@ const uploadCertificateHandler: ProcessServerConfigFunction = async (
   };
 };
 
-export default uploadCertificateHandler;
+export default processCertificateUploadHandler;
