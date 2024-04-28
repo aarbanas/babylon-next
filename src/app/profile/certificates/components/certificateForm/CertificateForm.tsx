@@ -17,6 +17,7 @@ import { CertificateTypeEnum } from '../../enums/certificate-types.enum';
 import { CERTIFICATE_TRANSLATION } from '../../constants/certificate-translation';
 import processCertificateUploadHandler from '../../handlers/process-certificate-upload.handler';
 import deleteCertificateFileFromStorage from '@/services/certificate-files/delete-certificate-file';
+import { CertificateModel } from '../../models/certificate.model';
 
 type CertificateFormInputs = {
   type: CertificateTypeEnum | '';
@@ -24,7 +25,11 @@ type CertificateFormInputs = {
   key: string;
 };
 
-const CertificateForm: FC = () => {
+type CertificateFormProps = {
+  onCertificateCreate: (certificate: CertificateModel) => void;
+};
+
+const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const form = useForm<CertificateFormInputs>({
     defaultValues: {
@@ -42,11 +47,13 @@ const CertificateForm: FC = () => {
 
   const onSubmit: SubmitHandler<CertificateFormInputs> = async (data) => {
     try {
-      await createCertificate({
+      const certificate = await createCertificate({
         key: data.key,
         type: data.type,
         validTill: new Date(data.validTill).toISOString(),
       });
+
+      onCertificateCreate(certificate);
 
       resetForm();
       setIsDialogOpen(false);

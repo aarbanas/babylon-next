@@ -9,18 +9,21 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { CrossIcon, UniversityIcon } from 'lucide-react';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
   deleteCertificate,
   downloadCertificate,
-  fetchCertificates,
 } from '../../services/certificates-service';
-import { useUserSession } from '@/services/auth/useUserSession';
 import { type CertificateModel } from '../../models/certificate.model';
 import { CertificateTypeEnum } from '../../enums/certificate-types.enum';
 import { CERTIFICATE_TRANSLATION } from '../../constants/certificate-translation';
+
+type CertificateTableProps = {
+  certificates: CertificateModel[];
+  onCertificateDelete: (certificate: CertificateModel) => void;
+};
 
 export const resolveIcon = (type: CertificateTypeEnum) => {
   if (type === CertificateTypeEnum.REDCROSS) {
@@ -35,35 +38,21 @@ export const resolveIcon = (type: CertificateTypeEnum) => {
 };
 
 // TODO: Look into passing certificates as a prop
-const CertificateTable: FC = () => {
-  const userSession = useUserSession();
-  const [certificates, setCertificates] = useState<CertificateModel[]>([]);
-
+const CertificateTable: FC<CertificateTableProps> = ({
+  certificates,
+  onCertificateDelete,
+}) => {
   const handleDownload = useCallback(async (certificate: CertificateModel) => {
     await downloadCertificate(certificate.id);
   }, []);
 
-  const handleDelete = useCallback(
-    async (certificate: CertificateModel) => {
-      if (!confirm('Da li ste sigurni da želite izbrisati ovaj certifikat?'))
-        return;
+  const handleDelete = async (certificate: CertificateModel) => {
+    if (!confirm('Da li ste sigurni da želite izbrisati ovaj certifikat?'))
+      return;
 
-      await deleteCertificate(certificate.id);
-      setCertificates(certificates.filter((c) => c.id !== certificate.id));
-    },
-    [certificates]
-  );
-
-  const handleFetchCertificates = useCallback(async (id: number) => {
-    const certificates = await fetchCertificates(id);
-    setCertificates(certificates);
-  }, []);
-
-  useEffect(() => {
-    if (!userSession) return;
-
-    handleFetchCertificates(userSession.id);
-  }, [userSession, handleFetchCertificates]);
+    await deleteCertificate(certificate.id);
+    onCertificateDelete(certificate);
+  };
 
   return (
     <Table>
