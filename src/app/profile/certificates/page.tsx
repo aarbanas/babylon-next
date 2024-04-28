@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 import CertificateForm from './components/certificateForm/CertificateForm';
 import CertificateTable from './components/certificateTable/CertificateTable';
 import { fetchCertificates } from './services/certificates-service';
-import { CertificateModel } from './models/certificate.model';
+import { CertificateDto } from './models/certificate.model';
 import { useUserSession } from '@/services/auth/useUserSession';
 import LoadingSpinner from '@/shared/loadingSpinner/LoadingSpinner';
 
 export default function CertificatePage() {
   const [isLoading, setIsLoading] = useState(true);
   const userSession = useUserSession();
-  const [certificates, setCertificates] = useState<CertificateModel[]>([]);
+  const [certificates, setCertificates] = useState<CertificateDto[]>([]);
 
   const handleFetchCertificates = async (id: number) => {
     const certificates = await fetchCertificates(id);
@@ -20,11 +20,11 @@ export default function CertificatePage() {
     setIsLoading(false);
   };
 
-  const handleCertificateCreate = (certificate: CertificateModel) => {
+  const handleCertificateCreate = (certificate: CertificateDto) => {
     setCertificates([...certificates, certificate]);
   };
 
-  const handleCertificateDelete = (certificate: CertificateModel) => {
+  const handleCertificateDelete = (certificate: CertificateDto) => {
     setCertificates(certificates.filter((c) => c.id !== certificate.id));
   };
 

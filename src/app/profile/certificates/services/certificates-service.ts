@@ -5,19 +5,19 @@ import {
   post,
 } from '@/shared/http-service/httpService';
 import {
-  CertificateModel,
-  CreateCertificateModel,
+  CertificateDto,
+  CreateCertificateDto,
 } from '../models/certificate.model';
 
 const fetchCertificates = async (
   userId: number
-): Promise<CertificateModel[]> => {
-  return get<CertificateModel[]>(`${APIs.CERTIFICATE}?userId=${userId}`);
+): Promise<CertificateDto[]> => {
+  return get<CertificateDto[]>(`${APIs.CERTIFICATE}?userId=${userId}`);
 };
 
 const createCertificate = async (
-  certificate: CreateCertificateModel
-): Promise<CertificateModel> => {
+  certificate: CreateCertificateDto
+): Promise<CertificateDto> => {
   return post(APIs.CERTIFICATE, certificate);
 };
 

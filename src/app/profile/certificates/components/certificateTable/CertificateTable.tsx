@@ -16,13 +16,13 @@ import {
   deleteCertificate,
   downloadCertificate,
 } from '../../services/certificates-service';
-import { type CertificateModel } from '../../models/certificate.model';
+import { type CertificateDto } from '../../models/certificate.model';
 import { CertificateTypeEnum } from '../../enums/certificate-types.enum';
 import { CERTIFICATE_TRANSLATION } from '../../constants/certificate-translation';
 
 type CertificateTableProps = {
-  certificates: CertificateModel[];
-  onCertificateDelete: (certificate: CertificateModel) => void;
+  certificates: CertificateDto[];
+  onCertificateDelete: (certificate: CertificateDto) => void;
 };
 
 export const resolveIcon = (type: CertificateTypeEnum) => {
@@ -42,11 +42,11 @@ const CertificateTable: FC<CertificateTableProps> = ({
   certificates,
   onCertificateDelete,
 }) => {
-  const handleDownload = useCallback(async (certificate: CertificateModel) => {
+  const handleDownload = useCallback(async (certificate: CertificateDto) => {
     await downloadCertificate(certificate.id);
   }, []);
 
-  const handleDelete = async (certificate: CertificateModel) => {
+  const handleDelete = async (certificate: CertificateDto) => {
     if (!confirm('Da li ste sigurni da želite izbrisati ovaj certifikat?'))
       return;
 

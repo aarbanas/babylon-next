@@ -17,7 +17,7 @@ import { CertificateTypeEnum } from '../../enums/certificate-types.enum';
 import { CERTIFICATE_TRANSLATION } from '../../constants/certificate-translation';
 import processCertificateUploadHandler from '../../handlers/process-certificate-upload.handler';
 import deleteCertificateFileFromStorage from '@/services/certificate-files/delete-certificate-file';
-import { CertificateModel } from '../../models/certificate.model';
+import { CertificateDto } from '../../models/certificate.model';
 
 type CertificateFormInputs = {
   type: CertificateTypeEnum | '';
@@ -26,7 +26,7 @@ type CertificateFormInputs = {
 };
 
 type CertificateFormProps = {
-  onCertificateCreate: (certificate: CertificateModel) => void;
+  onCertificateCreate: (certificate: CertificateDto) => void;
 };
 
 const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate }) => {
