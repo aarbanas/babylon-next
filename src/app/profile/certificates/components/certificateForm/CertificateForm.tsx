@@ -104,6 +104,7 @@ const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate }) => {
             allowMultiple={false}
             maxFiles={1}
             control={form.control}
+            acceptedFileTypes={['application/pdf', 'image/*']}
             label="Certifikat*"
             labelIdle="Povuci i pusti certifikat ovdje ili klikni"
             rules={{ required: 'Certifikat je obavezan' }}

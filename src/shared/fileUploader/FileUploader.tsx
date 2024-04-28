@@ -29,6 +29,7 @@ interface FileUploaderProps<T extends FieldValues, R> {
   label: string;
   labelIdle: string;
   maxFiles: number;
+  acceptedFileTypes?: string[];
   allowMultiple: boolean;
   onProcessFileError: (error: FilePondErrorDescription) => void;
   onProcessFileSuccess: (file: FilePondFile) => void;
@@ -43,6 +44,7 @@ const FileUploader = <T extends FieldValues, R>({
   label,
   labelIdle,
   maxFiles,
+  acceptedFileTypes,
   allowMultiple,
   onProcessFileError,
   onProcessFileSuccess,
@@ -63,6 +65,7 @@ const FileUploader = <T extends FieldValues, R>({
             name={field.name}
             labelIdle={labelIdle}
             maxFiles={maxFiles}
+            acceptedFileTypes={acceptedFileTypes}
             onupdatefiles={(fileItems) => {
               if (fileItems.length === 0) {
                 field.onChange('');
