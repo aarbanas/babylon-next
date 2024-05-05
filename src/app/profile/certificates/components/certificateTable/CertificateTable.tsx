@@ -81,7 +81,8 @@ const CertificateTable: FC<CertificateTableProps> = ({
               <TableCell className="flex gap-3">
                 <Button
                   onClick={() => handleDownload(certificate)}
-                  className="flex gap-1">
+                  className="flex gap-1"
+                  variant="default">
                   <span>Preuzmi</span>
                 </Button>
                 <Button

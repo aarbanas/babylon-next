@@ -23,7 +23,7 @@ const createCertificate = async (
 
 const downloadCertificate = async (certificateId: number) => {
   const certificateURL = await get<string>(
-    `${APIs.CERTIFICATE}/download/${certificateId}`
+    `${APIs.CERTIFICATE_FILES}/${certificateId}/download`
   );
 
   const response = await fetch(certificateURL);
@@ -46,21 +46,9 @@ const deleteCertificate = async (certificateId: number) => {
   await deleteRequest(`${APIs.CERTIFICATE}/${certificateId}`);
 };
 
-const previewCertificate = async (certificateId: number) => {
-  const certificateURL = await get<string>(
-    `${APIs.CERTIFICATE}/download/${certificateId}`
-  );
-
-  const a = document.createElement('a');
-  a.href = certificateURL;
-  a.target = '_blank';
-  a.click();
-};
-
 export {
   fetchCertificates,
   createCertificate,
   downloadCertificate,
   deleteCertificate,
-  previewCertificate,
 };
