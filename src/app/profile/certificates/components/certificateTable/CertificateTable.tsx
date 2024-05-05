@@ -20,9 +20,12 @@ import { type CertificateDto } from '../../models/certificate.model';
 import { CertificateTypeEnum } from '../../enums/certificate-types.enum';
 import { CERTIFICATE_TRANSLATION } from '../../constants/certificate-translation';
 
+type AllowedTableActions = 'delete' | 'download';
+
 type CertificateTableProps = {
   certificates: CertificateDto[];
-  onCertificateDelete: (certificate: CertificateDto) => void;
+  onCertificateDelete?: (certificate: CertificateDto) => void;
+  allowedActions?: AllowedTableActions[];
 };
 
 export const resolveIcon = (type: CertificateTypeEnum) => {
@@ -41,6 +44,7 @@ export const resolveIcon = (type: CertificateTypeEnum) => {
 const CertificateTable: FC<CertificateTableProps> = ({
   certificates,
   onCertificateDelete,
+  allowedActions = [],
 }) => {
   const handleDownload = useCallback(async (certificate: CertificateDto) => {
     await downloadCertificate(certificate.id);
@@ -51,7 +55,9 @@ const CertificateTable: FC<CertificateTableProps> = ({
       return;
 
     await deleteCertificate(certificate.id);
-    onCertificateDelete(certificate);
+    if (onCertificateDelete) {
+      onCertificateDelete(certificate);
+    }
   };
 
   return (
@@ -79,18 +85,22 @@ const CertificateTable: FC<CertificateTableProps> = ({
                 {new Date(certificate.validTill).toDateString()}
               </TableCell>
               <TableCell className="flex gap-3">
-                <Button
-                  onClick={() => handleDownload(certificate)}
-                  className="flex gap-1"
-                  variant="default">
-                  <span>Preuzmi</span>
-                </Button>
-                <Button
-                  onClick={() => handleDelete(certificate)}
-                  className="flex gap-1"
-                  variant="destructive">
-                  <span>Izbriši</span>
-                </Button>
+                {allowedActions.includes('download') && (
+                  <Button
+                    onClick={() => handleDownload(certificate)}
+                    className="flex gap-1"
+                    variant="default">
+                    <span>Preuzmi</span>
+                  </Button>
+                )}
+                {allowedActions.includes('delete') && (
+                  <Button
+                    onClick={() => handleDelete(certificate)}
+                    className="flex gap-1"
+                    variant="destructive">
+                    <span>Izbriši</span>
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))

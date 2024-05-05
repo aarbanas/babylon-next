@@ -1,3 +1,4 @@
+import { CertificateTypeEnum } from '@/app/profile/certificates/enums/certificate-types.enum';
 import { Role, Type } from '@/app/register/types';
 
 export type UserDto = {
@@ -32,7 +33,7 @@ type OrganisationAttributesDto = {
 
 type Certificate = {
   id: number;
-  type: 'UNIVERSITY' | 'REDCROSS';
+  type: CertificateTypeEnum;
   validTill: Date;
   key: string;
   createdAt: Date;

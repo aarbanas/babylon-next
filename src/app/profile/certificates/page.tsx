@@ -46,6 +46,7 @@ export default function CertificatePage() {
           <CertificateTable
             certificates={certificates}
             onCertificateDelete={handleCertificateDelete}
+            allowedActions={['download', 'delete']}
           />
         )}
       </div>
