@@ -48,8 +48,9 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
           <div className="flex flex-col gap-6">
             <div className="flex flex-row gap-2">
               <BookUser />
-              <span>{user.userAttributes.firstname}</span>
-              <span>{user.userAttributes.lastname}</span>
+              <span>
+                {`${user.userAttributes.firstname} ${user.userAttributes.lastname}`}
+              </span>
             </div>
             {user.userAttributes.city && (
               <div className="flex flex-row gap-2">
