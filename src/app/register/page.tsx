@@ -1,17 +1,22 @@
 'use client';
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import registerUser from '@/services/user/register';
 import { RegisterUserData, Role, Type } from '@/app/register/types';
+import Form from '@/shared/form/Form';
+import FormInput from '@/shared/formInput/FormInput';
+import FormSelect from '@/shared/formSelect/FormSelect';
+import { Button } from '@/components/ui/button';
 
 const Register: NextPage = () => {
-  const { watch, getValues, handleSubmit, register } = useForm<
-    RegisterUserData & { repeatPassword: string }
-  >();
-  const [role, setRole] = useState<Role>();
+  const form = useForm<RegisterUserData & { repeatPassword: string }>();
+  const watch = form.watch;
+  const [role, setRole] = useState<Role | undefined>(Role.USER);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     const subscription = watch((value) => {
@@ -23,227 +28,181 @@ const Register: NextPage = () => {
 
   async function submit() {
     setSubmitting(true);
-    const values = getValues();
-    if (values.password !== values.repeatPassword)
-      setError('Lozinke se ne podudaraju');
+    const values = form.getValues();
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { repeatPassword, ...rest } = values;
       await registerUser(rest);
+      router.push('/');
     } catch (e) {
-      setError('Pogrešni podaci');
+      setError('Pogrešni podatci');
     } finally {
       setSubmitting(false);
     }
   }
 
   return (
-    <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
-      <div className="w-full p-6 m-auto bg-white rounded-md shadow-md sm:max-w-xl">
-        <h1 className="text-3xl font-semibold text-center text-teal-500 underline">
-          Registriraj se
-        </h1>
+    <>
+      <div className="flex flex-col items-center justify-center bg-secondary-color p-3 md:flex-row md:p-6">
+        <Form
+          className="mt-6 flex w-full flex-col gap-2 md:w-2/5 md:gap-4"
+          form={form}
+          onSubmit={submit}>
+          <h1 className="text-3xl font-semibold">Registracija</h1>
 
-        <form className="mt-6" onSubmit={handleSubmit(submit)}>
-          <div className="mb-2">
-            <label className="block text-sm font-semibold text-gray-800">
-              Tip računa
-            </label>
+          <FormSelect
+            id="role"
+            label="Vrsta računa*"
+            placeholder={'Odaberi vrstu računa'}
+            labelClassName="mb-2 text-black"
+            {...form.register('role', {
+              required: 'Vrsta računa je obavezno polje',
+            })}>
+            <option value={Role.USER}>
+              Korisnik (Liječnik, Tehničar, Spasioc)
+            </option>
+            <option value={Role.ORGANISATION}>
+              Organizacija (Sportska udruga, klub)
+            </option>
+          </FormSelect>
 
-            <div className="relative">
-              <select
-                {...register('role')}
-                className="block appearance-none w-full bg-white border rounded-md border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:ring focus:ring-opacity-40 focus:border-teal-400 focus:ring-teal-300"
-                id="grid-state"
-                defaultValue={'DEFAULT'}>
-                <option value="DEFAULT" disabled>
-                  Odaberi tip
-                </option>
-                <option value={Role.USER}>
-                  Korisnik (Liječnik, Tehničar, Spasioc)
-                </option>
-                <option value={Role.ORGANISATION}>
-                  Organizacija (Sportska udruga, klub)
-                </option>
-              </select>
+          <FormInput
+            id="username"
+            label="Email*"
+            type={'email'}
+            className="mb-2 text-black"
+            {...form.register('email', {
+              required: 'Email je obavezno polje',
+            })}
+          />
 
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg
-                  className="fill-current h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-            </div>
-          </div>
+          <FormInput
+            id="password"
+            label="Lozinka*"
+            type={'password'}
+            className="mb-2 text-black"
+            {...form.register('password', {
+              required: 'Lozinka je obavezno polje',
+            })}
+          />
 
-          <div className="mb-2">
-            <label className="block text-sm font-semibold text-gray-800">
-              Email
-            </label>
-            <input
-              {...register('email')}
-              type="email"
-              className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-          </div>
-
-          <div className="mb-2">
-            <label className="block text-sm font-semibold text-gray-800">
-              Lozinka
-            </label>
-            <input
-              {...register('password')}
-              type="password"
-              className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-          </div>
-
-          <div className="mb-2">
-            <label className="block text-sm font-semibold text-gray-800">
-              Ponovi lozinku
-            </label>
-            <input
-              {...register('repeatPassword')}
-              type="password"
-              className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-            />
-          </div>
+          <FormInput
+            id={'repeatPassword'}
+            label={'Ponovi lozinku*'}
+            type={'password'}
+            className="mb-2 text-black"
+            {...form.register('repeatPassword', {
+              required: true,
+              validate: (val: string) => {
+                if (form.watch('password') !== val)
+                  return 'Lozinke se ne podudaraju';
+              },
+            })}
+          />
 
           {role && (
-            <div className="mb-2">
-              <label className="block text-sm font-semibold text-gray-800">
-                Grad
-              </label>
-              <input
-                type="text"
-                className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-              />
-            </div>
+            <FormInput
+              id="city"
+              label="Grad*"
+              className="mb-2 text-black"
+              {...form.register('city', {
+                required: 'Grad je obavezno polje',
+              })}
+            />
           )}
 
           {role === Role.USER && (
-            <div>
-              <div className="mb-2">
-                <label className="block text-sm font-semibold text-gray-800">
-                  Vrsta korisnika
-                </label>
+            <>
+              <FormSelect
+                id="type"
+                label="Tip korisnika*"
+                placeholder="Odaberi vrstu"
+                labelClassName="mb-2 text-black"
+                {...form.register('type', {
+                  required: 'Vrsta korisnika je obavezno polje',
+                })}>
+                <option value={Type.DOCTOR}>Liječnik</option>
+                <option value={Type.NURSE}>Tehničar</option>
+                <option value={Type.LIFEGUARD}>Spasioc</option>
+              </FormSelect>
 
-                <div className="relative">
-                  <select
-                    {...register('type')}
-                    className="block appearance-none w-full bg-white border rounded-md border-gray-200 text-gray-700 py-3 px-4 pr-8 leading-tight focus:outline-none focus:ring focus:ring-opacity-40 focus:border-teal-400 focus:ring-teal-300"
-                    id="grid-state"
-                    defaultValue={'DEFAULT'}>
-                    <option value="DEFAULT" disabled>
-                      Odaberi vrstu
-                    </option>
-                    <option value={Type.DOCTOR}>Liječnik</option>
-                    <option value={Type.NURSE}>Tehničar</option>
-                    <option value={Type.LIFEGUARD}>Spasioc</option>
-                  </select>
+              <FormInput
+                id="firstname"
+                label="Ime*"
+                className="mb-2 text-black"
+                {...form.register('firstname', {
+                  required: 'Ime je obavezno polje',
+                })}
+              />
 
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg
-                      className="fill-current h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20">
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <FormInput
+                id="lastname"
+                label="Prezime*"
+                className="mb-2 text-black"
+                {...form.register('lastname', {
+                  required: 'Prezime je obavezno polje',
+                })}
+              />
 
-              <div className="mb-2">
-                <label className="block text-sm font-semibold text-gray-800">
-                  Ime
-                </label>
-                <input
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                />
-              </div>
-
-              <div className="mb-2">
-                <label className="block text-sm font-semibold text-gray-800">
-                  Prezime
-                </label>
-                <input
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                />
-              </div>
-
-              <div className="mb-2">
-                <label className="block text-sm font-semibold text-gray-800">
-                  Telefon
-                </label>
-                <input
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                />
-              </div>
-            </div>
+              <FormInput
+                id="phone"
+                label="Telefon*"
+                className="mb-2 text-black"
+                {...form.register('phone', {
+                  required: 'Telefon je obavezno polje',
+                })}
+              />
+            </>
           )}
 
           {role === Role.ORGANISATION && (
-            <div>
-              <div className="mb-2">
-                <label className="block text-sm font-semibold text-gray-800">
-                  Naziv
-                </label>
-                <input
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                />
-              </div>
+            <>
+              <FormInput
+                id="name"
+                label="Naziv*"
+                className="mb-2 text-black"
+                {...form.register('name', {
+                  required: 'Naziv je obavezno polje',
+                })}
+              />
 
-              <div className="mb-2">
-                <label className="block text-sm font-semibold text-gray-800">
-                  Ulica i Broj
-                </label>
-                <input
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                />
-              </div>
+              <FormInput
+                id="street"
+                label="Ulica i Broj*"
+                className="mb-2 text-black"
+                {...form.register('street', {
+                  required: 'Ulica i Broj je obavezno polje',
+                })}
+              />
 
-              <div className="mb-2">
-                <label className="block text-sm font-semibold text-gray-800">
-                  OIB
-                </label>
-                <input
-                  type="text"
-                  className="block w-full px-4 py-2 mt-2 text-teal-700 bg-white border rounded-md focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                />
-              </div>
-            </div>
+              <FormInput
+                id="oib"
+                label="OIB*"
+                className="mb-2 text-black"
+                {...form.register('oib', {
+                  required: 'OIB je obavezno polje',
+                })}
+              />
+            </>
           )}
 
-          <div className="mt-6">
-            <button
-              disabled={submitting}
-              className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-teal-500 rounded-md hover:bg-teal-600 focus:outline-none focus:bg-teal-600">
+          <div className="mt-6 flex">
+            <Button disabled={submitting} type="submit" size="lg">
               Registracija
-            </button>
+            </Button>
+            <Button
+              onClick={() => router.push('/')}
+              size="lg"
+              variant={'secondary'}
+              className="ml-auto">
+              Odustani
+            </Button>
           </div>
-        </form>
-
-        {error && <span className="text-rose-600">{error}</span>}
-
-        <p className="mt-8 text-xs font-light text-center text-gray-700">
-          {' '}
-          Već imaš račun?{' '}
-          <a
-            href="/login"
-            className="font-medium text-teal-500 hover:underline">
-            Prijavi se
-          </a>
-        </p>
+          {error && <span className="text-rose-600">{error}</span>}
+        </Form>
       </div>
-    </div>
+    </>
   );
 };
 

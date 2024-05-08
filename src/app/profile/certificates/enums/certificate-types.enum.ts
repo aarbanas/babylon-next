@@ -1,0 +1,4 @@
+export enum CertificateTypeEnum {
+  REDCROSS = 'REDCROSS',
+  UNIVERSITY = 'UNIVERSITY',
+}

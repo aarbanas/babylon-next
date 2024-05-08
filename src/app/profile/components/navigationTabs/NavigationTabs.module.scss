@@ -1,0 +1,15 @@
+.container {
+  @apply mb-10 inline-flex w-full flex-col sm:w-auto;
+
+  > .items {
+    @apply flex flex-nowrap overflow-y-hidden py-4;
+
+    > .item {
+      @apply mr-8 font-semibold text-gray-800;
+    }
+  }
+
+  .divider {
+    @apply h-1 rounded-full bg-gray-300;
+  }
+}
