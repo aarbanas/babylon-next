@@ -23,13 +23,15 @@ type CertificateFormInputs = {
   type: CertificateTypeEnum | '';
   validTill: Date;
   key: string;
+  userId?: number;
 };
 
 type CertificateFormProps = {
   onCertificateCreate: (certificate: CertificateDto) => void;
+  userId?: number;
 };
 
-const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate }) => {
+const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate, userId }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const form = useForm<CertificateFormInputs>({
     defaultValues: {
@@ -51,6 +53,7 @@ const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate }) => {
         key: data.key,
         type: data.type,
         validTill: new Date(data.validTill).toISOString(),
+        userId,
       });
 
       onCertificateCreate(certificate);

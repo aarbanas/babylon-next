@@ -11,15 +11,10 @@ import * as Switch from '@radix-ui/react-switch';
 import updateUser from '@/services/user/update';
 import { toast } from 'react-toastify';
 import AdminLayout from '@/shared/layouts/adminLayout';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { useRouter } from 'next/navigation';
+import CertificateTable from '@/app/profile/certificates/components/certificateTable/CertificateTable';
+import { CertificateDto } from '@/app/profile/certificates/models/certificate.model';
+import CertificateForm from '@/app/profile/certificates/components/certificateForm/CertificateForm';
 
 interface Props {
   params: { id: string };
@@ -27,6 +22,7 @@ interface Props {
 
 const UserProfile: React.FC<Props> = ({ params }) => {
   const [user, setUser] = useState<UserDto | null>(null);
+  const [certificates, setCertificates] = useState<CertificateDto[]>([]);
   const [isLoading, setLoading] = useState(true);
   const [active, setActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,6 +34,9 @@ const UserProfile: React.FC<Props> = ({ params }) => {
       if (response) {
         setUser(response);
         setActive(response.active);
+        if (response.userAttributes?.certificates) {
+          setCertificates(response.userAttributes?.certificates);
+        }
       }
       setLoading(false);
     };
@@ -60,6 +59,14 @@ const UserProfile: React.FC<Props> = ({ params }) => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const onCertificateDelete = ({ id }: CertificateDto) => {
+    setCertificates(certificates.filter((c) => c.id !== id));
+  };
+
+  const onCertificateCreate = (certificate: CertificateDto) => {
+    setCertificates([...certificates, certificate]);
   };
 
   if (isLoading) return <>Loading...</>;
@@ -195,41 +202,18 @@ const UserProfile: React.FC<Props> = ({ params }) => {
           </CardHeader>
 
           <CardContent className="space-y-4">
+            <div className="mb-5">
+              <CertificateForm
+                userId={Number(params.id)}
+                onCertificateCreate={onCertificateCreate}
+              />
+            </div>
             <div className="rounded-lg border shadow-sm">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[80px]">ID</TableHead>
-                    <TableHead className="hidden md:table-cell">Type</TableHead>
-                    <TableHead className="hidden md:table-cell">Key</TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      Valid till
-                    </TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {user.userAttributes?.certificates?.map((certificate) => (
-                    <TableRow key={certificate.id}>
-                      <TableCell>{certificate.id}</TableCell>
-                      <TableCell className="md:table-cell">
-                        {certificate.type}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        {certificate.key}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        {getFullYear(certificate.validTill.toString())}
-                      </TableCell>
-                      <TableCell>
-                        <Button className="ml-2" size="sm" variant="outline">
-                          Delete
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <CertificateTable
+                certificates={certificates}
+                onCertificateDelete={onCertificateDelete}
+                allowedActions={['delete', 'download']}
+              />
             </div>
           </CardContent>
         </Card>
