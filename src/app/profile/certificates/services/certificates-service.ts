@@ -16,11 +16,9 @@ const fetchCertificates = async (userId: number): Promise<CertificateDto[]> => {
 const createCertificate = async (
   certificate: CreateCertificateDto
 ): Promise<CertificateDto> => {
-  if (certificate.userId) {
-    return post(`${APIs.CERTIFICATE}/create-on-behalf-of`, certificate);
-  }
+  const requestUrl = `${APIs.CERTIFICATE}/${certificate.userId ? 'create-on-behalf-of' : ''}`;
 
-  return post(APIs.CERTIFICATE, certificate);
+  return post(requestUrl, certificate);
 };
 
 const downloadCertificate = async (certificateId: number) => {
