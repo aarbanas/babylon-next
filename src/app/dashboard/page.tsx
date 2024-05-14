@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
 import DashboardLayout from '@/shared/layouts/dashboardLayout';
 import { translateUserTypes } from '@/utils/translateUserTypes';
 import Link from 'next/link';
@@ -21,6 +20,7 @@ import {
 import { ArrowUpDown, SearchIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useUserList } from '@/services/auth/useUserList';
+import UserProfilePhoto from '@/shared/userProfilePhoto/UserProfilePhoto';
 
 const Dashboard: React.FC = () => {
   const { users, page, setPage, totalPageNumber, sortUsers, searchText } =
@@ -94,13 +94,7 @@ const Dashboard: React.FC = () => {
                     className="cursor-pointer md:cursor-auto"
                     onClick={() => onRowClick(user.id)}>
                     <TableCell>
-                      <Image
-                        src={user.profilePhoto || '/user-icon.png'}
-                        style={{ borderRadius: '100000px' }}
-                        alt="User profile picture"
-                        width={24}
-                        height={24}
-                      />
+                      <UserProfilePhoto user={user} />
                     </TableCell>
                     <TableCell className="md:table-cell">
                       {user.userAttributes.firstname +
