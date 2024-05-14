@@ -9,16 +9,16 @@ import {
   CreateCertificateDto,
 } from '../models/certificate.model';
 
-const fetchCertificates = async (
-  userId: number
-): Promise<CertificateDto[]> => {
+const fetchCertificates = async (userId: number): Promise<CertificateDto[]> => {
   return get<CertificateDto[]>(`${APIs.CERTIFICATE}?userId=${userId}`);
 };
 
 const createCertificate = async (
   certificate: CreateCertificateDto
 ): Promise<CertificateDto> => {
-  return post(APIs.CERTIFICATE, certificate);
+  const requestUrl = `${APIs.CERTIFICATE}/${certificate.userId ? 'create-on-behalf-of' : ''}`;
+
+  return post(requestUrl, certificate);
 };
 
 const downloadCertificate = async (certificateId: number) => {

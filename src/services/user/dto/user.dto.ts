@@ -23,7 +23,7 @@ export type UserAttributesDto = {
   certificates?: Certificate[];
 };
 
-type OrganisationAttributesDto = {
+export type OrganisationAttributesDto = {
   id: number;
   name: string;
   street: string;
@@ -31,7 +31,7 @@ type OrganisationAttributesDto = {
   oib: string;
 };
 
-type Certificate = {
+export type Certificate = {
   id: number;
   type: CertificateTypeEnum;
   validTill: Date;

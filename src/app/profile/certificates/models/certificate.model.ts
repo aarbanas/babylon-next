@@ -10,4 +10,5 @@ export type CreateCertificateDto = {
   type: string;
   validTill: string;
   key: string;
+  userId?: number;
 };

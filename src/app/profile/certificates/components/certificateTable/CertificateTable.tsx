@@ -40,7 +40,6 @@ export const resolveIcon = (type: CertificateTypeEnum) => {
   return <></>;
 };
 
-// TODO: Look into passing certificates as a prop
 const CertificateTable: FC<CertificateTableProps> = ({
   certificates,
   onCertificateDelete,
