@@ -10,6 +10,8 @@ import FormInput from '@/shared/formInput/FormInput';
 import FormSelect from '@/shared/formSelect/FormSelect';
 import { Button } from '@/components/ui/button';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register: NextPage = () => {
   const form = useForm<
@@ -18,14 +20,12 @@ const Register: NextPage = () => {
   const watch = form.watch;
   const [role, setRole] = useState<Role | undefined>(Role.USER);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
   const router = useRouter();
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   useEffect(() => {
     const subscription = watch((value) => {
       setRole(value.role);
-      setError('');
     });
     return () => subscription.unsubscribe();
   }, [watch]);
@@ -33,7 +33,7 @@ const Register: NextPage = () => {
   const submit = async () => {
     setSubmitting(true);
     if (!recaptchaRef?.current?.getValue()) {
-      setError('Molimo vas da potvrdite da niste robot');
+      toast('Molimo vas da potvrdite da niste robot', { type: 'error' });
       setSubmitting(false);
       return;
     }
@@ -50,7 +50,7 @@ const Register: NextPage = () => {
       await registerUser({ reCaptchaToken: recaptchaValue!, ...rest });
       router.push('/');
     } catch (e) {
-      setError('Pogrešni podatci');
+      toast('Nešto je pošlo po zlu. Pokušajte ponovo.', { type: 'error' });
     } finally {
       setSubmitting(false);
     }
@@ -219,9 +219,11 @@ const Register: NextPage = () => {
               Odustani
             </Button>
           </div>
-          {error && <span className="text-rose-600">{error}</span>}
+          {/*{error && <span className="text-rose-600">{error}</span>}*/}
         </Form>
       </div>
+
+      <ToastContainer />
     </>
   );
 };
