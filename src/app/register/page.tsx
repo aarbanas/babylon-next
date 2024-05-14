@@ -40,7 +40,6 @@ const Register: NextPage = () => {
 
     const recaptchaValue = recaptchaRef.current.getValue();
     const values = form.getValues();
-    recaptchaRef.current.reset();
 
     setSubmitting(false);
 
@@ -48,6 +47,13 @@ const Register: NextPage = () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { repeatPassword, ...rest } = values;
       await registerUser({ reCaptchaToken: recaptchaValue!, ...rest });
+      recaptchaRef.current.reset();
+      toast(
+        'Uspješno ste se registrirali. Moći ćete se prijaviti kada administratori potvrde vaš račun. Hvala na strpljenju.',
+        {
+          type: 'success',
+        }
+      );
       router.push('/');
     } catch (e) {
       toast('Nešto je pošlo po zlu. Pokušajte ponovo.', { type: 'error' });
