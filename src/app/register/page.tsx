@@ -2,21 +2,25 @@
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import registerUser from '@/services/user/register';
 import { RegisterUserData, Role, Type } from '@/app/register/types';
 import Form from '@/shared/form/Form';
 import FormInput from '@/shared/formInput/FormInput';
 import FormSelect from '@/shared/formSelect/FormSelect';
 import { Button } from '@/components/ui/button';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const Register: NextPage = () => {
-  const form = useForm<RegisterUserData & { repeatPassword: string }>();
+  const form = useForm<
+    Omit<RegisterUserData, 'reCaptchaToken'> & { repeatPassword: string }
+  >();
   const watch = form.watch;
   const [role, setRole] = useState<Role | undefined>(Role.USER);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   useEffect(() => {
     const subscription = watch((value) => {
@@ -26,21 +30,31 @@ const Register: NextPage = () => {
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  async function submit() {
+  const submit = async () => {
     setSubmitting(true);
+    if (!recaptchaRef?.current?.getValue()) {
+      setError('Molimo vas da potvrdite da niste robot');
+      setSubmitting(false);
+      return;
+    }
+
+    const recaptchaValue = recaptchaRef.current.getValue();
     const values = form.getValues();
+    recaptchaRef.current.reset();
+
+    setSubmitting(false);
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { repeatPassword, ...rest } = values;
-      await registerUser(rest);
+      await registerUser({ reCaptchaToken: recaptchaValue!, ...rest });
       router.push('/');
     } catch (e) {
       setError('Pogrešni podatci');
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
   return (
     <>
@@ -186,6 +200,12 @@ const Register: NextPage = () => {
               />
             </>
           )}
+
+          <ReCAPTCHA
+            className={'mt-6'}
+            ref={recaptchaRef}
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+          />
 
           <div className="mt-6 flex">
             <Button disabled={submitting} type="submit" size="lg">
