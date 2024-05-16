@@ -31,19 +31,16 @@ const Register: NextPage = () => {
   }, [watch]);
 
   const submit = async () => {
-    setSubmitting(true);
     if (!recaptchaRef?.current?.getValue()) {
       toast('Molimo vas da potvrdite da niste robot', { type: 'error' });
-      setSubmitting(false);
       return;
     }
 
     const recaptchaValue = recaptchaRef.current.getValue();
     const values = form.getValues();
 
-    setSubmitting(false);
-
     try {
+      setSubmitting(true);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { repeatPassword, ...rest } = values;
       await registerUser({ reCaptchaToken: recaptchaValue!, ...rest });
