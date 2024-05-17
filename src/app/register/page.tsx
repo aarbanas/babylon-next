@@ -2,45 +2,62 @@
 import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import registerUser from '@/services/user/register';
 import { RegisterUserData, Role, Type } from '@/app/register/types';
 import Form from '@/shared/form/Form';
 import FormInput from '@/shared/formInput/FormInput';
 import FormSelect from '@/shared/formSelect/FormSelect';
 import { Button } from '@/components/ui/button';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register: NextPage = () => {
-  const form = useForm<RegisterUserData & { repeatPassword: string }>();
+  const form = useForm<
+    Omit<RegisterUserData, 'reCaptchaToken'> & { repeatPassword: string }
+  >();
   const watch = form.watch;
   const [role, setRole] = useState<Role | undefined>(Role.USER);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
   const router = useRouter();
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   useEffect(() => {
     const subscription = watch((value) => {
       setRole(value.role);
-      setError('');
     });
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  async function submit() {
-    setSubmitting(true);
+  const submit = async () => {
+    if (!recaptchaRef?.current?.getValue()) {
+      toast('Molimo vas da potvrdite da niste robot', { type: 'error' });
+      return;
+    }
+
+    const recaptchaValue = recaptchaRef.current.getValue();
     const values = form.getValues();
 
     try {
+      setSubmitting(true);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { repeatPassword, ...rest } = values;
-      await registerUser(rest);
+      await registerUser({ reCaptchaToken: recaptchaValue!, ...rest });
+      recaptchaRef.current.reset();
+      toast(
+        'Uspješno ste se registrirali. Moći ćete se prijaviti kada administratori potvrde vaš račun. Hvala na strpljenju.',
+        {
+          type: 'success',
+        }
+      );
       router.push('/');
     } catch (e) {
-      setError('Pogrešni podatci');
+      toast('Nešto je pošlo po zlu. Pokušajte ponovo.', { type: 'error' });
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
   return (
     <>
@@ -187,6 +204,12 @@ const Register: NextPage = () => {
             </>
           )}
 
+          <ReCAPTCHA
+            className={'mt-6'}
+            ref={recaptchaRef}
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+          />
+
           <div className="mt-6 flex">
             <Button disabled={submitting} type="submit" size="lg">
               Registracija
@@ -199,9 +222,11 @@ const Register: NextPage = () => {
               Odustani
             </Button>
           </div>
-          {error && <span className="text-rose-600">{error}</span>}
+          {/*{error && <span className="text-rose-600">{error}</span>}*/}
         </Form>
       </div>
+
+      <ToastContainer />
     </>
   );
 };

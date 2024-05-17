@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import NewNavbar from '@/components/ui/navbar/navbar';
 import Header from '@/components/ui/header/Header';
-import { Building, Users } from 'lucide-react';
+import { Building, CornerDownLeft, Users } from 'lucide-react';
 import Link from 'next/link';
 import { fontColors } from '@/utils';
 import { ToastContainer } from 'react-toastify';
@@ -47,6 +47,12 @@ const AdminUserNavigation = () => {
         href="/admin/organisations">
         <Building />
         Organisation list
+      </Link>
+      <Link
+        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${fontColors.primary} transition-all hover:text-gray-900`}
+        href="/dashboard">
+        <CornerDownLeft />
+        Return to Dashboard
       </Link>
     </nav>
   );

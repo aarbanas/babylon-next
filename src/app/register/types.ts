@@ -1,6 +1,7 @@
 export enum Role {
   USER = 'USER',
   ORGANISATION = 'ORGANISATION',
+  ADMIN = 'ADMIN',
 }
 
 export enum Type {
@@ -14,6 +15,7 @@ export type RegisterUserData = {
   password: string;
   role: Role;
   city: string;
+  reCaptchaToken: string;
   firstname?: string;
   lastname?: string;
   phone?: string;

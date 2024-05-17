@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
     (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
   ) {
     request.cookies.delete('currentUser');
-    const response = NextResponse.redirect(new URL('/login', request.url));
+    const response = NextResponse.redirect(new URL('/', request.url));
     response.cookies.delete('currentUser');
 
     return response;
