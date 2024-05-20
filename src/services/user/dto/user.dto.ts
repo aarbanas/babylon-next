@@ -34,7 +34,8 @@ export type OrganisationAttributesDto = {
 export type Certificate = {
   id: number;
   type: CertificateTypeEnum;
-  validTill: Date;
+  validTill?: Date | null;
+  active: boolean;
   key: string;
   createdAt: Date;
   updatedAt: Date;
