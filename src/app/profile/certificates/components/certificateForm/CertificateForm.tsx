@@ -31,7 +31,10 @@ type CertificateFormProps = {
   userId?: number;
 };
 
-const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate, userId }) => {
+const CertificateForm: FC<CertificateFormProps> = ({
+  onCertificateCreate,
+  userId,
+}) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const form = useForm<CertificateFormInputs>({
     defaultValues: {
@@ -96,11 +99,9 @@ const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate, userId
 
           <FormInput
             id="validTill"
-            label="Važi do*"
+            label="Važi do"
             type="date"
-            {...form.register('validTill', {
-              required: 'Datum je obavezan',
-            })}
+            {...form.register('validTill')}
           />
 
           <FileUploader
