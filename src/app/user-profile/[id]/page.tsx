@@ -88,6 +88,7 @@ const UserProfilePage: React.FC<Props> = ({ params }) => {
           <CertificateTable
             certificates={user.userAttributes.certificates ?? []}
             allowedActions={['download']}
+            hiddenColumns={['actions']}
           />
         </Card>
       </div>

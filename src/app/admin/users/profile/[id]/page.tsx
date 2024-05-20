@@ -212,7 +212,7 @@ const UserProfile: React.FC<Props> = ({ params }) => {
               <CertificateTable
                 certificates={certificates}
                 onCertificateDelete={onCertificateDelete}
-                allowedActions={['delete', 'download']}
+                allowedActions={['delete', 'download', 'update']}
               />
             </div>
           </CardContent>

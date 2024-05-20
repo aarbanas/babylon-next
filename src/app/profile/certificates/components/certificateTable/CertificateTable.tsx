@@ -8,24 +8,35 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { CrossIcon, UniversityIcon } from 'lucide-react';
-import { FC, useCallback } from 'react';
+import { CheckCircle2, CrossIcon, UniversityIcon, XCircle } from 'lucide-react';
+import React, { FC, useCallback, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
   deleteCertificate,
   downloadCertificate,
+  updateCertificate,
 } from '../../services/certificates-service';
 import { type CertificateDto } from '../../models/certificate.model';
 import { CertificateTypeEnum } from '../../enums/certificate-types.enum';
 import { CERTIFICATE_TRANSLATION } from '../../constants/certificate-translation';
+import Modal from '@/shared/modal/Modal';
+import { useForm } from 'react-hook-form';
+import styles from '@/app/profile/certificates/components/certificateForm/CertificateForm.module.css';
+import Form from '@/shared/form/Form';
+import { Label } from '@/components/ui/label';
+import * as Switch from '@radix-ui/react-switch';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'react-toastify';
 
-type AllowedTableActions = 'delete' | 'download';
+type AllowedTableActions = 'delete' | 'download' | 'update';
+type Columns = 'type' | 'validTill' | 'status' | 'actions';
 
 type CertificateTableProps = {
   certificates: CertificateDto[];
   onCertificateDelete?: (certificate: CertificateDto) => void;
   allowedActions?: AllowedTableActions[];
+  hiddenColumns?: Columns[];
 };
 
 export const resolveIcon = (type: CertificateTypeEnum) => {
@@ -40,11 +51,65 @@ export const resolveIcon = (type: CertificateTypeEnum) => {
   return <></>;
 };
 
+const UpdateCertificateStatusModal: React.FC<{
+  id: number;
+  status: boolean;
+  onClose: VoidFunction;
+}> = ({ id, status, onClose }) => {
+  const form = useForm();
+  const [active, setActive] = useState(status);
+
+  const onSubmit = async () => {
+    try {
+      await updateCertificate(id, active);
+
+      toast('User certificate updated', { type: 'success' });
+    } catch (error) {
+      toast('Something went wrong. Please try again', { type: 'error' });
+    } finally {
+      onClose();
+    }
+  };
+
+  return (
+    <Modal isOpen={true} onClose={onClose}>
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle className="text-lg">Update certificate status</CardTitle>
+        </CardHeader>
+        <CardContent className="flex space-y-4">
+          <Form form={form} onSubmit={onSubmit} className={styles.form}>
+            <div className="grid gap-2">
+              <Label htmlFor="active">Active</Label>
+              <Switch.Root
+                className="bg-blackA6 shadow-blackA4 relative h-[25px] w-[42px] cursor-pointer rounded-full shadow-[0_2px_10px] outline-none focus:shadow-[0_0_0_2px] focus:shadow-black data-[state=checked]:bg-black"
+                id="active"
+                checked={active}
+                onCheckedChange={setActive}>
+                <Switch.Thumb className="shadow-blackA4 block h-[21px] w-[21px] translate-x-0.5 rounded-full bg-white shadow-[0_2px_2px] transition-transform duration-100 will-change-transform data-[state=checked]:translate-x-[19px]" />
+              </Switch.Root>
+            </div>
+            <Button className="mt-3" type="submit">
+              Update
+            </Button>
+          </Form>
+        </CardContent>
+      </Card>
+    </Modal>
+  );
+};
+
 const CertificateTable: FC<CertificateTableProps> = ({
   certificates,
   onCertificateDelete,
   allowedActions = [],
+  hiddenColumns = [],
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [updateInfo, setUpdateInfo] = useState<{
+    id: number;
+    status: boolean;
+  } | null>(null);
   const handleDownload = useCallback(async (certificate: CertificateDto) => {
     await downloadCertificate(certificate.id);
   }, []);
@@ -60,52 +125,97 @@ const CertificateTable: FC<CertificateTableProps> = ({
   };
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Tip</TableHead>
-          <TableHead>Važi do</TableHead>
-          <TableHead>Akcije</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {certificates.length === 0 ? (
+    <>
+      <Table>
+        <TableHeader>
           <TableRow>
-            <TableCell colSpan={3}>Nema certifikata</TableCell>
+            {!hiddenColumns.includes('type') && <TableHead>Tip</TableHead>}
+            {!hiddenColumns.includes('validTill') && (
+              <TableHead>Važi do</TableHead>
+            )}
+            {!hiddenColumns.includes('status') && <TableHead>Status</TableHead>}
+            {!hiddenColumns.includes('actions') && (
+              <TableHead>Akcije</TableHead>
+            )}
           </TableRow>
-        ) : (
-          certificates.map((certificate) => (
-            <TableRow key={certificate.id}>
-              <TableCell className="flex items-center gap-3">
-                {resolveIcon(certificate.type)}
-                <span>{CERTIFICATE_TRANSLATION[certificate.type]}</span>
-              </TableCell>
-              <TableCell>
-                {new Date(certificate.validTill).toDateString()}
-              </TableCell>
-              <TableCell className="flex gap-3">
-                {allowedActions.includes('download') && (
-                  <Button
-                    onClick={() => handleDownload(certificate)}
-                    className="flex gap-1"
-                    variant="default">
-                    <span>Preuzmi</span>
-                  </Button>
-                )}
-                {allowedActions.includes('delete') && (
-                  <Button
-                    onClick={() => handleDelete(certificate)}
-                    className="flex gap-1"
-                    variant="destructive">
-                    <span>Izbriši</span>
-                  </Button>
-                )}
-              </TableCell>
+        </TableHeader>
+        <TableBody>
+          {certificates.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={3}>Nema certifikata</TableCell>
             </TableRow>
-          ))
-        )}
-      </TableBody>
-    </Table>
+          ) : (
+            certificates.map((certificate) => (
+              <TableRow key={certificate.id}>
+                {!hiddenColumns.includes('type') && (
+                  <TableCell className="flex items-center gap-3">
+                    {resolveIcon(certificate.type)}
+                    <span>{CERTIFICATE_TRANSLATION[certificate.type]}</span>
+                  </TableCell>
+                )}
+                {!hiddenColumns.includes('validTill') && (
+                  <TableCell>
+                    {certificate.validTill
+                      ? new Date(certificate.validTill).toDateString()
+                      : '-'}
+                  </TableCell>
+                )}
+                {!hiddenColumns.includes('status') && (
+                  <TableCell>
+                    {certificate.active ? (
+                      <CheckCircle2 color="#00ff04" />
+                    ) : (
+                      <XCircle color="#ff0000" />
+                    )}
+                  </TableCell>
+                )}
+                {!hiddenColumns.includes('actions') && (
+                  <TableCell className="flex gap-3">
+                    {allowedActions.includes('download') && (
+                      <Button
+                        onClick={() => handleDownload(certificate)}
+                        className="flex gap-1"
+                        variant="default">
+                        <span>Preuzmi</span>
+                      </Button>
+                    )}
+                    {allowedActions.includes('update') && (
+                      <Button
+                        onClick={() => {
+                          setUpdateInfo({
+                            status: certificate.active,
+                            id: certificate.id,
+                          });
+                          setIsModalOpen(true);
+                        }}
+                        className="flex gap-1"
+                        variant="outline">
+                        <span>Uredi</span>
+                      </Button>
+                    )}
+                    {allowedActions.includes('delete') && (
+                      <Button
+                        onClick={() => handleDelete(certificate)}
+                        className="flex gap-1"
+                        variant="destructive">
+                        <span>Izbriši</span>
+                      </Button>
+                    )}
+                  </TableCell>
+                )}
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+      {isModalOpen && updateInfo && (
+        <UpdateCertificateStatusModal
+          status={updateInfo.status}
+          id={updateInfo.id}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
+    </>
   );
 };
 
