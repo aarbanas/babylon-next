@@ -95,6 +95,9 @@ const CertificateForm: FC<CertificateFormProps> = ({
             <option value={CertificateTypeEnum.REDCROSS}>
               {CERTIFICATE_TRANSLATION[CertificateTypeEnum.REDCROSS]}
             </option>
+            <option value={CertificateTypeEnum.ID}>
+              {CERTIFICATE_TRANSLATION[CertificateTypeEnum.ID]}
+            </option>
           </FormSelect>
 
           <FormInput

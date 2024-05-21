@@ -8,7 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { CheckCircle2, CrossIcon, UniversityIcon, XCircle } from 'lucide-react';
+import {
+  BookUser,
+  CheckCircle2,
+  CrossIcon,
+  UniversityIcon,
+  XCircle,
+} from 'lucide-react';
 import React, { FC, useCallback, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -28,6 +34,8 @@ import { Label } from '@/components/ui/label';
 import * as Switch from '@radix-ui/react-switch';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'react-toastify';
+import { useCurrentUser } from '@/services/auth/currentUser';
+import { Role } from '@/app/register/types';
 
 type AllowedTableActions = 'delete' | 'download' | 'update';
 type Columns = 'type' | 'validTill' | 'status' | 'actions';
@@ -46,6 +54,10 @@ export const resolveIcon = (type: CertificateTypeEnum) => {
 
   if (type === CertificateTypeEnum.UNIVERSITY) {
     return <UniversityIcon color="gray" />;
+  }
+
+  if (type === CertificateTypeEnum.ID) {
+    return <BookUser color="gray" />;
   }
 
   return <></>;
@@ -105,6 +117,7 @@ const CertificateTable: FC<CertificateTableProps> = ({
   allowedActions = [],
   hiddenColumns = [],
 }) => {
+  const currentUser = useCurrentUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [updateInfo, setUpdateInfo] = useState<{
     id: number;
@@ -155,8 +168,13 @@ const CertificateTable: FC<CertificateTableProps> = ({
                 )}
                 {!hiddenColumns.includes('validTill') && (
                   <TableCell>
+                    {/*If there is no validTill just show '-' in the table*/}
                     {certificate.validTill
-                      ? new Date(certificate.validTill).toDateString()
+                      ? currentUser?.role === Role.ADMIN // Admins can always see the validTill date
+                        ? new Date(certificate.validTill).toDateString()
+                        : certificate.type === CertificateTypeEnum.REDCROSS // Rest can only see the validTill date from the red cross.
+                          ? new Date(certificate.validTill).toDateString() // It is prohibited to show diploma or ID card validTill date
+                          : '-'
                       : '-'}
                   </TableCell>
                 )}
