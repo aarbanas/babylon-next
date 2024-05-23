@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button';
 import {
   deleteCertificate,
   downloadCertificate,
-  updateCertificate,
+  updateStatus,
 } from '../../services/certificates-service';
 import { type CertificateDto } from '../../models/certificate.model';
 import { CertificateTypeEnum } from '../../enums/certificate-types.enum';
@@ -73,7 +73,7 @@ const UpdateCertificateStatusModal: React.FC<{
 
   const onSubmit = async () => {
     try {
-      await updateCertificate(id, active);
+      await updateStatus(id, active);
 
       toast('User certificate updated', { type: 'success' });
     } catch (error) {

@@ -22,7 +22,7 @@ const createCertificate = async (
   return post(requestUrl, certificate);
 };
 
-const updateCertificate = async (certificateId: number, status: boolean) => {
+const updateStatus = async (certificateId: number, status: boolean) => {
   const requestUrl = `${APIs.CERTIFICATE}/${certificateId}`;
 
   return patch(requestUrl, { active: status });
@@ -55,7 +55,7 @@ const deleteCertificate = async (certificateId: number) => {
 
 export {
   fetchCertificates,
-  updateCertificate,
+  updateStatus,
   createCertificate,
   downloadCertificate,
   deleteCertificate,
