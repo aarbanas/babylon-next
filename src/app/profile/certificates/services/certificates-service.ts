@@ -3,6 +3,7 @@ import {
   deleteRequest,
   get,
   post,
+  patch,
 } from '@/shared/http-service/httpService';
 import {
   CertificateDto,
@@ -19,6 +20,12 @@ const createCertificate = async (
   const requestUrl = `${APIs.CERTIFICATE}/${certificate.userId ? 'create-on-behalf-of' : ''}`;
 
   return post(requestUrl, certificate);
+};
+
+const updateStatus = async (certificateId: number, status: boolean) => {
+  const requestUrl = `${APIs.CERTIFICATE}/${certificateId}`;
+
+  return patch(requestUrl, { active: status });
 };
 
 const downloadCertificate = async (certificateId: number) => {
@@ -48,6 +55,7 @@ const deleteCertificate = async (certificateId: number) => {
 
 export {
   fetchCertificates,
+  updateStatus,
   createCertificate,
   downloadCertificate,
   deleteCertificate,

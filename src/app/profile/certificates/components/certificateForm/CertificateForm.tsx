@@ -31,7 +31,10 @@ type CertificateFormProps = {
   userId?: number;
 };
 
-const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate, userId }) => {
+const CertificateForm: FC<CertificateFormProps> = ({
+  onCertificateCreate,
+  userId,
+}) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const form = useForm<CertificateFormInputs>({
     defaultValues: {
@@ -92,15 +95,16 @@ const CertificateForm: FC<CertificateFormProps> = ({ onCertificateCreate, userId
             <option value={CertificateTypeEnum.REDCROSS}>
               {CERTIFICATE_TRANSLATION[CertificateTypeEnum.REDCROSS]}
             </option>
+            <option value={CertificateTypeEnum.ID}>
+              {CERTIFICATE_TRANSLATION[CertificateTypeEnum.ID]}
+            </option>
           </FormSelect>
 
           <FormInput
             id="validTill"
-            label="Važi do*"
+            label="Važi do"
             type="date"
-            {...form.register('validTill', {
-              required: 'Datum je obavezan',
-            })}
+            {...form.register('validTill')}
           />
 
           <FileUploader
