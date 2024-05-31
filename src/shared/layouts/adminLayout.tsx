@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { fontColors } from '@/utils';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from '@/components/ui/footer';
 
 type Props = {
   children: ReactNode;
@@ -18,7 +19,7 @@ const AdminLayout: React.FC<Readonly<Props>> = ({
 }) => {
   return (
     <>
-      <div className="grid min-h-screen w-full lg:grid-cols-[280px_1fr]">
+      <div className="grid min-h-screen w-full grow lg:grid-cols-[280px_1fr]">
         <NewNavbar title="User Management">
           <AdminUserNavigation />
         </NewNavbar>
@@ -28,6 +29,7 @@ const AdminLayout: React.FC<Readonly<Props>> = ({
           {children}
         </div>
       </div>
+      <Footer />
       <ToastContainer />
     </>
   );

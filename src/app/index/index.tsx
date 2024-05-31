@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import login from '@/services/auth/login';
 import FormInput from '@/shared/formInput/FormInput';
 import Form from '@/shared/form/Form';
+import Footer from '@/components/ui/footer';
 
 const Index: NextPage = () => {
   const router = useRouter();
@@ -25,8 +26,8 @@ const Index: NextPage = () => {
         <meta property="og:type" content="website" />
         <link rel="canonical" href="https://yourwebsite.com/your-page" />
       </Head>
-      <div className="flex h-full justify-center border-t bg-secondary-color">
-        <div className="container grid items-center justify-center gap-4 px-4 py-12 md:grid-cols-[1fr_400px] md:px-6 lg:gap-10 lg:py-24 xl:grid-cols-[1fr_600px]">
+      <div className="flex h-full flex-col justify-center border-t bg-secondary-color">
+        <div className="container grid grow items-center justify-center gap-4 px-4 py-12 md:grid-cols-[1fr_400px] md:px-6 lg:gap-10 lg:py-24 xl:grid-cols-[1fr_600px]">
           <div className="space-y-3 text-center md:items-start md:text-left">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
               Dobrodošli na stranice Dežurstva.hr
@@ -54,6 +55,7 @@ const Index: NextPage = () => {
             )}
           </div>
         </div>
+        <Footer />
       </div>
     </>
   );
