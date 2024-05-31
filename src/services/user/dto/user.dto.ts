@@ -4,6 +4,7 @@ import { Role, Type } from '@/app/register/types';
 export type UserDto = {
   userAttributes: UserAttributesDto;
   organisationAttributes: OrganisationAttributesDto;
+  termsAndConditions: boolean;
   id: number;
   email: string;
   active: boolean;
