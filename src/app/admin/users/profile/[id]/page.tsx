@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 import CertificateTable from '@/app/profile/certificates/components/certificateTable/CertificateTable';
 import { CertificateDto } from '@/app/profile/certificates/models/certificate.model';
 import CertificateForm from '@/app/profile/certificates/components/certificateForm/CertificateForm';
+import { CheckCircle2, XCircle } from 'lucide-react';
 
 interface Props {
   params: { id: string };
@@ -109,6 +110,15 @@ const UserProfile: React.FC<Props> = ({ params }) => {
                 value={translateUserTypes(user.userAttributes.type)}
                 readOnly={true}
               />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="type">Terms and Conditions accepted</Label>
+              {user.termsAndConditionsAccepted ? (
+                <CheckCircle2 color="#00ff04" />
+              ) : (
+                <XCircle color="#ff0000" />
+              )}
             </div>
 
             <div className="grid gap-2">

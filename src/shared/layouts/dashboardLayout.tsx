@@ -10,6 +10,7 @@ import Header from '@/components/ui/header/Header';
 import { UserDto } from '@/services/user/dto/user.dto';
 import { Role } from '@/app/register/types';
 import UserProfilePhoto from '@/shared/userProfilePhoto/UserProfilePhoto';
+import Footer from '@/components/ui/footer';
 
 const DashboardLayout: NextPage<PropsWithChildren> = ({
   children,
@@ -18,8 +19,8 @@ const DashboardLayout: NextPage<PropsWithChildren> = ({
   if (!user) return null;
 
   return (
-    <div className="flex">
-      <div className="flex min-h-screen w-full flex-col lg:flex-row">
+    <div className="flex flex-col">
+      <div className="flex min-h-screen w-full grow flex-col lg:flex-row">
         <div className="lg:w-1/5">
           <NewNavbar title="Dobrodošli" color="secondary">
             <DashboardNavigation user={user} />
@@ -38,6 +39,7 @@ const DashboardLayout: NextPage<PropsWithChildren> = ({
           {children}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

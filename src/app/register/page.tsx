@@ -12,6 +12,10 @@ import { Button } from '@/components/ui/button';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from '@/components/ui/footer';
+import * as Checkbox from '@radix-ui/react-checkbox';
+import { CheckIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
 
 const Register: NextPage = () => {
   const form = useForm<
@@ -22,6 +26,7 @@ const Register: NextPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [checked, setChecked] = React.useState(false);
 
   useEffect(() => {
     const subscription = watch((value) => {
@@ -36,6 +41,13 @@ const Register: NextPage = () => {
       return;
     }
 
+    if (!checked) {
+      toast('Molimo vas da prihvatite privolu o prikupljanju podataka', {
+        type: 'error',
+      });
+      return;
+    }
+
     const recaptchaValue = recaptchaRef.current.getValue();
     const values = form.getValues();
 
@@ -43,7 +55,13 @@ const Register: NextPage = () => {
       setSubmitting(true);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { repeatPassword, ...rest } = values;
-      await registerUser({ reCaptchaToken: recaptchaValue!, ...rest });
+      const data = {
+        ...rest,
+        reCaptchaToken: recaptchaValue!,
+        termsAndConditions: checked,
+      };
+
+      await registerUser(data);
       recaptchaRef.current.reset();
       toast(
         'Uspješno ste se registrirali. Moći ćete se prijaviti kada administratori potvrde vaš račun. Hvala na strpljenju.',
@@ -61,7 +79,7 @@ const Register: NextPage = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center bg-secondary-color p-3 md:flex-row md:p-6">
+      <div className="flex grow flex-col items-center justify-center bg-secondary-color p-3 md:flex-row md:p-6">
         <Form
           className="mt-6 flex w-full flex-col gap-2 md:w-2/5 md:gap-4"
           form={form}
@@ -210,6 +228,25 @@ const Register: NextPage = () => {
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
           />
 
+          <div className="mt-6 flex items-center">
+            <Checkbox.Root
+              checked={checked}
+              onCheckedChange={() => setChecked(!checked)}
+              className="shadow-blackA4 hover:bg-violet3 flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-[4px] bg-white shadow-[0_2px_10px] outline-none focus:shadow-[0_0_0_2px_black]"
+              id="c1">
+              <Checkbox.Indicator className="text-violet11">
+                <CheckIcon />
+              </Checkbox.Indicator>
+            </Checkbox.Root>
+            <label
+              className="pl-[15px] text-[15px] leading-none text-white underline"
+              htmlFor="c1">
+              <Link href={'/terms-and-conditions'}>
+                Prihvaćam privolu za prikupljanje i obradu osobnih podataka
+              </Link>
+            </label>
+          </div>
+
           <div className="mt-6 flex">
             <Button disabled={submitting} type="submit" size="lg">
               Registracija
@@ -222,10 +259,9 @@ const Register: NextPage = () => {
               Odustani
             </Button>
           </div>
-          {/*{error && <span className="text-rose-600">{error}</span>}*/}
         </Form>
       </div>
-
+      <Footer />
       <ToastContainer />
     </>
   );

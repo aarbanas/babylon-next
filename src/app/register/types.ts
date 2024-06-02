@@ -16,6 +16,7 @@ export type RegisterUserData = {
   role: Role;
   city: string;
   reCaptchaToken: string;
+  termsAndConditions: boolean;
   firstname?: string;
   lastname?: string;
   phone?: string;
