@@ -114,7 +114,7 @@ const UserProfile: React.FC<Props> = ({ params }) => {
 
             <div className="grid gap-2">
               <Label htmlFor="type">Terms and Conditions accepted</Label>
-              {user.termsAndConditions ? (
+              {user.termsAndConditionsAccepted ? (
                 <CheckCircle2 color="#00ff04" />
               ) : (
                 <XCircle color="#ff0000" />
