@@ -4,7 +4,7 @@ const TermsAndConditionsPage: React.FC = () => {
   // Terms and conditions page
   return (
     <>
-      <div className="flex flex-col items-center px-80 pb-3 pt-10">
+      <div className="flex h-screen flex-col items-center px-80 pb-3 pt-10">
         <h1>PRIVOLA</h1>
         <h2 className="italic">za prikupljanje i obradu osobnih podataka</h2>
 
