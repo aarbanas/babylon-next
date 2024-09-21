@@ -4,18 +4,18 @@ const TermsAndConditionsPage: React.FC = () => {
   // Terms and conditions page
   return (
     <>
-      <div className="flex h-screen flex-col items-center px-80 pb-3 pt-10">
+      <div className="flex flex-col items-center px-12 pb-1 pt-5 md:px-28 xl:h-screen xl:px-80 xl:pb-3 xl:pt-10">
         <h1>PRIVOLA</h1>
         <h2 className="italic">za prikupljanje i obradu osobnih podataka</h2>
 
-        <div className="mt-12 flex flex-col gap-3">
+        <div className="mt-3 flex flex-col gap-3 sm:mt-12">
           <p>
             Prihvaćanjem ove Privole i ustupanjem Vaših osobnih podataka
             potvrđujete da ste istu pročitali i razumjeli te dopuštate
-            trgovačkom društvu ____ (u daljnjem tekstu: Voditelj obrade) da te
-            osobne podatke prikuplja, obrađuje i koristi u svrhu obavljanja
-            svoje poslovne djelatnosti, odnosno posredovanja između korisnika i
-            krajnjeg klijenta.
+            trgovačkom društvu Babylon heath solutions j.d.o.o (u daljnjem
+            tekstu: Voditelj obrade) da te osobne podatke prikuplja, obrađuje i
+            koristi u svrhu obavljanja svoje poslovne djelatnosti, odnosno
+            posredovanja između korisnika i krajnjeg klijenta.
           </p>
           <p>
             Voditelj obrade će s Vašim osobnim podacima postupati sukladno Općoj
@@ -39,9 +39,9 @@ const TermsAndConditionsPage: React.FC = () => {
           </p>
           <p>
             Opoziv privole možete podnijeti putem e-maila i to na adresu:
-            _________
+            info@dezurstva.hr
           </p>
-          <div className="mt-10 flex flex-col gap-3">
+          <div className="mt-2 flex flex-col gap-3 sm:mt-10">
             <p>
               Također, ako smatrate da su povrijeđena Vaša prava možete se
               direktno obratiti Agenciji za zaštitu osobnih podataka (AZOP,{' '}
