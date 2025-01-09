@@ -8,6 +8,7 @@ export enum APIs {
   USER = '/users',
   CERTIFICATE = '/certificates',
   CERTIFICATE_FILES = '/certificate-files',
+  RESET_PASSWORD = '/reset-password',
 }
 
 export class ApiError {
