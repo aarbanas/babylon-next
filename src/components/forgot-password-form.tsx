@@ -14,7 +14,7 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { AlertCircle, CheckCircle } from 'lucide-react';
-import { forgotPassword } from '../../app/actions/forgot-password';
+import { forgotPassword } from '@/app/actions/forgot-password';
 
 export function ForgotPasswordForm() {
   const [state, formAction] = useFormState(forgotPassword, null);

@@ -33,7 +33,7 @@ const Index: NextPage = () => {
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
               Dobrodošli na stranice Dežurstva.com
             </h1>
-            <p className="max-w-[400px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            <p className="max-w-[400px] text-white md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Aplikacija za medicinske usluge na sportskim natjecanjima
             </p>
           </div>
